@@ -312,11 +312,29 @@ version 1.0
                     
                 </table>
             </section>
+            <section>
+                <h3>Quoted Directive</h3>
+                <p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all fields are quoted.</p>
+                <table class="ebnf-table">
+                    <tr>
+                        <td class="ebnf-num">[5]</td>
+                        <td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right">"@"</td>
+                    </tr>
+                    <tr>
+                        <td class="ebnf-num">[9]</td>
+                        <td class="ebnf-left"><a href="#ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right"><a>DirectivePrefix</a> "quoted"</td>
+                    </tr>     
+                </table>
+            </section>
         </section>
     </section>
       
       TODO a note on file uri handling on different platforms etc!
-      TODO a not on mime-type and filenaming
+      TODO a note on mime-type and filenaming
       
     <section class="appendix">
       <h2>CSV Schema Grammar</h2>
@@ -370,6 +388,11 @@ version 1.0
                   <td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
                   <td>::=</td>
                   <td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+              <tr>
+                  <td class="ebnf-num">[9]</td>
+                  <td class="ebnf-left"><dfn title="ebnf-separator-char">QuotedDirective</dfn></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
               </tr>
           </table>
       </section>
