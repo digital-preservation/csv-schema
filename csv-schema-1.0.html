@@ -122,10 +122,10 @@
       such as the <a href="http://w3.org">W3C</a>.
     </section> 
     <section id='abstract'>
-      <acronym title="Comma Separated Value">CSV</acronym> data comes in many shapes and sizes. Apart from [[RFC4180]] which is fairly recent and frequently ignores
-      there is a lack of formal definition as to CSV data formats and in many ways this is one of it's strengths.
+      <acronym title="Comma Separated Value">CSV</acronym> data comes in many shapes and sizes. Apart from [[RFC4180]] which is fairly recent and frequently ignored
+      there is a lack of formal definition as to CSV data formats and in many ways this is one of its strengths.
       However, extracting structured information from CSV data for further processing or storage
-      can prove difficult if the CSV data is not well understood or perhaps even uniform. CSV Schema
+      can prove difficult if the CSV data is not well understood or perhaps not even uniform. CSV Schema
       defines a textual language which can be used to define the data structure, types and rules for
       particular CSV data.
     </section>
@@ -142,7 +142,7 @@
         <section id="background">
             <h2>Background</h2>
             <p>
-                The National Archives Digital Repository Infrastructure system archives digitised and born-digital materials provided by <acronym title="Other Governmenal Department">OGD</acronym>s
+                The National Archives Digital Repository Infrastructure system archives digitised and born-digital materials provided by <acronym title="Other Governmental Department">OGD</acronym>s
                 and occasionally <acronym title="Non Governmental Department">NGO</acronym>s. For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
                 of this metadata is created by the supplying organisation or by transcription. The metadata is further processed, and ultimately stored both online in an
                 <acronym title="Resource Description Format">RDF</acronym> Triplestore and a majority subset archived in a non-RDF <acronym title="eXtensible Markup Language">XML</acronym> format.
@@ -178,7 +178,7 @@
                 </li>
                 <li>
                     <div class="principle">Not a Programming Language.</div>
-                    <p>This is worth stressing as it was something we had to keep site of ourselves during development; CSV Schema is a simple data definition and validation language for CSV!</p>
+                    <p>This is worth stressing as it was something we had to keep sight of ourselves during development; CSV Schema is a simple data definition and validation language for CSV!</p>
                 </li>
             </ul>
         </section>
@@ -189,6 +189,7 @@
             A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
             Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
             A column rule may express constraints based on the content of other columns, however at present there is no scope for looking forward or backward through rows directly.
+			However, it possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
         </p>
         <p>
             A CSV Schema is made up of three main parts:
@@ -220,10 +221,10 @@ name: notEmpty
 age: range(0, 120)
 gender: is("m") or is("f") or is("t") or is("n") 
             </pre>
-            This CSV Schema basically defines that the CSV data must have 3 columns, the first
-            column <em>name</em> must have some sort of value, the second column <em>age</em>
-            must be a number between 0 and 120 inclusive, and the third column <em>gender</em>
-            must be the character m, f, t or n. An example of CSV data that would match the
+            This CSV Schema basically defines that the CSV data must have 3 columns: the first
+            column, <em>name</em>, must have some sort of value; the second column, <em>age</em>,
+            must be a number between 0 and 120 inclusive; and the third column, <em>gender</em>,
+            must be one of the characters m, f, t or n. An example of CSV data that would match the
             rule definitions in the CSV schema could be as follows:
             <pre class="example" title="Valid CSV Data">
 name, age, gender
