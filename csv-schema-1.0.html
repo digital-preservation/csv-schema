@@ -111,7 +111,20 @@
         .principle, .point {
             font: small-caps 100% sans-serif;
         }
-      -->
+		ol.nested
+		{
+			counter-reset: item
+		}
+		li.nested
+		{
+			display: block
+		}
+		li.nested:before
+		{
+			content: counters(item, ".") ". ";
+			counter-increment: item
+		}
+		-->
     </style>
   </head>
   <body>
@@ -192,23 +205,27 @@
 			However, it possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
         </p>
         <p>
-            A CSV Schema is made up of three main parts:
-            <ul>
-                <ol>
-                    <li>
-                        <span class="point"><a>Version Declaration</a></span>
-                        <p>The CSV Schema must explicitly state as it's first non-comment line, the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
-                    </li>
-                    <li>
-                        <span class="point"><a>Global Directives</a></span>
-                        <p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
-                    </li>
-                    <li>
-                        <span class="point"><a>Column Rule</a>s</span>
-                        <p>The CSV Schema must declare in-order a Column Rule for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
-                    </li>
-                </ol>
-            </ul>
+            A CSV Schema is made up of two main parts:
+                <ol class="nested">
+					<li class="nested"><span class="point"><a>Prolog</a></span>
+					<p>In turn this comprises (at most) two sections (the second being OPTIONAL):</p>
+					<ol class="nested">
+						<li class="nested">
+							<span class="point"><a>Version Declaration</a></span>
+							<p>The CSV Schema MUST explicitly state (as its first non-comment line) the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
+						</li>
+						<li class="nested">
+							<span class="point"><a>Global Directives</a></span>
+							<p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
+							<p>The use of Global Directives is OPTIONAL, default values are used if they are not specified.</p>
+						</li>
+					</ol>
+					</li>
+					<li class="nested">
+						<span class="point"><a>Column Rule</a>(s)</span>
+						<p>The CSV Schema MUST declare, in order, a Column Rule for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
+					</li>
+				</ol>
         </p>
         <p>
             Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:
@@ -249,7 +266,7 @@ simon, 57, male
         <table class="ebnf-table">
             <tr>
                 <td class="ebnf-num">[2]</td>
-                <td class="ebnf-left"><a href="#ebnf-prolog">Prolog</a></td>
+                <td class="ebnf-left"><a title="ebnf-prolog">Prolog</a></td>
                 <td>::=</td>
                 <td class="ebnf-right"><a>VersionDecl</a> <a>GlobalDirectives</a></td>
             </tr>
@@ -284,7 +301,9 @@ version 1.0
             </table>
             <section>
                 <h3>Separator Directive</h3>
-                <p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.</p>
+                <p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.
+				The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>.  The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
+				</p>
                 <table class="ebnf-table">
                     <tr>
                         <td class="ebnf-num">[5]</td>
@@ -300,7 +319,7 @@ version 1.0
                     </tr>
                     <tr>
                         <td class="ebnf-num">[7]</td>
-                        <td class="ebnf-left"><a href="#ebnf-tab-expr"><dfn>TABExpr</dfn></a></td>
+                        <td class="ebnf-left"><a href="#ebnf-tab-expr">TABExpr</a></td>
                         <td>::=</td>
                         <td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
                     </tr>
@@ -319,7 +338,7 @@ version 1.0
                 <table class="ebnf-table">
                     <tr>
                         <td class="ebnf-num">[5]</td>
-                        <td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+                        <td class="ebnf-left"><a href="#ebnf-directive-prefix">DirectivePrefix</a></td>
                         <td>::=</td>
                         <td class="ebnf-right">"@"</td>
                     </tr>
