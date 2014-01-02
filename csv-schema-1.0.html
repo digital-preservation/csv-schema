@@ -206,26 +206,26 @@
         </p>
         <p>
             A CSV Schema is made up of two main parts:
-                <ol class="nested">
-					<li class="nested"><span class="point"><a>Prolog</a></span>
-					<p>In turn this comprises (at most) two sections (the second being OPTIONAL):</p>
-					<ol class="nested">
-						<li class="nested">
-							<span class="point"><a>Version Declaration</a></span>
-							<p>The CSV Schema MUST explicitly state (as its first non-comment line) the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
-						</li>
-						<li class="nested">
-							<span class="point"><a>Global Directives</a></span>
-							<p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
-							<p>The use of Global Directives is OPTIONAL, default values are used if they are not specified.</p>
-						</li>
-					</ol>
+			<ol class="nested">
+				<li class="nested"><span class="point"><a>Prolog</a></span>
+				<p>In turn this comprises (at most) two sections (the second being OPTIONAL):</p>
+				<ol class="nested">
+					<li class="nested">
+						<span class="point"><a>Version Declaration</a></span>
+						<p>The CSV Schema MUST explicitly state (as its first non-comment line) the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
 					</li>
 					<li class="nested">
-						<span class="point"><a>Column Rule</a>(s)</span>
-						<p>The CSV Schema MUST declare, in order, a Column Rule for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
+						<span class="point"><a>Global Directives</a></span>
+						<p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
+						<p>The use of Global Directives is OPTIONAL, default values are used if they are not specified.</p>
 					</li>
 				</ol>
+				</li>
+				<li class="nested">
+					<span class="point"><a>Column Rule</a>(s)</span>
+					<p>The CSV Schema MUST declare, in order, a Column Rule for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
+				</li>
+			</ol>
         </p>
         <p>
             Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:
@@ -261,97 +261,100 @@ simon, 57, male
         </p>
     </section>
     <section>
-        <h1>Prolog</h1>
-        <p>The <dfn>prolog</dfn> of a CSV Schema MUST contain the <a>Version Declaration</a> and MAY contain one or more <a>Global Directives</a>.</p>
-        <table class="ebnf-table">
-            <tr>
-                <td class="ebnf-num">[2]</td>
-                <td class="ebnf-left"><a title="ebnf-prolog">Prolog</a></td>
-                <td>::=</td>
-                <td class="ebnf-right"><a>VersionDecl</a> <a>GlobalDirectives</a></td>
-            </tr>
-        </table>
-        <section>
-            <h2>Version Declaration</h2>
-            <p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
-            <table class="ebnf-table">
-                <tr>
-                    <td class="ebnf-num">[3]</td>
-                    <td class="ebnf-left"><a href="#ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
-                    <td>::=</td>
-                    <td class="ebnf-right">"version 1.0"</td>
-                </tr>
-            </table>
-            <p>
-                <pre class="example" title="Version Declaration Syntax">
-version 1.0
-                </pre>
-            </p>
-        </section>
-        <section>
-            <h2>Global Directives</h2>
-            <p>The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. The use of Global Directives within a CSV Schema is OPTIONAL.</p>
-            <table class="ebnf-table">
-                <tr>
-                    <td class="ebnf-num">[4]</td>
-                    <td class="ebnf-left"><a href="#ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
-                    <td>::=</td>
-                    <td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
-                </tr>
-            </table>
-            <section>
-                <h3>Separator Directive</h3>
-                <p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.
-				The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>.  The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
+		<h1>Schema structure</h1>
+		<section>
+			<h2>Prolog</h2>
+			<p>The <dfn>prolog</dfn> of a CSV Schema MUST contain the <a>Version Declaration</a> and MAY contain one or more <a>Global Directives</a>.</p>
+			<table class="ebnf-table">
+				<tr>
+					<td class="ebnf-num">[2]</td>
+					<td class="ebnf-left"><a title="ebnf-prolog">Prolog</a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a>VersionDecl</a> <a>GlobalDirectives</a></td>
+				</tr>
+			</table>
+			<section>
+				<h3>Version Declaration</h3>
+				<p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[3]</td>
+						<td class="ebnf-left"><a href="#ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"version 1.0"</td>
+					</tr>
+				</table>
+				<p>
+					<pre class="example" title="Version Declaration Syntax">
+	version 1.0
+					</pre>
 				</p>
-                <table class="ebnf-table">
-                    <tr>
-                        <td class="ebnf-num">[5]</td>
-                        <td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right">"@"</td>
-                    </tr>
-                    <tr>
-                        <td class="ebnf-num">[6]</td>
-                        <td class="ebnf-left"><a href="#ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right"><a>DirectivePrefix</a> "separator" (<a>TABExpr</a> | <a>SeparatorChar</a>)</td>
-                    </tr>
-                    <tr>
-                        <td class="ebnf-num">[7]</td>
-                        <td class="ebnf-left"><a href="#ebnf-tab-expr">TABExpr</a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
-                    </tr>
-                    <tr>
-                        <td class="ebnf-num">[8]</td>
-                        <td class="ebnf-left"><a href="#ebnf-separator-char"><dfn>SeparatorChar</dfn></a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
-                    </tr>
-                    
-                </table>
-            </section>
-            <section>
-                <h3>Quoted Directive</h3>
-                <p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all fields are quoted.</p>
-                <table class="ebnf-table">
-                    <tr>
-                        <td class="ebnf-num">[5]</td>
-                        <td class="ebnf-left"><a href="#ebnf-directive-prefix">DirectivePrefix</a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right">"@"</td>
-                    </tr>
-                    <tr>
-                        <td class="ebnf-num">[9]</td>
-                        <td class="ebnf-left"><a href="#ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
-                        <td>::=</td>
-                        <td class="ebnf-right"><a>DirectivePrefix</a> "quoted"</td>
-                    </tr>     
-                </table>
-            </section>
-        </section>
-    </section>
+			</section>
+			<section>
+				<h3>Global Directives</h3>
+				<p>The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. The use of Global Directives within a CSV Schema is OPTIONAL.</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[4]</td>
+						<td class="ebnf-left"><a href="#ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
+					</tr>
+				</table>
+				<section>
+					<h4>Separator Directive</h4>
+					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.
+					The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>.  The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[5]</td>
+							<td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"@"</td>
+						</tr>
+						<tr>
+							<td class="ebnf-num">[6]</td>
+							<td class="ebnf-left"><a href="#ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "separator" (<a>TABExpr</a> | <a>SeparatorChar</a>)</td>
+						</tr>
+						<tr>
+							<td class="ebnf-num">[7]</td>
+							<td class="ebnf-left"><a href="#ebnf-tab-expr">TABExpr</a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+						</tr>
+						<tr>
+							<td class="ebnf-num">[8]</td>
+							<td class="ebnf-left"><a href="#ebnf-separator-char"><dfn>SeparatorChar</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+						</tr>
+						
+					</table>
+				</section>
+				<section>
+					<h4>Quoted Directive</h4>
+					<p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all fields are quoted.</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[5]</td>
+							<td class="ebnf-left"><a href="#ebnf-directive-prefix">DirectivePrefix</a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"@"</td>
+						</tr>
+						<tr>
+							<td class="ebnf-num">[9]</td>
+							<td class="ebnf-left"><a href="#ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "quoted"</td>
+						</tr>     
+					</table>
+				</section>
+			</section>
+		</section>
+	</section>
       
       TODO a note on file uri handling on different platforms etc!
       TODO a note on mime-type and filenaming
