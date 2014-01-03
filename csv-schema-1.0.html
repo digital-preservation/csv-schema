@@ -328,9 +328,27 @@ simon,57,male
 				<section>
 					<h4>Separator Directive</h4>
 					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. 
-					By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>. 
-					The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>. 
-					The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
+					As with all <a>Global Directives</a> the Separator Directive is OPTIONAL, if not supplied the default value is assumed.
+					By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code> (as specified in [[RFC4180]]).
+					</p>
+					<p>
+					The Separator Directive takes a MANDATORY parameter in the form of either a <dfn>TAB Expression</dfn> or a <dfn>Separator Character</dfn>.
+					</p>
+					<p>
+					A <a>TAB Expression</a> indicates that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>. 
+					It takes an OPTIONAL parameter of an <dfn>Integer Literal</dfn>: any positive, non-zero, integer value.
+					If no value is supplied, the default of four spaces is assumed, but any other positive number can be specified as an integer input to the parameter.
+					<!--In fact currently any integer value would be accepted, even 0 or -ve values, this has been raised as an issue-->
+					</p>
+					<p>
+					A <a>Separator Character</a> is a <a>Character Literal</a>: the character which is to be treated as the column separator.
+					</p>
+					<!-- following two paras probably logically fit lower down, as the ReSpec crossreferences will allow people to go directly to them-->
+					<p>
+					A <dfn>Character Literal</dfn> is a single <a>Non-breaking Character</a>.
+					</p>
+					<p>
+					<dfn>Non-breaking Character</dfn>: Unicode characters not including those represented in regex by <code>\n</code> or <code>\r</code><!--Unicode equivalents??-->.
 					</p>
 					<table class="ebnf-table">
 						<tr>
@@ -347,7 +365,7 @@ simon,57,male
 						</tr>
 						<tr>
 							<td class="ebnf-num">[7]</td>
-							<td class="ebnf-left"><a title="ebnf-tab-expr">TABExpr</a></td>
+							<td class="ebnf-left"><a title="ebnf-tab-expr"><dfn>TABExpr</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
 						</tr>
