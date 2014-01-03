@@ -396,6 +396,16 @@ simon,57,male
 						</tr>     
 					</table>
 				</section>
+				<section>
+					<h4>Total Columns Directive</h4>
+					<p>
+					The <dfn>Total Columns Directive</dfn> allows you to specify the total number of data columns expected to make up each row of the CSV file.
+					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a title="Column Rule">Column Rules</a>,
+					a mismatch is considered a <a>Schema Error</a>.
+					The Total Columns Directive is OPTIONAL, when this directive is not used this verification of the number of column rules cannot be performed,
+					and it will be assumed that you have supplied the correct number of Column Rules.
+					</p>
+				</section>
 			</section>
 		</section>
 	</section>
