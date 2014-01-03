@@ -223,7 +223,7 @@
 				</li>
 				<li class="nested">
 					<span class="point"><a>Body</a></span>
-					<p>The Body of the CSV Schema MUST declare, in order, a <a>Column Rule</a> for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
+					<p>The Body of the CSV Schema MUST declare, in order, a <a>Column Rule</a> for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule is used.</p>
 				</li>
 			</ol>
         </p>
@@ -244,18 +244,18 @@ gender: is("m") or is("f") or is("t") or is("n")
             must be one of the characters m, f, t or n. An example of CSV data that would match the
             rule definitions in the CSV schema could be as follows:
             <pre class="example" title="Valid CSV Data">
-name, age, gender
-james, 21, m
-lauren, 19, f
-simon, 57, m
+name,age,gender
+james,21,m
+lauren,19,f
+simon,57,m
             </pre>
             An example of CSV data would fail the rule definitions in the CSV schema could be
             as follows:
             <pre class="example" title="Invalid CSV Data">
-name, age, gender
-james, 4 years, m
-lauren, 19, f
-simon, 57, male
+name,age,gender
+james,4 years,m
+lauren,19,f
+simon,57,male
             </pre>
             The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.
         </p>
