@@ -156,7 +156,7 @@
             <h2>Background</h2>
             <p>
                 The National Archives Digital Repository Infrastructure system archives digitised and born-digital materials provided by <acronym title="Other Governmental Department">OGD</acronym>s
-                and occasionally <acronym title="Non Governmental Department">NGO</acronym>s. For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
+                and occasionally <acronym title="Non Governmental Organisation">NGO</acronym>s. For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
                 of this metadata is created by the supplying organisation or by transcription. The metadata is further processed, and ultimately stored both online in an
                 <acronym title="Resource Description Format">RDF</acronym> Triplestore and a majority subset archived in a non-RDF <acronym title="eXtensible Markup Language">XML</acronym> format.
                 However it was recognised that the creation of XML or RDF metadata by the supplier
@@ -262,6 +262,16 @@ simon,57,male
     </section>
     <section>
 		<h1>Schema structure</h1>
+		<p>
+		The CSV schema language is formally a <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
+		expressed in <a href="http://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+		</p>
+		<p>
+		The following subsections examine the structure of a CSV Schema in more detail. 
+		Each subsection comprises definitions of terms, cross-references to other definitions, 
+		the relevant portion of the <a>EBNF</a> (along with links to the appendix containing the full EBNF),
+		and examples of correct usage.
+		</p>
 		<section>
 			<h2>Prolog</h2>
 			<p>The <dfn>prolog</dfn> of a CSV Schema MUST contain the <a>Version Declaration</a> and MAY contain one or more <a>Global Directives</a>.</p>
@@ -275,7 +285,7 @@ simon,57,male
 			</table>
 			<section>
 				<h3>Version Declaration</h3>
-				<p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
+				<p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>version 1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[3]</td>
