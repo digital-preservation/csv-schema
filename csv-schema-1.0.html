@@ -285,7 +285,12 @@ simon,57,male
 			</table>
 			<section>
 				<h3>Version Declaration</h3>
-				<p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>version 1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
+				<p>
+				The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. 
+				At present this MUST be fixed to <code>version 1.0</code>. 
+				If the version is not valid this is considered a <a>Schema Error</a>. 
+				The Version Declaration is MANDATORY.
+				</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[3]</td>
@@ -302,7 +307,10 @@ simon,57,male
 			</section>
 			<section>
 				<h3>Global Directives</h3>
-				<p>The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. The use of Global Directives within a CSV Schema is OPTIONAL.</p>
+				<p>
+				The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. 
+				The use of Global Directives within a CSV Schema is OPTIONAL.
+				</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[4]</td>
@@ -313,8 +321,10 @@ simon,57,male
 				</table>
 				<section>
 					<h4>Separator Directive</h4>
-					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.
-					The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>.  The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
+					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. 
+					By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>. 
+					The OPTIONAL parameter TAB uses a <dfn>TABExpr</dfn> to indicate that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>. 
+					The default is four spaces, but any other positive number can be specified as an integer input to the parameter.
 					</p>
 					<table class="ebnf-table">
 						<tr>
