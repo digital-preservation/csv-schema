@@ -279,7 +279,7 @@ simon, 57, male
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[3]</td>
-						<td class="ebnf-left"><a href="#ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
+						<td class="ebnf-left"><a title="ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
 						<td>::=</td>
 						<td class="ebnf-right">"version 1.0"</td>
 					</tr>
@@ -296,7 +296,7 @@ simon, 57, male
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[4]</td>
-						<td class="ebnf-left"><a href="#ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
+						<td class="ebnf-left"><a title="ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
 						<td>::=</td>
 						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
 					</tr>
@@ -309,27 +309,27 @@ simon, 57, male
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[5]</td>
-							<td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+							<td class="ebnf-left"><a title="ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right">"@"</td>
 						</tr>
 						<tr>
 							<td class="ebnf-num">[6]</td>
-							<td class="ebnf-left"><a href="#ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
+							<td class="ebnf-left"><a title="ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "separator" (<a>TABExpr</a> | <a>SeparatorChar</a>)</td>
 						</tr>
 						<tr>
 							<td class="ebnf-num">[7]</td>
-							<td class="ebnf-left"><a href="#ebnf-tab-expr">TABExpr</a></td>
+							<td class="ebnf-left"><a title="ebnf-tab-expr">TABExpr</a></td>
 							<td>::=</td>
-							<td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+							<td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
 						</tr>
 						<tr>
 							<td class="ebnf-num">[8]</td>
-							<td class="ebnf-left"><a href="#ebnf-separator-char"><dfn>SeparatorChar</dfn></a></td>
+							<td class="ebnf-left"><a title="ebnf-separator-char"><dfn>SeparatorChar</dfn></a></td>
 							<td>::=</td>
-							<td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+							<td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
 						</tr>
 						
 					</table>
@@ -340,13 +340,13 @@ simon, 57, male
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[5]</td>
-							<td class="ebnf-left"><a href="#ebnf-directive-prefix">DirectivePrefix</a></td>
+							<td class="ebnf-left"><a title="ebnf-directive-prefix">DirectivePrefix</a></td>
 							<td>::=</td>
 							<td class="ebnf-right">"@"</td>
 						</tr>
 						<tr>
 							<td class="ebnf-num">[9]</td>
-							<td class="ebnf-left"><a href="#ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
+							<td class="ebnf-left"><a title="ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "quoted"</td>
 						</tr>     
@@ -368,13 +368,13 @@ simon, 57, male
                   <td class="ebnf-num">[1]</td>
                   <td class="ebnf-left"><dfn title="ebnf-schema">Schema</dfn></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-prolog">Prolog</a> <a href="#ebnf-body">Body</a></td>
+                  <td class="ebnf-right"><a title="ebnf-prolog">Prolog</a> <a title="ebnf-body">Body</a></td>
               </tr>
               <tr>
                   <td class="ebnf-num">[2]</td>
                   <td class="ebnf-left"><a><dfn title="ebnf-prolog">Prolog</dfn></a></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-version-decl">VersionDecl</a> <a href="#ebnf-global-directives">GlobalDirectives</a></td>
+                  <td class="ebnf-right"><a title="ebnf-version-decl">VersionDecl</a> <a title="ebnf-global-directives">GlobalDirectives</a></td>
               </tr>
               <tr>
                   <td class="ebnf-num">[3]</td>
@@ -386,7 +386,7 @@ simon, 57, male
                   <td class="ebnf-num">[4]</td>
                   <td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-separator-directive">SeparatorDirective</a>? <a href="#ebnf-quoted-directive">QuotedDirective</a>? <a href="#ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a href="#ebnf-no-header-directive">NoHeaderDirective</a> | <a href="#ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
+                  <td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
               </tr>
               <tr>
                   <td class="ebnf-num">[5]</td>
@@ -398,24 +398,24 @@ simon, 57, male
                   <td class="ebnf-num">[6]</td>
                   <td class="ebnf-left"><a><dfn title="ebnf-separator-directive">SeparatorDirective</dfn></a></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-directive-prefix">DirectivePrefix</a> "separator" (<a href="ebnf-tab-expr">TABExpr</a> | <a href="ebnf-separator-char">SeparatorChar</a>)</td>
+                  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "separator" (<a title="ebnf-tab-expr">TABExpr</a> | <a title="ebnf-separator-char">SeparatorChar</a>)</td>
               </tr>
               <tr>
                   <td class="ebnf-num">[7]</td>
                   <td class="ebnf-left"><dfn title="ebnf-tab-expr">TABExpr</dfn></td>
                   <td>::=</td>
-                  <td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+                  <td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
               </tr>
               <tr>
                   <td class="ebnf-num">[8]</td>
                   <td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+                  <td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
               <tr>
                   <td class="ebnf-num">[9]</td>
                   <td class="ebnf-left"><dfn title="ebnf-separator-char">QuotedDirective</dfn></td>
                   <td>::=</td>
-                  <td class="ebnf-right"><a href="#ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
+                  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
               </tr>
           </table>
       </section>
