@@ -308,8 +308,14 @@ simon,57,male
 			<section>
 				<h3>Global Directives</h3>
 				<p>
-				The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. 
+				The <dfn>Global Directives</dfn> allow you to modify the overall processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. 
 				The use of Global Directives within a CSV Schema is OPTIONAL.
+				The last two Global Directives described (<a>No Header Directive</a> and <a>Ignore Column Name Case Directive</a>) are mutually exclusive, 
+				they MUST NOT both be used in a single schema. 
+				There is no inherent reason why the Global Directives should be in the order shown, <a>EBNF</a> does not directly cater for unordered lists.
+				You could explicitly list each possible ordering, but that would require 4!=24 orderings to be included in the ENBF.
+				All directives (both Global Directives and <a>Column Directives</a>) used in the CSV Schema are indicated by the <dfn>Directive Prefix</dfn>, 
+				defined as the character <code>@</code> i.e. the UTF-8 character code <code>0x40</code>.
 				</p>
 				<table class="ebnf-table">
 					<tr>
