@@ -324,6 +324,12 @@ simon,57,male
 						<td>::=</td>
 						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
 					</tr>
+					<tr>
+						<td class="ebnf-num">[5]</td>
+						<td class="ebnf-left"><a title="ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"@"</td>
+					</tr>
 				</table>
 				<section>
 					<h4>Separator Directive</h4>
@@ -352,12 +358,6 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[5]</td>
-							<td class="ebnf-left"><a title="ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
-							<td>::=</td>
-							<td class="ebnf-right">"@"</td>
-						</tr>
-						<tr>
 							<td class="ebnf-num">[6]</td>
 							<td class="ebnf-left"><a title="ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
 							<td>::=</td>
@@ -383,12 +383,6 @@ simon,57,male
 					<p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all columns are quoted.</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[5]</td>
-							<td class="ebnf-left"><a title="ebnf-directive-prefix">DirectivePrefix</a></td>
-							<td>::=</td>
-							<td class="ebnf-right">"@"</td>
-						</tr>
-						<tr>
 							<td class="ebnf-num">[9]</td>
 							<td class="ebnf-left"><a title="ebnf-quoted-directive"><dfn>QuotedDirective</dfn></a></td>
 							<td>::=</td>
@@ -402,9 +396,18 @@ simon,57,male
 					The <dfn>Total Columns Directive</dfn> allows you to specify the total number of data columns expected to make up each row of the CSV file.
 					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a title="Column Rule">Column Rules</a>,
 					a mismatch is considered a <a>Schema Error</a>.
-					The Total Columns Directive is OPTIONAL, when this directive is not used this verification of the number of column rules cannot be performed,
+					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of column rules cannot be performed,
 					and it will be assumed that you have supplied the correct number of Column Rules.
 					</p>
+<!--					TotalColumnsDirective       ::=     DirectivePrefix "totalColumns" PositiveNonZeroIntegerLiteral-->
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[10]</td>
+							<td class="ebnf-left"><a title="ebnf-total-columns-directive"><dfn>TotalColumnsDirective</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "totalColumns" <a>PositiveNonZeroIntegerLiteral</a></td>
+						</tr>     
+					</table>
 				</section>
 			</section>
 		</section>
@@ -426,7 +429,7 @@ simon,57,male
               </tr>
               <tr>
                   <td class="ebnf-num">[2]</td>
-                  <td class="ebnf-left"><a><dfn title="ebnf-prolog">Prolog</dfn></a></td>
+                  <td class="ebnf-left"><dfn title="ebnf-prolog">Prolog</dfn></td>
                   <td>::=</td>
                   <td class="ebnf-right"><a title="ebnf-version-decl">VersionDecl</a> <a title="ebnf-global-directives">GlobalDirectives</a></td>
               </tr>
@@ -471,6 +474,12 @@ simon,57,male
                   <td>::=</td>
                   <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
               </tr>
+				<tr>
+					<td class="ebnf-num">[10]</td>
+					<td class="ebnf-left"><dfn title="ebnf-total-columns-directive">TotalColumnsDirective</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "totalColumns" <a title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</a></td>
+				</tr>     
           </table>
       </section>
     </section>  
