@@ -409,6 +409,29 @@ simon,57,male
 						</tr>     
 					</table>
 				</section>
+				<section>
+					<h4>No Header Directive</h4>
+					<p>
+					The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: i.e. all rows are data rows.
+					The No Header Directive is OPTIONAL: when this directive is not used the parser assumes the default that the first row of the CSV file to be validated contains column names,
+					not data, and so the first row is skipped during validation.
+					</p>
+					<p>
+					NB Even when this directive is not specified, the parser is not required to match the column names present in the CSV file against the column names used to
+					specify the <a title="Column Rule">Column Rules</a> in the <a>Body</a> of the CSV Schema.
+					</p>
+					<p>
+					The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[11]</td>
+							<td class="ebnf-left"><a title="ebnf-no-header-directive"><dfn>NoHeaderDirective</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "noHeader"</td>
+						</tr>     
+					</table>
+				</section>
 			</section>
 		</section>
 	</section>
@@ -417,71 +440,77 @@ simon,57,male
       TODO a note on mime-type and filenaming
       
     <section class="appendix">
-      <h2>CSV Schema Grammar</h2>
-      <section>
-          <h3>EBNF</h3>
-          <table class="ebnf-table">
-              <tr>
-                  <td class="ebnf-num">[1]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-schema">Schema</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-prolog">Prolog</a> <a title="ebnf-body">Body</a></td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[2]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-prolog">Prolog</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-version-decl">VersionDecl</a> <a title="ebnf-global-directives">GlobalDirectives</a></td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[3]</td>
-                  <td class="ebnf-left"><a><dfn title="ebnf-version-decl">VersionDecl</dfn></a></td>
-                  <td>::=</td>
-                  <td class="ebnf-right">"version 1.0"</td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[4]</td>
-                  <td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[5]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-directive-prefix">DirectivePrefix</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right">"@"</td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[6]</td>
-                  <td class="ebnf-left"><a><dfn title="ebnf-separator-directive">SeparatorDirective</dfn></a></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "separator" (<a title="ebnf-tab-expr">TABExpr</a> | <a title="ebnf-separator-char">SeparatorChar</a>)</td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[7]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-tab-expr">TABExpr</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
-              </tr>
-              <tr>
-                  <td class="ebnf-num">[8]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
-              <tr>
-                  <td class="ebnf-num">[9]</td>
-                  <td class="ebnf-left"><dfn title="ebnf-quoted-directive">QuotedDirective</dfn></td>
-                  <td>::=</td>
-                  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
-              </tr>
+			<h2>CSV Schema Grammar</h2>
+			<section>
+			<h3>EBNF</h3>
+			<table class="ebnf-table">
+				<tr>
+					<td class="ebnf-num">[1]</td>
+					<td class="ebnf-left"><dfn title="ebnf-schema">Schema</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-prolog">Prolog</a> <a title="ebnf-body">Body</a></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[2]</td>
+					<td class="ebnf-left"><dfn title="ebnf-prolog">Prolog</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-version-decl">VersionDecl</a> <a title="ebnf-global-directives">GlobalDirectives</a></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[3]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-version-decl">VersionDecl</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"version 1.0"</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[4]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[5]</td>
+					<td class="ebnf-left"><dfn title="ebnf-directive-prefix">DirectivePrefix</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right">"@"</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[6]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-separator-directive">SeparatorDirective</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "separator" (<a title="ebnf-tab-expr">TABExpr</a> | <a title="ebnf-separator-char">SeparatorChar</a>)</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[7]</td>
+					<td class="ebnf-left"><dfn title="ebnf-tab-expr">TABExpr</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[8]</td>
+					<td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
+				<tr>
+					<td class="ebnf-num">[9]</td>
+					<td class="ebnf-left"><dfn title="ebnf-quoted-directive">QuotedDirective</dfn></td>
+					<td>::=</td>
+				  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
+				</tr>
 				<tr>
 					<td class="ebnf-num">[10]</td>
 					<td class="ebnf-left"><dfn title="ebnf-total-columns-directive">TotalColumnsDirective</dfn></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "totalColumns" <a title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</a></td>
 				</tr>     
-          </table>
-      </section>
+				<tr>
+					<td class="ebnf-num">[11]</td>
+					<td class="ebnf-left"><dfn title="ebnf-no-header-directive">NoHeaderDirective</dfn></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "noHeader"</td>
+				</tr>     
+			</table>
+		</section>
     </section>  
       
       
