@@ -417,7 +417,7 @@ simon,57,male
 					not data, and so the first row is skipped during validation.
 					</p>
 					<p>
-					NB Even when this directive is not specified, the parser is not required to match the column names present in the CSV file against the column names used to
+					NB Even when this directive is not specified, the parser is not required to match the column names present in the CSV file against the column names used to 
 					specify the <a title="Column Rule">Column Rules</a> in the <a>Body</a> of the CSV Schema.
 					</p>
 					<p>
@@ -429,6 +429,24 @@ simon,57,male
 							<td class="ebnf-left"><a title="ebnf-no-header-directive"><dfn>NoHeaderDirective</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "noHeader"</td>
+						</tr>     
+					</table>
+				</section>
+				<section>
+					<h4>Ignore Column Name Case Directive</h4>
+					<p>
+					The <dfn>Ignore Column Name Case Directive</dfn> is intended to tell the parser to ignore mismatches in case between the column names supplied in a CSV file to be validated 
+					and those used in defining the <a>Column Rules</a>.  However, presently no cross-check is carried out at all.
+					</p>
+					<p>
+					The Ignore Column Name Case Directive is mutually exclusive to the use of the <a>No Header Directive</a>, when one is used, the other MUST NOT be.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[12]</td>
+							<td class="ebnf-left"><a title="ebnf-ignore-column-name-case-directive"><dfn>IgnoreColumnNameCaseDirective</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreColumnNameCase"</td>
 						</tr>     
 					</table>
 				</section>
