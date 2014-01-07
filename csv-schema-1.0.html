@@ -269,9 +269,20 @@ simon,57,male
 		<p>
 		The following subsections examine the structure of a CSV Schema in more detail. 
 		Each subsection comprises definitions of terms, cross-references to other definitions, 
-		the relevant portion of the <a>EBNF</a> (along with links to the appendix containing the full EBNF),
+		the relevant portion of the <a>EBNF</a> (links on the lefthandside go to the appendix containing the full EBNF, those on the right to a fuller explanation of those term(s)), 
 		and examples of correct usage.
 		</p>
+		<p>
+		A CSV schema MUST comprise both <a>Prolog</a> and <a>Body</a>.
+		</p>
+		<table class="ebnf-table">
+			<tr>
+				<td class="ebnf-num">[1]</td>
+				<td class="ebnf-left"><a title="ebnf-schema">Schema</a></td>
+				<td>::=</td>
+				<td class="ebnf-right"><a>Prolog</a> <a>Body</a></td>
+			</tr>
+		</table>
 		<section>
 			<h2>Prolog</h2>
 			<p>The <dfn>prolog</dfn> of a CSV Schema MUST contain the <a>Version Declaration</a> and MAY contain one or more <a>Global Directives</a>.</p>
