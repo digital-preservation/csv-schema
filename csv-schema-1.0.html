@@ -278,7 +278,7 @@ simon,57,male
 		<table class="ebnf-table">
 			<tr>
 				<td class="ebnf-num">[1]</td>
-				<td class="ebnf-left"><a title="ebnf-schema">Schema</a></td>
+				<td class="ebnf-left"><a title="ebnf-schema"><dfn>Schema</dfn></a></td>
 				<td>::=</td>
 				<td class="ebnf-right"><a>Prolog</a> <a>Body</a></td>
 			</tr>
@@ -289,7 +289,7 @@ simon,57,male
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[2]</td>
-					<td class="ebnf-left"><a title="ebnf-prolog">Prolog</a></td>
+					<td class="ebnf-left"><a title="ebnf-prolog"><dfn title="prolog-def">Prolog</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a>VersionDecl</a> <a>GlobalDirectives</a></td>
 				</tr>
@@ -472,16 +472,21 @@ simon,57,male
 			<h2>CSV Schema Grammar</h2>
 			<section>
 			<h3>EBNF</h3>
+			<p>
+			Conventions used in this appendix: 
+			links on the <em>left</em> of a definition go to more detailed discussion of the term in the body of this document;
+			links on the <em>right</em> of a definition go to a further definition within this appendix.
+			</p>
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[1]</td>
-					<td class="ebnf-left"><dfn title="ebnf-schema">Schema</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-schema">Schema</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-prolog">Prolog</a> <a title="ebnf-body">Body</a></td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[2]</td>
-					<td class="ebnf-left"><dfn title="ebnf-prolog">Prolog</dfn></td>
+					<td class="ebnf-left"><a title="prolog-def"><dfn title="ebnf-prolog">Prolog</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-version-decl">VersionDecl</a> <a title="ebnf-global-directives">GlobalDirectives</a></td>
 				</tr>
@@ -499,7 +504,7 @@ simon,57,male
 				</tr>
 				<tr>
 					<td class="ebnf-num">[5]</td>
-					<td class="ebnf-left"><dfn title="ebnf-directive-prefix">DirectivePrefix</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-directive-prefix">DirectivePrefix</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"@"</td>
 				</tr>
@@ -511,36 +516,36 @@ simon,57,male
 				</tr>
 				<tr>
 					<td class="ebnf-num">[7]</td>
-					<td class="ebnf-left"><dfn title="ebnf-tab-expr">TABExpr</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-tab-expr">TABExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"TAB" ("(" <a title="ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[8]</td>
-					<td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-separator-char">SeparatorChar</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
 				<tr>
 					<td class="ebnf-num">[9]</td>
-					<td class="ebnf-left"><dfn title="ebnf-quoted-directive">QuotedDirective</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-quoted-directive">QuotedDirective</dfn></a></td>
 					<td>::=</td>
 				  <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "quoted"</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[10]</td>
-					<td class="ebnf-left"><dfn title="ebnf-total-columns-directive">TotalColumnsDirective</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-total-columns-directive">TotalColumnsDirective</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "totalColumns" <a title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</a></td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[11]</td>
-					<td class="ebnf-left"><dfn title="ebnf-no-header-directive">NoHeaderDirective</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-no-header-directive">NoHeaderDirective</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "noHeader"</td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[12]</td>
-					<td class="ebnf-left"><dfn title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</dfn></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "ignoreColumnNameCase"</td>
 				</tr>     
