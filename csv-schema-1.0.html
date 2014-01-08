@@ -488,8 +488,8 @@ simon,57,male
 			<h2>Body</h2>
 			<p>
 			The <dfn>Body</dfn> of a CSV Schema comprises at least one <dfn>Body Part</dfn>, 
-			each of which is a combination of an OPTIONAL <dfn>Comment</dfn> with a <dfn>Column Definition</dfn> (in either order).
-			At least one Column Definition MUST be included.
+			each of which is a combination of OPTIONAL <a title="Comment">Comments</a> with a <a>Column Definition</a> (in either order).
+			A Column Definition MUST be included.
 			</p>
 			<table class="ebnf-table">
 				<tr>
@@ -505,6 +505,23 @@ simon,57,male
 					<td class="ebnf-right">((<a title="comment-def">Comment</a>* <a>ColumnDefinition</a>) | (<a>ColumnDefinition</a> <a title="comment-def">Comment</a>*))</td>
 				</tr>     
 			</table>
+			<section>
+				<h3>Comments</h3>
+				<p>
+				There are two types of <dfn>Comment</dfn>: either <a title="Single Line Comment">Single Line</a> or <a title="Multiple Line Comment">Multiple Line</a>.
+				</p>
+				<p>
+				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes</code>, i.e. the UTF-8 character codes <code>0x2F 0x2F</code>. 
+				It is terminated by any UTF-8 character that creates a line-break.
+				</p>
+				<p>
+				A <dfn>Multiple Line Comment</dfn> is started using the combination of a <code>forward slash</code> and an <code>asterisk</code>, 
+				i.e. the UTF-8 character codes <code>0x2F 0x2A</code>. 
+				It is terminated by the reverse combination, <code>asterisk</code> <code>forward slash</code>, 
+				i.e. the UTF-8 character codes <code>0x2A 0x2F</code>. 
+				<strong>Any</strong> UTF-8 character may be used between these comment markers, even if it forces a new line.
+				</p>
+			</section>
 		</section>
 	</section>
       
