@@ -310,11 +310,14 @@ simon,57,male
 						<td class="ebnf-right">"version 1.0"</td>
 					</tr>
 				</table>
-				<p>
-					<pre class="example" title="Version Declaration Syntax">
+					<section>
+					<h4>Example Version Declaration</h4>
+					<p>
+						<pre class="example" title="Version Declaration Syntax">
 	version 1.0
-					</pre>
-				</p>
+						</pre>
+					</p>
+				</section>
 			</section>
 			<section>
 				<h3>Global Directives</h3>
@@ -327,6 +330,10 @@ simon,57,male
 				You could explicitly list each possible ordering, but that would require 4!=24 orderings to be included in the ENBF.
 				All directives (both Global Directives and <a>Column Directives</a>) used in the CSV Schema are indicated by the <dfn>Directive Prefix</dfn>, 
 				defined as the character <code>@</code> i.e. the UTF-8 character code <code>0x40</code>.
+				</p>
+				<p>
+				Whitespace is not generally significant, so Global Directives can be entered all on a single line, or each on separate lines 
+				(see <a href="#example-global-directives"></a>).
 				</p>
 				<table class="ebnf-table">
 					<tr>
@@ -460,6 +467,20 @@ simon,57,male
 							<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreColumnNameCase"</td>
 						</tr>     
 					</table>
+				</section>
+				<section>
+					<h4>Example Global Directives</h4>
+					<p>
+					<pre class="example" title="Global Directives Syntax 1">
+	@separator ; @quoted @totalColumns 21 @noHeader
+					</pre>
+					<pre class="example" title="Global Directives Syntax 2">
+	@separator TAB(3)
+	@quoted
+	@totalColumns 21
+	@ignoreColumnNameCase
+					</pre>
+					</p>			
 				</section>
 			</section>
 		</section>
