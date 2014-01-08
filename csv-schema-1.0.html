@@ -484,6 +484,28 @@ simon,57,male
 				</section>
 			</section>
 		</section>
+		<section>
+			<h2>Body</h2>
+			<p>
+			The <dfn>Body</dfn> of a CSV Schema comprises at least one <dfn>Body Part</dfn>, 
+			each of which is a combination of an OPTIONAL <dfn>Comment</dfn> with a <dfn>Column Definition</dfn> (in either order).
+			At least one Column Definition MUST be included.
+			</p>
+			<table class="ebnf-table">
+				<tr>
+					<td class="ebnf-num">[13]</td>
+					<td class="ebnf-left"><a title="ebnf-body"><dfn title="body-def">Body</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a>BodyPart</a>+</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[14]</td>
+					<td class="ebnf-left"><a title="ebnf-body-part"><dfn>BodyPart</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">((<a title="comment-def">Comment</a>* <a>ColumnDefinition</a>) | (<a>ColumnDefinition</a> <a title="comment-def">Comment</a>*))</td>
+				</tr>     
+			</table>
+		</section>
 	</section>
       
       TODO a note on file uri handling on different platforms etc!
@@ -569,6 +591,18 @@ simon,57,male
 					<td class="ebnf-left"><a><dfn title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "ignoreColumnNameCase"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[13]</td>
+					<td class="ebnf-left"><a title="body-def"><dfn title="ebnf-body">Body</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-body-part">BodyPart</a>+</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[14]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-body-part">BodyPart</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">((<a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a>) | (<a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*))</td>
 				</tr>     
 			</table>
 		</section>
