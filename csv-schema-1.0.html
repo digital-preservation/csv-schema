@@ -520,7 +520,48 @@ simon,57,male
 				It is terminated by the reverse combination, <code>asterisk</code> <code>forward slash</code>, 
 				i.e. the UTF-8 character codes <code>0x2A 0x2F</code>. 
 				<strong>Any</strong> UTF-8 character may be used between these comment markers, even if it forces a new line.
+				Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a>
 				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[15]</td>
+						<td class="ebnf-left"><a title="ebnf-comment"><dfn title="comment-def">Comment</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>SingleLineComment</a> | <a>MultiLineComment</a></td> 
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[16]</td>
+						<td class="ebnf-left"><a title="ebnf-single-line-comment"><dfn>SingleLineComment</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"//" <a>NonBreakingChar</a>*</td> 
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[17]</td>
+						<td class="ebnf-left"><a title="ebnf-multi-line-comment"><dfn>MultiLineComment</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"/*" <a title="char-def">Char</a>* "*/"</td> 
+					</tr>     
+				</table>
+				<section>
+					<h4>Example Comments</h4>
+					<p>
+					<pre class="example" title="Comment Syntax">
+	//This Comment is a Single Line Comment it terminates at this line break
+	/*This Comment is a Multi Line Comment:
+	
+	
+	it
+		
+	can
+	
+	go
+	
+	on
+	
+	for as many lines as you like, until you type*/
+					</pre>
+					</p>		
+				</section>
 			</section>
 		</section>
 	</section>
@@ -620,6 +661,24 @@ simon,57,male
 					<td class="ebnf-left"><a><dfn title="ebnf-body-part">BodyPart</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">((<a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a>) | (<a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*))</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[15]</td>
+					<td class="ebnf-left"><a title="comment-def"><dfn title="ebnf-comment">Comment</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-single-line-comment">SingleLineComment</a> | <a title="ebnf-multi-line-comment">MultiLineComment</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[16]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-single-line-comment">SingleLineComment</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"//" <a title="ebnf-non-breaking-char">NonBreakingChar</a>*</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[17]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-multi-line-comment">MultiLineComment</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"/*" <a title="ebnf--char">CharChar</a>* "*/"</td>
 				</tr>     
 			</table>
 		</section>
