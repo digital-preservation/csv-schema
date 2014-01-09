@@ -179,7 +179,7 @@
                 </li>
                 <li>
                     <div class="principle">Context is King!</div>
-                    <p>Schema rules are written for each column of the CSV file. Each set of column rules are asserted against each row of the CSV file. Each rule in the CSV Schema operates on the current context (e.g. defined Column and parsed Row), unless otherwise specified. This makes the rules short and concise.</p>
+                    <p>A schema rule is written for each column of the CSV file. Each set of column rules are asserted against each row of the CSV file. Each rule in the CSV Schema operates on the current context (e.g. defined Column and parsed Row), unless otherwise specified. This makes the rules short and concise.</p>
                 </li>
                 <li>
                     <div class="principle">Stream Processing</div>
@@ -201,7 +201,7 @@
         <p>
             A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
             Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
-            A column rule may express constraints based on the content of other columns, however at present there is no scope for looking forward or backward through rows directly.
+            A column rule may express constraints based on the content of other columns in the same row, however at present there is no scope for looking forward or backward through rows directly.
 			However, it possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
         </p>
         <p>
@@ -322,7 +322,7 @@ simon,57,male
 			<section>
 				<h3>Global Directives</h3>
 				<p>
-				The <dfn>Global Directives</dfn> allow you to modify the overall processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. 
+				The <dfn>Global Directives</dfn> allow you to modify the overall processing of a CSV file or how subsequent <a name="Column Definition">Column Definitions</a> are evaluated. 
 				The use of Global Directives within a CSV Schema is OPTIONAL.
 				The last two Global Directives described (<a>No Header Directive</a> and <a>Ignore Column Name Case Directive</a>) are mutually exclusive, 
 				they MUST NOT both be used in a single schema. 
@@ -414,7 +414,7 @@ simon,57,male
 					The <dfn>Total Columns Directive</dfn> allows you to specify the total number of data columns expected to make up each row of the CSV file.
 					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a title="Column Rule">Column Rules</a>,
 					a mismatch is considered a <a>Schema Error</a>.
-					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of column rules cannot be performed,
+					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
 					and it will be assumed that you have supplied the correct number of Column Rules.
 					</p>
 <!--					TotalColumnsDirective       ::=     DirectivePrefix "totalColumns" PositiveNonZeroIntegerLiteral-->
@@ -435,8 +435,8 @@ simon,57,male
 					not data, and so the first row is skipped during validation.
 					</p>
 					<p>
-					NB Even when this directive is not specified, the parser is not required to match the column names present in the CSV file against the column names used to 
-					specify the <a title="Column Rule">Column Rules</a> in the <a>Body</a> of the CSV Schema.
+					NB Even when this directive is not specified, the parser is not required to match the <a name="Column Identifier">Column Identifiers</a> present in the CSV file against the Column Identifiers used to 
+					specify the <a title="Column Definition">Column Definitions</a> in the <a>Body</a> of the CSV Schema.
 					</p>
 					<p>
 					The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.
@@ -453,8 +453,8 @@ simon,57,male
 				<section>
 					<h4>Ignore Column Name Case Directive</h4>
 					<p>
-					The <dfn>Ignore Column Name Case Directive</dfn> is intended to tell the parser to ignore mismatches in case between the column names supplied in a CSV file to be validated 
-					and those used in defining the <a>Column Rules</a>.  However, presently no cross-check is carried out at all.
+					The <dfn>Ignore Column Name Case Directive</dfn> is intended to tell the parser to ignore mismatches in case between the <a name="Column Identifier">Column Identifiers</a> supplied in a CSV file to be validated 
+					and those used in giving the <a name="Column Definition">Column Definitions</a>.  However, presently no cross-check is carried out at all.
 					</p>
 					<p>
 					The Ignore Column Name Case Directive is mutually exclusive to the use of the <a>No Header Directive</a>, when one is used, the other MUST NOT be.
@@ -540,7 +540,7 @@ simon,57,male
 						<td class="ebnf-left"><a title="ebnf-multi-line-comment"><dfn>MultiLineComment</dfn></a></td>
 						<td>::=</td>
 						<td class="ebnf-right">"/*" <a title="char-def">Char</a>* "*/"</td> 
-					</tr>     
+					</tr>
 				</table>
 				<section>
 					<h4>Example Comments</h4>
