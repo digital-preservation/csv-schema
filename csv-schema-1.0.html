@@ -566,9 +566,49 @@ simon,57,male
 			<section>
 				<h3>Column Definitions</h3>
 				<p>
-				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> followed by a <code>colon</code>, 
+				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon</code>, 
 				i.e. the UTF-8 character code <code>0x3A</code>, followed by a <a>Column Rule</a>.
 				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[18]</td>
+						<td class="ebnf-left"><a title="ebnf-column-definition"><dfn>ColumnDefinition</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">(<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>) ":" <a>ColumnRule</a></td> 
+					</tr>     
+				</table>
+				<section>
+					<h4>Column Identifiers</h4>
+					<p>
+					There are two classes of identifier that can be used for columns, the original simple <dfn>Column Identifier</dfn>, and the <dfn>Quoted Column Identifier</dfn>. 
+					</p>
+					<p>A <a>Column Identifier</a> is either an <a>Integer Literal</a> (most commonly used when the CSV file to be validated has no header row - 
+					see <a>No Header Directive</a>) 
+					or an <a>Ident</a>.					 
+					</p>
+					<p>
+					The <a>Quoted Column Identifier</a> allows a greater range of characters (<a>Non Double Quote Characters</a> to be used in naming the column, 
+					but the identifier must be wrapped in <code>doublequotes</code>, 
+					i.e. the UTF-8 character code <code>0x22</code>.
+					</p>
+					<p>
+					Identifiers must be unique within a single Schema.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[19]</td>
+							<td class="ebnf-left"><a title="ebnf-column-identifier"><dfn>ColumnIdentifier</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">(<a>IntegerLiteral</a> | <a title="ident-def">Ident</a>)</td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[20]</td>
+							<td class="ebnf-left"><a title="ebnf-quoted-column-identifier"><dfn>QuotedColumnIdentifier</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"\"" <a>NonDoubleQuoteChar</a> "\""</td> 
+						</tr>     
+					</table>
+				</section>
 			</section>
 		</section>
 	</section>
@@ -685,7 +725,25 @@ simon,57,male
 					<td class="ebnf-num">[17]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-multi-line-comment">MultiLineComment</dfn></a></td>
 					<td>::=</td>
-					<td class="ebnf-right">"/*" <a title="ebnf--char">CharChar</a>* "*/"</td>
+					<td class="ebnf-right">"/*" <a title="ebnf-char">Char</a>* "*/"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[18]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-multi-line-comment">ColumnDefinition</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">(<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-column-identifier">QuotedColumnIdentifier</a>) ":" <a title="ebnf-column-rule">ColumnRule</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[19]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-identifier">ColumnIdentifier</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">(<a title="ebnf-integer-literal">IntegerLiteral</a> | <a title="ebnf-ident">Ident</a>)</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[20]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-identifier">QuotedColumnIdentifier</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"\"" <a title="ebnf-integer-literal">NonDoubleQuoteChar</a> "\""</td>
 				</tr>     
 			</table>
 		</section>
