@@ -567,7 +567,8 @@ simon,57,male
 				<h3>Column Definitions</h3>
 				<p>
 				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon</code>, 
-				i.e. the UTF-8 character code <code>0x3A</code>, followed by a <a>Column Rule</a>.
+				i.e. the UTF-8 character code <code>0x3A</code>, followed by a <a>Column Rule</a>.  
+				There MUST be a Column Definition for every column in the CSV that will be validated against the Schema.
 				</p>
 				<table class="ebnf-table">
 					<tr>
@@ -592,7 +593,7 @@ simon,57,male
 					i.e. the UTF-8 character code <code>0x22</code>.
 					</p>
 					<p>
-					Identifiers must be unique within a single Schema.
+					Identifiers MUST be unique within a single Schema.
 					</p>
 					<table class="ebnf-table">
 						<tr>
