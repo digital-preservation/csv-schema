@@ -613,10 +613,24 @@ simon,57,male
 				<section>
 					<h4>Column Rules</h4>
 					<p>
-					A <dfn>Column Rule</dfn> is a combination of any number of  <a title="Column Validation Expression">Column Validation Expressions</a>, 
+					A <dfn>Column Rule</dfn> is a combination of any number of <a title="Column Validation Expression">Column Validation Expressions</a>, 
 					along with OPTIONAL <a title="Column Directive">Column Directives</a>. 
 					You MAY use an empty Column Rule if there is no requirement for an individual column to be validated.
 					</p>
+					<p>
+					As <a title="Column Validation Expression">Column Validation Expressions</a> are the primary means of applying validation, 
+					they are described in their own full section of this document.
+					The range and variety of expressions available make supplying comprehensive examples here impractical, 
+					though some will be used to show the basic structure of a Column Rule.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[21]</td>
+							<td class="ebnf-left"><a title="ebnf-column-rule"><dfn>ColumnRule</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>ColumnValidationExpr</a>* <a>ColumnDirectives</a></td> 
+						</tr>     
+					</table>
 				</section>
 			</section>
 		</section>
@@ -738,9 +752,9 @@ simon,57,male
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[18]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-multi-line-comment">ColumnDefinition</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-definition">ColumnDefinition</dfn></a></td>
 					<td>::=</td>
-					<td class="ebnf-right">(<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-column-identifier">QuotedColumnIdentifier</a>) ":" <a title="ebnf-column-rule">ColumnRule</a></td>
+					<td class="ebnf-right">(<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-quoted-column-identifier">QuotedColumnIdentifier</a>) ":" <a title="ebnf-column-rule">ColumnRule</a></td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[19]</td>
@@ -750,9 +764,15 @@ simon,57,male
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[20]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-column-identifier">QuotedColumnIdentifier</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-quoted-column-identifier">QuotedColumnIdentifier</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"\"" <a title="ebnf-integer-literal">NonDoubleQuoteChar</a> "\""</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[21]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-rule">ColumnRule</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a>* <a title="ebnf-column-directives">ColumnDirectives</a></td>
 				</tr>     
 			</table>
 		</section>
