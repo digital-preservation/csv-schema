@@ -631,6 +631,53 @@ simon,57,male
 							<td class="ebnf-right"><a>ColumnValidationExpr</a>* <a>ColumnDirectives</a></td> 
 						</tr>     
 					</table>
+					<section>
+						<h5>Column Directives</h5>
+						<p>
+						There are four OPTIONAL <a title="Column Directive">Column Directives</a> that are used 
+						to modify aspects of how the <a title="Column Rule">Column Rules</a> are evaluated. 
+						Like <a title="Global Directive">Global Directives</a>, Column Directives are indicated by the <a>Directive Prefix</a>, 
+						defined as the character <code>@</code> i.e. the UTF-8 character code <code>0x40</code>.
+						</p>
+						<p>
+						The Column Directives are the <a>Optional Directive</a>, the <a>Match Is False Directive</a>, the <a>Ignore Case Directive</a>, 
+						and the <a>Warning Directive</a>.  The first three may be specified in any order (though there is no straightforward way to express this in <a>EBNF</a> 
+						without listing every possible order).  The Warning Directive must always be specified last.
+						</p>
+						<section>
+							<h6>Optional Directive</h6>
+							<p>
+							The <dfn>Optional Directive</dfn> is used when completion of the data field in the original CSV file to be validated is OPTIONAL. 
+							When this directive is used the data in the column is considered valid if the <a>Column Rule</a> evaluates to true, of if the column is empty.
+							</p>
+						</section>
+						<section>
+							<h6>Match Is False Directive</h6>
+							<p>
+							The <dfn>Match Is False Directive</dfn> is used to flip the result of a test from negative to positive (or vice-versa).
+							It may be very simple to write a condition which matches the data considered to be invalid, while the equivalent for valid data would be very convoluted.
+							</p>
+						</section>
+						<section>
+							<h6>Ignore Case Directive</h6>
+							<p>
+							The <dfn>Ignore Case Directive</dfn> is used when the case of a column is not important. 
+							Two strings which differ only in the case used for characters within the string would be considered a match.
+							</p>
+						</section>
+						<section>
+							<h6>Warning Directive</h6>
+							<p>
+							The <dfn>Warning Directive</dfn> is used to convert a <a>Validation Error</a> into a <a>Validation Warning</a>.  
+							This is useful if you wish to be alerted to a data condition which is unusual, but not necessarily invalid.
+							For instance, at The National Archives we have come across archival material where the clerk who originally completed a form 
+							wrote down an "impossible" date such as 30 February or 31 April. We have to do our best to accept the data as originally supplied 
+							(we have no idea if it is the day or month of the date which is actually incorrect), but we also wish to ensure that additional 
+							Quality Assurance checking is performed to ensure this is not a transcription error. Warnings are listed in the validation report, 
+							but the data file is still considered valid if only warnings are present.
+							</p>
+						</section>
+					</section>
 				</section>
 			</section>
 		</section>
