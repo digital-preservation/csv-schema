@@ -623,6 +623,9 @@ simon,57,male
 					The range and variety of expressions available make supplying comprehensive examples here impractical, 
 					though some will be used to show the basic structure of a Column Rule.
 					</p>
+					<p>
+					White space is not generally important within a Column Rule, but the whole rule must be on a single line.
+					</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[21]</td>
@@ -650,6 +653,14 @@ simon,57,male
 							The <dfn>Optional Directive</dfn> is used when completion of the data field in the original CSV file to be validated is OPTIONAL. 
 							When this directive is used the data in the column is considered valid if the <a>Column Rule</a> evaluates to true, of if the column is empty.
 							</p>
+							<table class="ebnf-table">
+								<tr>
+									<td class="ebnf-num">[22]</td>
+									<td class="ebnf-left"><a title="ebnf-optional-directive"><dfn>OptionalDirective</dfn></a></td>
+									<td>::=</td>
+									<td class="ebnf-right"><a>DirectivePrefix</a> "optional"</td> 
+								</tr>     
+							</table>
 						</section>
 						<section>
 							<h6>Match Is False Directive</h6>
@@ -657,6 +668,14 @@ simon,57,male
 							The <dfn>Match Is False Directive</dfn> is used to flip the result of a test from negative to positive (or vice-versa).
 							It may be very simple to write a condition which matches the data considered to be invalid, while the equivalent for valid data would be very convoluted.
 							</p>
+							<table class="ebnf-table">
+								<tr>
+									<td class="ebnf-num">[23]</td>
+									<td class="ebnf-left"><a title="ebnf-match-is-false-directive"><dfn>MatchIsFalseDirective</dfn></a></td>
+									<td>::=</td>
+									<td class="ebnf-right"><a>DirectivePrefix</a> "matchIsFalse"</td> 
+								</tr>     
+							</table>
 						</section>
 						<section>
 							<h6>Ignore Case Directive</h6>
@@ -664,6 +683,14 @@ simon,57,male
 							The <dfn>Ignore Case Directive</dfn> is used when the case of a column is not important. 
 							Two strings which differ only in the case used for characters within the string would be considered a match.
 							</p>
+							<table class="ebnf-table">
+								<tr>
+									<td class="ebnf-num">[24]</td>
+									<td class="ebnf-left"><a title="ebnf-ignore-case-directive"><dfn>IgnoreCaseDirective</dfn></a></td>
+									<td>::=</td>
+									<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreCase"</td> 
+								</tr>     
+							</table>
 						</section>
 						<section>
 							<h6>Warning Directive</h6>
@@ -676,8 +703,37 @@ simon,57,male
 							Quality Assurance checking is performed to ensure this is not a transcription error. Warnings are listed in the validation report, 
 							but the data file is still considered valid if only warnings are present.
 							</p>
+							<table class="ebnf-table">
+								<tr>
+									<td class="ebnf-num">[25]</td>
+									<td class="ebnf-left"><a title="ebnf-warning-directive"><dfn>WarningDirective</dfn></a></td>
+									<td>::=</td>
+									<td class="ebnf-right"><a>DirectivePrefix</a> "warning"</td> 
+								</tr>     
+							</table>
 						</section>
 					</section>
+				</section>
+				<section>
+					<h4>Column Definitions examples</h4>
+					<p>
+					<pre class="example" title="Column Definition Syntax">
+	a_column_title:       is("somedata") or is("otherdata")        @optional @matchIsFalse @ignoreCase @warning
+	another_column_title: isNot("somedata") and isNot("otherdata")                         @ignoreCase
+					</pre>
+					The two Column Definitions are both validating the data in their respective columns against the explicit strings <code>somedata</code> and <code>otherdata</code>.
+					Ignoring the column directives for the moment, the column rule defined for <code>a_column_title</code> would return true if the CSV data for that column 
+					contained either the precise string <code>somedata</code> or <code>otherdata</code>.  However, the <a>Optional Directive</a> means a completely empty column 
+					would also be acceptable. Also, since the <a>Ignore Case Directive</a> is also applied, the strings <code>SomeData</code> or <code>OTHERDATA</code> (for example) 
+					would also be acceptable.  But, since the <a>Match Is False Directive</a> is in effect, the validation is inverted, it would actually be any string <em>other</em> 
+					than the two specified which would be regarded as acceptable data.  Since the <a>Warning Directive</a> is also used, a validation failure would not be considered 
+					an error though.
+					</p>
+					<p>
+					The second Column Definition (with the effect of the <a>Match Is False Directive</a> on the first taken into account) is actually logically equivalent to the first 
+					(see <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
+					would not be valid data, and since the <a>Warning Directive</a> has also not been included, such invalid data would be considered a <a>Validation Error</a>.					
+					</p>
 				</section>
 			</section>
 		</section>
@@ -820,6 +876,30 @@ simon,57,male
 					<td class="ebnf-left"><a><dfn title="ebnf-column-rule">ColumnRule</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a>* <a title="ebnf-column-directives">ColumnDirectives</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[22]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-optional-directive">OptionalDirective</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "optional"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[23]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-ignore-column-name-case-directive">MatchIsFalseDirective</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "matchIsFalse"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[24]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-ignore-case-directive">IgnoreCaseDirective</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "ignoreCase"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[25]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-warning-directive">WarningDirective</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "warning"</td>
 				</tr>     
 			</table>
 		</section>
