@@ -738,7 +738,46 @@ simon,57,male
 			</section>
 		</section>
 	</section>
-      
+    <section>
+		<h1>Column Validation Expressions</h1>
+		<p>
+		The key building blocks for <a title="Column Rule">Column Rules</a> are <dfn title="Column Validation Expression">Column Validation Expressions</dfn>.  
+		These are divided into two main classes, <a title="Non Conditional Expression">Non Conditional Expressions</a> and <a title="Conditional Expression">Conditional Expressions</a>.
+		Non Conditional Expressions boil down to checks resulting in a pass or fail (a number of expressions may be combined to produce an overall validation check), Conditional Expressions allow for more subtle checks, 
+		if for example you are validating a <code>title</code> column which allows the values <code>Mr</code>, <code>Mrs</code>, <code>Ms</code>, <code>Miss</code> and <code>Dr</code>, 
+		You could construct a Conditional Expression which also checks the <code>sex</code> column and if that contains <code>female</code>, 
+		then <code>Mr</code> would be regarded as invalid (strictly speaking that would also require the use of an <a>Explicit Context Expression</a> to refer to the other column, 
+		but that is a subexpression of the Non Conditional Expression class).
+		</p>
+		<table class="ebnf-table">
+			<tr>
+				<td class="ebnf-num">[26]</td>
+				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpression</dfn></a></td>
+				<td>::=</td>
+				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td> 
+			</tr>     
+		</table>
+		<section>
+			<h2>Non Conditional Expressions</h2>
+			<p>
+			<dfn title="Non Conditional Expression">Non Conditional Expressions</dfn> are divided into four classes of subexpressions: 
+			<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a>, 
+			<a title="Combinatorial Expression">Combinatorial Expressions</a>, and <a title="Parenthesized Expression">Parenthesized Expressions</a>. 
+			The first two are individual validation checks (differing in that the second allows access to some resource outside the CSV file being validated), 
+			While the last two provide ways of combining checks into more complex compound forms.
+			</p>
+			<table class="ebnf-table">
+				<tr>
+					<td class="ebnf-num">[27]</td>
+					<td class="ebnf-left"><a title="ebnf-column-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>CombinatorialExpr</a> | <a>ParenthesizedExpr</a></td> 
+				</tr>     
+			</table>
+		</section>
+	</section>
+	
+	
       TODO a note on file uri handling on different platforms etc!
       TODO a note on mime-type and filenaming
       
@@ -899,7 +938,19 @@ simon,57,male
 					<td class="ebnf-num">[25]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-warning-directive">WarningDirective</dfn></a></td>
 					<td>::=</td>
-					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "warning"</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "warningDirective"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[26]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-validation-expr">ColumnValidationExpression</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="ebnf-conditional-expr">ConditionalExpr</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[27]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-non-conditional-expr">NonConditionalExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-non-single-expr">SingleExpr</a> | <a title="ebnf-external-single-expr">ExternalSingleExpr</a> | <a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-parenthesized-expr">ParenthesizedExpr</a></td>
 				</tr>     
 			</table>
 		</section>
