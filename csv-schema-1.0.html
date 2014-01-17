@@ -774,6 +774,17 @@ simon,57,male
 					<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>CombinatorialExpr</a> | <a>ParenthesizedExpr</a></td> 
 				</tr>     
 			</table>
+			<section>
+				<h3>Single Expressions<h3>
+				<p>
+				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 19 available for use, 
+				although the first is really used as a modifier to the rest:
+				
+
+ (ExplicitContextExpr)? IsExpr | NotExpr | InExpr | StarstWithExpr | EndsWithExpr | RegExpExpr | RangeExpr | LengthExpr | EmptyExpr | NotEmptyExpr | UniqueExpr | UriExpr | XsdDateTimeExpr | XsdDateExpr | UkDateExpr | XsdTimeExpr | Uuid4Expr | PositiveIntegerExpr
+
+				</p>
+			</section>
 		</section>
 	</section>
 	
