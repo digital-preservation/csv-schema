@@ -775,15 +775,122 @@ simon,57,male
 				</tr>     
 			</table>
 			<section>
-				<h3>Single Expressions<h3>
+				<h3>Single Expressions</h3>
 				<p>
 				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 19 available for use, 
-				although the first is really used as a modifier to the rest:
-				
-
- (ExplicitContextExpr)? IsExpr | NotExpr | InExpr | StarstWithExpr | EndsWithExpr | RegExpExpr | RangeExpr | LengthExpr | EmptyExpr | NotEmptyExpr | UniqueExpr | UriExpr | XsdDateTimeExpr | XsdDateExpr | UkDateExpr | XsdTimeExpr | Uuid4Expr | PositiveIntegerExpr
-
+				although the first is really used as an OPTIONAL modifier to the rest. In many cases values can be provided to the test either as an explicit string 
+				(or number where appropriate), or by reference to the value held by another column.
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[28]</td>
+						<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</A> | 
+						<a>RegExpExpr</a> | <a>RangeExpr</a> | <a>LengthExpr</a> | <a>EmptyExpr</a> | <a>NotEmptyExpr</a> | <a>UniqueExpr</a> | <a>UriExpr</a> | <a>XsdDateTimeExpr</a> | 
+						<a>XsdDateExpr</a> | <a>UkDateExpr</a> | <a>XsdTimeExpr</a> | <a>Uuid4Expr</a> | <a>PositiveIntegerExpr</a></td> 
+					</tr>     
+				</table>	
+				<section>
+					<h4>Explicit Context Expressions</h4>
+					<p>
+					<li>The <dfn>Explicit Context Expression</dfn> is used to indicate that the following expression should be tested against the value in another, specified, column - 
+					rather than the current column (which is the default context).</li>
+					</p>
+				</section>
+				<section>
+					<h4>Is Expressions<h4>
+					<p>
+					An <dfn>Is Expression</dfn> checks that the value of the column is identical to the supplied string or the value in the referenced column.
+					</p>
+				</section>
+				<section>
+					<h4>Not Expressions</h4>
+					<p>
+					A <dfn>Not Expression</dfn> checks that the value of the column is not equal to the supplied string or the value in the referenced column.
+					</p>
+				</section>
+				<section>
+					<h4>In Expressions</h4>
+					<p>
+					An <dfn>In Expression</dfn> checks that the value of the column contains the supplied string or the value in the referenced column 
+					(i.e. the column value is a super string of the supplied value).
+					</p>
+				</section>
+				<section>
+					<h4>Starts With Expressions</h4>
+					<p>
+					A <dfn>Starts With Expression</dfn> checks that the value of the column begins with the supplied string or the value in the referenced column.
+					</p>
+				</section>
+				<section>
+					<h4>Ends With Expressions</h4>
+					<p>
+					An <dfn>Ends With Expression</dfn> checks that the value of the column finished with the supplied string or the value in the referenced column.
+					</p>
+				</section>
+				<section>
+					<h4>Regular Expression Expressions</h4>
+					<p>
+					A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.
+					</p>
+				</section>
+				<section>
+					<h4>Range Expressions</h4>
+					<p>
+					A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.
+					</p>
+				</section>
+				<section>
+					<h4>Length Expressions</h4>
+					<p>
+					A <dfn>Length Expression</dfn> checks that the number of characters in the column meets the supplied definition.  You can specify that the column is:
+					<ol>
+						<li>Precisely <em>n</em> characters long;</li>
+						<li>At least <em>n</em> characters long;</li>
+						<li>At most <em>n</em> characters long;</li>
+						<li>Between <em>m</em> and <em>n</em> characters long (inclusive).</li>
+					</ol>
+					</p>
+				</section>
+				<section>
+					<h4>Empty Expressions</h4>
+					<p>
+					An <dfn>Empty Expression</h4> checks that the column has no content.
+					</p>
+				</section>
+				<section>
+					<h4>Not Empty Expression</h4>
+					<p>
+					A <dfn>Not Empty Expression</h4> checks that the column has some content, though precisely what does not matter.
+					</p>
+				</section>
+				<section>
+					<h4>Unique Expressions</h4>
+					<p>
+					A <dfn>Unique Expression</dfn> checks that the column value is unique within the CSV file being validated 
+					(within the current column, the value may occur elsewhere in the file in another column, as in a primary-foreign key relationship in a database).  
+					You can also specify a list of <a title="Column Identifier">Column Identifiers</a> in which case the combination of values of those columns 
+					(for the current row) must be unique within the whole CSV file.
+					</p>
+				</section>
+				<section>
+					<h4>URI Expressions</h4>
+				<p>
+				A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
 				</p>
+				</section>
+				<section>XsdDateTimeExpr
+				</section>
+				<section>XsdDateExpr
+				</section>
+				<section>UkDateExpr
+				</section>
+				<section>XsdTimeExpr
+				</section>
+				<section>Uuid4Expr
+				</section>
+				<section>PositiveIntegerExpr
+				</section>>
 			</section>
 		</section>
 	</section>
