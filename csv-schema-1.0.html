@@ -777,9 +777,9 @@ simon,57,male
 			<section>
 				<h3>Single Expressions</h3>
 				<p>
-				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 19 available for use, 
-				although the first is really used as an OPTIONAL modifier to the rest. In many cases values can be provided to the test either as an explicit string 
-				(or number where appropriate), or by reference to the value held by another column.
+				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 22 available for use 
+				(and some have their own subexpressions used as parameters), although the first is really used as an OPTIONAL modifier to the rest. 
+				In many cases values can be provided to the test either as an explicit string (or number where appropriate), or by reference to the value held by another column.
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[28]</td>
@@ -793,7 +793,7 @@ simon,57,male
 				<section>
 					<h4>Explicit Context Expressions</h4>
 					<p>
-					<li>The <dfn>Explicit Context Expression</dfn> is used to indicate that the following expression should be tested against the value in another, specified, column - 
+					<li>The <dfn>Explicit Context Expression</dfn> is used to indicate that the expression following should be tested against the value in another specified column, 
 					rather than the current column (which is the default context).</li>
 					</p>
 				</section>
@@ -855,13 +855,13 @@ simon,57,male
 				<section>
 					<h4>Empty Expressions</h4>
 					<p>
-					An <dfn>Empty Expression</h4> checks that the column has no content.
+					An <dfn>Empty Expression</dfn> checks that the column has no content.
 					</p>
 				</section>
 				<section>
 					<h4>Not Empty Expression</h4>
 					<p>
-					A <dfn>Not Empty Expression</h4> checks that the column has some content, though precisely what does not matter.
+					A <dfn>Not Empty Expression</dfn> checks that the column has some content, though precisely what does not matter.
 					</p>
 				</section>
 				<section>
@@ -869,7 +869,7 @@ simon,57,male
 					<p>
 					A <dfn>Unique Expression</dfn> checks that the column value is unique within the CSV file being validated 
 					(within the current column, the value may occur elsewhere in the file in another column, as in a primary-foreign key relationship in a database).  
-					You can also specify a list of <a title="Column Identifier">Column Identifiers</a> in which case the combination of values of those columns 
+					You can also specify a comma separated list of <a title="Column Identifier">Column Identifiers</a> in which case the combination of values of those columns 
 					(for the current row) must be unique within the whole CSV file.
 					</p>
 				</section>
@@ -879,18 +879,52 @@ simon,57,male
 				A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
 				</p>
 				</section>
-				<section>XsdDateTimeExpr
+				<section>
+					<h4>XSD Date Time Expressions</h4>
+					<p>
+					An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+					You can also provide an OPTIONAL <dfn>From XSD Date Time Expression</dfn> and <dfn>To XSD Date Time Expression</dfn> 
+					(inclusive, and in the same XML Schema dateTime format) to ensure that the value in the column falls within an expected date-time range.
+					</p>
 				</section>
-				<section>XsdDateExpr
+				<section>
+					<h4>XSD Date Expressions</h4>
+					<p>
+					An <dfn>XSD Date Expression</dfn> checks that the data in the column is expressed as a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+					You can also provide OPTIONAL from and to dates (inclusive, and in the same XML Schema date format) 
+					to ensure that the value in the column falls within an expected date range.
+					</p>
 				</section>
-				<section>UkDateExpr
+				<section>
+					<h4>UK Date Expressions</h4>
+					<p>
+					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy. 
+					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
+					to ensure that the value in the column falls within an expected date-time range.
+					</p>
 				</section>
-				<section>XsdTimeExpr
+				<section>
+					<h4>XSD Time Expressions</h4>
+					<p>
+					An <dfn>XSD Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema time data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+					You can also provide OPTIONAL from and to times (inclusive, and in the same XML Schema time format) 
+					to ensure that the value in the column falls within an expected date range.
+					</p>
+				</section>
+				<section>
+DateExpr ::= "date(" StringProvider "," StringProvider "," StringProvider ("," fromXsdDateExpr "," toXsdDateExpr)? ")" /* first arg is year, second arg is month, third arg is day, optional fourth and fifth args are range */
+				</section>
+				<section>
+PartialUkDateExpr ::= "partUkDate" /* DD/MM/YYYY, '?' used to indicate an illegible symbol in Day or Year or a completely illegible month, and '*' to indicate a missing value */
+				</section>
+				<section>
+PartialDateExpr ::= "partDate(" StringProvider "," StringProvider "," StringProvider ")" /* first arg is year, second arg is month, third arg is day. Follows rules of PartialUkDateExpr */
+				</section>
 				</section>
 				<section>Uuid4Expr
 				</section>
 				<section>PositiveIntegerExpr
-				</section>>
+				</section>
 			</section>
 		</section>
 	</section>
