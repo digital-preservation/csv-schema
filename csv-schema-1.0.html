@@ -329,7 +329,7 @@ simon,57,male
 				There is no inherent reason why the Global Directives should be in the order shown, <a>EBNF</a> does not directly cater for unordered lists.
 				You could explicitly list each possible ordering, but that would require 4!=24 orderings to be included in the ENBF.
 				All directives (both Global Directives and <a>Column Directives</a>) used in the CSV Schema are indicated by the <dfn>Directive Prefix</dfn>, 
-				defined as the character <code>@</code> i.e. the UTF-8 character code <code>0x40</code>.
+				defined as the character <code>@</code> i.e. the [[UTF-8]] character code <code>0x40</code>.
 				</p>
 				<p>
 				Whitespace is not generally significant, so Global Directives can be entered all on a single line, or each on separate lines 
@@ -353,13 +353,13 @@ simon,57,male
 					<h4>Separator Directive</h4>
 					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. 
 					As with all <a>Global Directives</a> the Separator Directive is OPTIONAL, if not supplied the default value is assumed.
-					By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code> (as specified in [[RFC4180]]).
+					By default the separator is a <code>comma</code> i.e. the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
 					</p>
 					<p>
 					The Separator Directive takes a MANDATORY parameter in the form of either a <dfn>TAB Expression</dfn> or a <dfn>Separator Character</dfn>.
 					</p>
 					<p>
-					A <a>TAB Expression</a> indicates that the separator comprises one (or more) <code>spaces</code> i.e. the UTF-8 character code <code>0x20</code>. 
+					A <a>TAB Expression</a> indicates that the separator comprises one (or more) <code>spaces</code> i.e. the [[UTF-8]] character code <code>0x20</code>. 
 					It takes an OPTIONAL parameter of an <dfn>Integer Literal</dfn>: any positive, non-zero, integer value.
 					If no value is supplied, the default of four spaces is assumed, but any other positive number can be specified as an integer input to the parameter.
 					<!--In fact currently any integer value would be accepted, even 0 or -ve values, this has been raised as an issue-->
@@ -511,15 +511,15 @@ simon,57,male
 				There are two types of <dfn>Comment</dfn>: either <a title="Single Line Comment">Single Line</a> or <a title="Multiple Line Comment">Multiple Line</a>.
 				</p>
 				<p>
-				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes</code>, i.e. the UTF-8 character codes <code>0x2F 0x2F</code>. 
-				It is terminated by any UTF-8 character that creates a line-break.
+				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>. 
+				It is terminated by any [[UTF-8]] character that creates a line-break.
 				</p>
 				<p>
 				A <dfn>Multiple Line Comment</dfn> is started using the combination of a <code>forward slash</code> and an <code>asterisk</code>, 
-				i.e. the UTF-8 character codes <code>0x2F 0x2A</code>. 
+				i.e. the [[UTF-8]] character codes <code>0x2F 0x2A</code>. 
 				It is terminated by the reverse combination, <code>asterisk</code> <code>forward slash</code>, 
-				i.e. the UTF-8 character codes <code>0x2A 0x2F</code>. 
-				<strong>Any</strong> UTF-8 character may be used between these comment markers, even if it forces a new line.
+				i.e. the [[UTF-8]] character codes <code>0x2A 0x2F</code>. 
+				<strong>Any</strong> [[UTF-8]] character may be used between these comment markers, even if it forces a new line.
 				Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a>.
 				</p>
 				<table class="ebnf-table">
@@ -567,7 +567,7 @@ simon,57,male
 				<h3>Column Definitions</h3>
 				<p>
 				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon</code>, 
-				i.e. the UTF-8 character code <code>0x3A</code>, followed by a <a>Column Rule</a>.  
+				i.e. the [[UTF-8]] character code <code>0x3A</code>, followed by a <a>Column Rule</a>.  
 				There MUST be a Column Definition for every column in the CSV that will be validated against the Schema.
 				</p>
 				<table class="ebnf-table">
@@ -590,7 +590,7 @@ simon,57,male
 					<p>
 					The <a>Quoted Column Identifier</a> allows a greater range of characters (<a>Non Double Quote Characters</a> to be used in naming the column, 
 					but the identifier must be wrapped in <code>doublequotes</code>, 
-					i.e. the UTF-8 character code <code>0x22</code>.
+					i.e. the [[UTF-8]] character code <code>0x22</code>.
 					</p>
 					<p>
 					Identifiers MUST be unique within a single Schema.
@@ -640,7 +640,7 @@ simon,57,male
 						There are four OPTIONAL <a title="Column Directive">Column Directives</a> that are used 
 						to modify aspects of how the <a title="Column Rule">Column Rules</a> are evaluated. 
 						Like <a title="Global Directive">Global Directives</a>, Column Directives are indicated by the <a>Directive Prefix</a>, 
-						defined as the character <code>@</code> i.e. the UTF-8 character code <code>0x40</code>.
+						defined as the character <code>@</code> i.e. the [[UTF-8]] character code <code>0x40</code>.
 						</p>
 						<p>
 						The Column Directives are the <a>Optional Directive</a>, the <a>Match Is False Directive</a>, the <a>Ignore Case Directive</a>, 
