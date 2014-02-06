@@ -780,6 +780,7 @@ simon,57,male
 				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 22 available for use 
 				(and some have their own subexpressions used as parameters), although the first is really used as an OPTIONAL modifier to the rest. 
 				In many cases values can be provided to the test either as an explicit string (or number where appropriate), or by reference to the value held by another column.
+				</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[28]</td>
@@ -793,21 +794,45 @@ simon,57,male
 				<section>
 					<h4>Explicit Context Expressions</h4>
 					<p>
-					<li>The <dfn>Explicit Context Expression</dfn> is used to indicate that the expression following should be tested against the value in another specified column, 
-					rather than the current column (which is the default context).</li>
+					The <dfn>Explicit Context Expression</dfn> is used to indicate that the expression following should be tested against the value in another specified column, 
+					rather than the current column (which is the default context).
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[29]</td>
+							<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
-					<h4>Is Expressions<h4>
+					<h4>Is Expressions</h4>
 					<p>
 					An <dfn>Is Expression</dfn> checks that the value of the column is identical to the supplied string or the value in the referenced column.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[30]</td>
+							<td class="ebnf-left"><a title="ebnf-is-expr"><dfn>IsExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Not Expressions</h4>
 					<p>
 					A <dfn>Not Expression</dfn> checks that the value of the column is not equal to the supplied string or the value in the referenced column.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[31]</td>
+							<td class="ebnf-left"><a title="ebnf-not-expr"><dfn>NotExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>In Expressions</h4>
@@ -815,30 +840,70 @@ simon,57,male
 					An <dfn>In Expression</dfn> checks that the value of the column contains the supplied string or the value in the referenced column 
 					(i.e. the column value is a super string of the supplied value).
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[32]</td>
+							<td class="ebnf-left"><a title="ebnf-in-expr"><dfn>InExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Starts With Expressions</h4>
 					<p>
 					A <dfn>Starts With Expression</dfn> checks that the value of the column begins with the supplied string or the value in the referenced column.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[33]</td>
+							<td class="ebnf-left"><a title="ebnf-starts-with-expr"><dfn>StartsWithExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Ends With Expressions</h4>
 					<p>
 					An <dfn>Ends With Expression</dfn> checks that the value of the column finished with the supplied string or the value in the referenced column.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[34]</td>
+							<td class="ebnf-left"><a title="ebnf-ends-with-expr"><dfn>EndsWithExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Regular Expression Expressions</h4>
 					<p>
 					A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[35]</td>
+							<td class="ebnf-left"><a title="ebnf-reg-exp-expr"><dfn>RegExpExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Range Expressions</h4>
 					<p>
 					A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[36]</td>
+							<td class="ebnf-left"><a title="ebnf-range-expr"><dfn>RangeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"range(" <a>NumericLiteral</a> "," NumericLiteral ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Length Expressions</h4>
@@ -851,18 +916,42 @@ simon,57,male
 						<li>Between <em>m</em> and <em>n</em> characters long (inclusive).</li>
 					</ol>
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[37]</td>
+							<td class="ebnf-left"><a title="ebnf-length-expr"><dfn>LengthExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"length(" (<a>PositiveIntegerOrAny</a> ",")? PositiveIntegerOrAny ")"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Empty Expressions</h4>
 					<p>
 					An <dfn>Empty Expression</dfn> checks that the column has no content.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[38]</td>
+							<td class="ebnf-left"><a title="ebnf-empty-expr"><dfn>EmptyExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"empty"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Not Empty Expression</h4>
 					<p>
 					A <dfn>Not Empty Expression</dfn> checks that the column has some content, though precisely what does not matter.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[39]</td>
+							<td class="ebnf-left"><a title="ebnf-not-empty-expr"><dfn>NotEmptyExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"notEmpty"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Unique Expressions</h4>
@@ -872,12 +961,28 @@ simon,57,male
 					You can also specify a comma separated list of <a title="Column Identifier">Column Identifiers</a> in which case the combination of values of those columns 
 					(for the current row) must be unique within the whole CSV file.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[40]</td>
+							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UniqueExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"unique" ("(" <a>ColumnRef</a> ("," ColumnRef)* ")")?</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>URI Expressions</h4>
 				<p>
 				A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
 				</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[41]</td>
+							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UriExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"uri"</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>XSD Date Time Expressions</h4>
@@ -912,18 +1017,46 @@ simon,57,male
 					</p>
 				</section>
 				<section>
+					<h4>Date Expression</h4>
+					<p>
+					A <dfn>Date Expression</dfn> allows a full date to be constructed from several columns, or strings. The expression takes five arguments:
+					you MUST supply three strings or <a title="Column Reference">Column References</a> representing Year, Month and Day 
+					(although supplied as strings, these values must in fact be integers); 
+					and there are two OPTIONAL parameters to ensure the date falls in a range specified by <a>From XSD Date Time Expression</a> and <a>To XSD Date Time Expression</a>.
+					</p>
 DateExpr ::= "date(" StringProvider "," StringProvider "," StringProvider ("," fromXsdDateExpr "," toXsdDateExpr)? ")" /* first arg is year, second arg is month, third arg is day, optional fourth and fifth args are range */
 				</section>
 				<section>
+					<h4>Partial UK Date Expression</h4>
+					<p>
+					A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>, 
+					but allows for difficulties in transcribing from original archival material by accepting a <code>question mark</code>, 
+					i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk</code>, 
+					i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
+					it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
+					</p>
 PartialUkDateExpr ::= "partUkDate" /* DD/MM/YYYY, '?' used to indicate an illegible symbol in Day or Year or a completely illegible month, and '*' to indicate a missing value */
 				</section>
 				<section>
+					<h4>Partial Date Expression</h4>
+					<p>
+					A <dfn>Partial Date Expression</dfn> combines elements of <a>Partial UK Date Expression</a> with those of <a>Date Expression</a>, 
+					with the date being made up of columns or strings as in Date Expression, but also allowing the characters representing uncertainty as in Partial UK Date Expression.
+					</p>
 PartialDateExpr ::= "partDate(" StringProvider "," StringProvider "," StringProvider ")" /* first arg is year, second arg is month, third arg is day. Follows rules of PartialUkDateExpr */
 				</section>
+				<section>
+					<h4>UUID4 Expression</h4>
+					<p>
+					A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
+					(<strong>U</strong>niversally <strong>U</strong>nique <strong>Id</strong>entifier), see [[!RFC4122]].
+					</p>
 				</section>
-				<section>Uuid4Expr
-				</section>
-				<section>PositiveIntegerExpr
+				<section>
+					<h4>Positive Integer Expression</h4>
+					<p>
+					A <dfn>Positive Integer Expression</dfn> checks that the column contains an integer value, greater than or equal to zero.
+					</p>
 				</section>
 			</section>
 		</section>
