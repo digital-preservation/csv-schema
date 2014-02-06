@@ -1129,6 +1129,11 @@ simon,57,male
 					</table>
 				</section>
 			</section>
+			<section>
+				<h3>External Single Expressions</h3>
+				<p>
+				</p>
+			</section>
 		</section>
 	</section>
 	
@@ -1306,6 +1311,12 @@ simon,57,male
 					<td class="ebnf-left"><a><dfn title="ebnf-non-conditional-expr">NonConditionalExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-non-single-expr">SingleExpr</a> | <a title="ebnf-external-single-expr">ExternalSingleExpr</a> | <a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-parenthesized-expr">ParenthesizedExpr</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[28]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-single-expr">SingleExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-is-expr">IsExpr</a> | <a title="ebnf-not-expr">NotExpr</a> | <a title="ebnf-in-expr">InExpr</a> | <a title="ebnf-starts-with-expr">StartsWithExpr</a> | <a title="ebnf-ends-with-expr">EndsWithExpr</a> | <a title="ebnf-reg-exp-expr">RegExpExpr</a> | <a title="ebnf-range-expr">RangeExpr</a> | <a title="ebnf-length-expr">LengthExpr</a> | <a title="ebnf-empty-expr">EmptyExpr</a> | <a title="ebnf-not-empty-expr">NotEmptyExpr</a> | <a title="ebnf-unique-expr">UniqueExpr</a> | <a title="ebnf-uri-expr">UriExpr</a> | <a title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</a> | <a title="ebnf-xsd-date-expr">XsdDateExpr</a> | <a title="ebnf-xsd-time-expr">XsdTimeExpr</a> | <a title="ebnf-uk-date-expr">UkDateExpr</a> | <a title="ebnf-date-expr">DateExpr</a> | <a title="ebnf-partial-uk-date-expr">PartialUkDateExpr</a> | <a title="ebnf-partial-date-expr">PartialDateExpr</a> | <a title="ebnf-uuid4-expr">Uuid4Expr</a> | <a title="ebnf-positive-integer-expr">PositiveIntegerExpr</a></td>
 				</tr>     
 			</table>
 		</section>
