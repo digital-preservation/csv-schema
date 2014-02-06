@@ -1318,6 +1318,66 @@ simon,57,male
 					<td>::=</td>
 					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-is-expr">IsExpr</a> | <a title="ebnf-not-expr">NotExpr</a> | <a title="ebnf-in-expr">InExpr</a> | <a title="ebnf-starts-with-expr">StartsWithExpr</a> | <a title="ebnf-ends-with-expr">EndsWithExpr</a> | <a title="ebnf-reg-exp-expr">RegExpExpr</a> | <a title="ebnf-range-expr">RangeExpr</a> | <a title="ebnf-length-expr">LengthExpr</a> | <a title="ebnf-empty-expr">EmptyExpr</a> | <a title="ebnf-not-empty-expr">NotEmptyExpr</a> | <a title="ebnf-unique-expr">UniqueExpr</a> | <a title="ebnf-uri-expr">UriExpr</a> | <a title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</a> | <a title="ebnf-xsd-date-expr">XsdDateExpr</a> | <a title="ebnf-xsd-time-expr">XsdTimeExpr</a> | <a title="ebnf-uk-date-expr">UkDateExpr</a> | <a title="ebnf-date-expr">DateExpr</a> | <a title="ebnf-partial-uk-date-expr">PartialUkDateExpr</a> | <a title="ebnf-partial-date-expr">PartialDateExpr</a> | <a title="ebnf-uuid4-expr">Uuid4Expr</a> | <a title="ebnf-positive-integer-expr">PositiveIntegerExpr</a></td>
 				</tr>     
+				<tr>
+					<td class="ebnf-num">[29]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-single-expr">ExplicitContextExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> "/"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[30]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-is-expr">IsExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"is(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[31]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-is-not-expr">NotExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"not(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[32]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-in-expr">InExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"in(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[33]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-starts-with-expr">StartsWithExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"starts(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[34]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-starts-with-expr">EndsWithExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"ends(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[35]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-reg-exp-expr">RegExpExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"regex(" <a title="ebnf-string-literal">StringLiteral</a> ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[36]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-range-expr">RangeExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"range(" <a title="ebnf-numeric-literal">NumericLiteral<a> "," NumericLiteral ")" /* range is inclusive */</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[37]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-length-expr">LengthExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"length(" (<a title="ebnf-positive-integer-or-any">PositiveIntegerOrAny</a> ",")? PositiveIntegerOrAny ")"
+					/* length has 4 forms. 
+					1) length(n) ensures the value is: the exact length n (absolute length)
+					2) length(n, *) ensures the value is: longer than or equal to n (minimum length)
+					3) length(*, n) ensures the value is: shorter than or equal to n (maximum length)
+					4) length(n1, n2) ensures the value is: longer than or equal to n1 AND shorter than or equal to n2 (minumum and maximum lengths)
+					*/</td>
+				</tr>     
 			</table>
 		</section>
     </section>  
