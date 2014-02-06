@@ -991,6 +991,14 @@ simon,57,male
 					You can also provide an OPTIONAL <dfn>From XSD Date Time Expression</dfn> and <dfn>To XSD Date Time Expression</dfn> 
 					(inclusive, and in the same XML Schema dateTime format) to ensure that the value in the column falls within an expected date-time range.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[42]</td>
+							<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"xDateTime" ("(" <a>fromXsdDateTimeExpr</a> "," <a>toXsdDateTimeExpr</a> ")")?</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>XSD Date Expressions</h4>
@@ -999,14 +1007,14 @@ simon,57,male
 					You can also provide OPTIONAL from and to dates (inclusive, and in the same XML Schema date format) 
 					to ensure that the value in the column falls within an expected date range.
 					</p>
-				</section>
-				<section>
-					<h4>UK Date Expressions</h4>
-					<p>
-					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy. 
-					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
-					to ensure that the value in the column falls within an expected date-time range.
-					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[43]</td>
+							<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"xDate" ("(" <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a> ")")?</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>XSD Time Expressions</h4>
@@ -1015,6 +1023,30 @@ simon,57,male
 					You can also provide OPTIONAL from and to times (inclusive, and in the same XML Schema time format) 
 					to ensure that the value in the column falls within an expected date range.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[44]</td>
+							<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"xTime" ("(" <a>fromXsdTimeExpr</a> "," <a>toXsdTimeExpr</a> ")")?</td> 
+						</tr>     
+					</table>	
+				</section>
+				<section>
+					<h4>UK Date Expressions</h4>
+					<p>
+					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy. 
+					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
+					to ensure that the value in the column falls within an expected date-time range.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[45]</td>
+							<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"ukDate" ("(" <a>fromUkDateExpr</a> "," <a>toUkDateExpr</a> ")")?</td> 
+						</tr>     
+					</table>	
 				</section>
 				<section>
 					<h4>Date Expression</h4>
@@ -1024,7 +1056,14 @@ simon,57,male
 					(although supplied as strings, these values must in fact be integers); 
 					and there are two OPTIONAL parameters to ensure the date falls in a range specified by <a>From XSD Date Time Expression</a> and <a>To XSD Date Time Expression</a>.
 					</p>
-DateExpr ::= "date(" StringProvider "," StringProvider "," StringProvider ("," fromXsdDateExpr "," toXsdDateExpr)? ")" /* first arg is year, second arg is month, third arg is day, optional fourth and fifth args are range */
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[46]</td>
+							<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"date(" <a>StringProvider</a> "," StringProvider "," StringProvider ("," <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a>)? ")"</td> 
+						</tr>     
+					</table>
 				</section>
 				<section>
 					<h4>Partial UK Date Expression</h4>
@@ -1035,15 +1074,30 @@ DateExpr ::= "date(" StringProvider "," StringProvider "," StringProvider ("," f
 					i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
 					it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
 					</p>
-PartialUkDateExpr ::= "partUkDate" /* DD/MM/YYYY, '?' used to indicate an illegible symbol in Day or Year or a completely illegible month, and '*' to indicate a missing value */
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[47]</td>
+							<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"partUkDate"</td> 
+						</tr>     
+					</table>
 				</section>
 				<section>
 					<h4>Partial Date Expression</h4>
 					<p>
 					A <dfn>Partial Date Expression</dfn> combines elements of <a>Partial UK Date Expression</a> with those of <a>Date Expression</a>, 
 					with the date being made up of columns or strings as in Date Expression, but also allowing the characters representing uncertainty as in Partial UK Date Expression.
+					However, the constituent parts of the date MUST be supplied as year, month, day.
 					</p>
-PartialDateExpr ::= "partDate(" StringProvider "," StringProvider "," StringProvider ")" /* first arg is year, second arg is month, third arg is day. Follows rules of PartialUkDateExpr */
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[48]</td>
+							<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," StringProvider "," StringProvider ")"</td> 
+						</tr>     
+					</table>
 				</section>
 				<section>
 					<h4>UUID4 Expression</h4>
@@ -1051,12 +1105,28 @@ PartialDateExpr ::= "partDate(" StringProvider "," StringProvider "," StringProv
 					A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
 					(<strong>U</strong>niversally <strong>U</strong>nique <strong>Id</strong>entifier), see [[!RFC4122]].
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"uuid4"</td> 
+						</tr>     
+					</table>
 				</section>
 				<section>
 					<h4>Positive Integer Expression</h4>
 					<p>
 					A <dfn>Positive Integer Expression</dfn> checks that the column contains an integer value, greater than or equal to zero.
 					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"positiveInteger"</td> 
+						</tr>     
+					</table>
 				</section>
 			</section>
 		</section>
