@@ -988,7 +988,7 @@ simon,57,male
 					<h4>XSD Date Time Expressions</h4>
 					<p>
 					An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-					You can also provide an OPTIONAL <dfn>From XSD Date Time Expression</dfn> and <dfn>To XSD Date Time Expression</dfn> 
+					You can also provide an OPTIONAL <a>From XSD Date Time Expression</a> and <a>To XSD Date Time Expression</a> 
 					(inclusive, and in the same XML Schema dateTime format) to ensure that the value in the column falls within an expected date-time range.
 					</p>
 					<table class="ebnf-table">
@@ -1035,7 +1035,7 @@ simon,57,male
 				<section>
 					<h4>UK Date Expressions</h4>
 					<p>
-					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy. 
+					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy, a <a>UK Date String Literal</a>. 
 					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
 					to ensure that the value in the column falls within an expected date-time range.
 					</p>
@@ -1100,6 +1100,67 @@ simon,57,male
 					</table>
 				</section>
 				<section>
+					<h4>Date input sub-expressions</h4>
+					<p>
+					These are a group of of sub-expressions used to provide input into the previous group of date expressions:
+					<dfn>From XSD Date Time Expression</dfn> and <dfn>To XSD Date Time Expression</dfn> are both <a title="XsdDateTimeStringLiteral">XsdDateTimeStringLiterals</a> used respectively as the from and to 
+					dates in input to some of the above date expressions.  
+					Likewise, <dfn>From XSD Date Expression</dfn> and <dfn>To XSD Date Expression</dfn> are both <a title="XsdDateStringLiteral">XsdDateTimeStringLiterals</a> while 
+					<dfn>From XSD Time Expression</dfn> and <dfn>To XSD Time Expression</dfn> are both <a title="XsdDateTimeStringLiteral">XsdTimeStringLiterals</a>. 
+					Finally <dfn>From UK Date Expression</dfn> and <dfn>To UK Date Expression</dfn> are <dfn title="UK Date String Literal">UK Date String Literals</dfn> used similarly.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>fromXsdDateTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[50]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>toXsdDateTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[51]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>fromXsdDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[52]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>toXsdDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[53]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromXsdTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[54]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toXsdTimeExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>XsdTimeStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[55]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromUkDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[56]</td>
+							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toUkDateExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
+						</tr>     
+					</table>
+				</section>
+				<section>
 					<h4>UUID4 Expression</h4>
 					<p>
 					A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
@@ -1107,7 +1168,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-num">[57]</td>
 							<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right">"uuid4"</td> 
@@ -1121,7 +1182,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[50]</td>
+							<td class="ebnf-num">[58]</td>
 							<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
 							<td>::=</td>
 							<td class="ebnf-right">"positiveInteger"</td> 
@@ -1132,7 +1193,89 @@ simon,57,male
 			<section>
 				<h3>External Single Expressions</h3>
 				<p>
+				An <dfn>External Single Expression</dfn> allows access to resources outside the CSV file being validated in order to verify some information contained within the file. 
+				For example, to check that an image file referenced within a metadata CSV actually exists, or that a supplied checksum matches the value calculated for the file.  
+				The available expressions are the <a>File Exists Expression</a>, <a>Checksum Expression</a> and <a>File Count Expression</a>.  
+				Each can again be prefixed with an <a>Explicit Content Expression</a> in order to refer to data in a different column.
 				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[59]</td>
+						<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a> 
+					</tr>     
+				</table>
+				<section>
+					<h4>File Exists Expressions<h4>
+					<p>
+					A <dfn>File Exists Expression</dfn> checks a filesystem to see if the specified file actually exists at the specified path.  
+					It takes an OPTIONAL expression in the form of a <a>String Provider</a> which allows you to supply a string (or reference to a string) 
+					with a full filepath to prepend to the contents of the current column if that only has the actual filename.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[60]</td>
+							<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
+						</tr>     
+					</table>
+				</section>
+				<section>
+					<h4>Checksum Expressions<h4>
+					<p>
+					A <dfn>Checksum Expression</dfn> allows the verification of a checksum value supplied in a CSV metadata file by calculating the checksum for a specific file, 
+					and comparing it against the the supplied value.  You can also indicate the type of checksum algorithm to be used.  You MUST supply both the file location
+					and a checksum algorithm.  File location is given in the form of a <a>File Expression</a>.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[61]</td>
+							<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
+						</tr>     
+					</table>
+				</section>
+				<section>
+					<h4>File Count Expressions</h4>
+					<p>
+					A <dfn>File Count Expression</dfn> allows a column representing the number of files in a particular folder to be verified against the actual files on disk.  
+					You MUST provide a <a>File Expression</a> as an input parameter.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[62]</td>
+							<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
+						</tr>     
+					</table>
+				</section>
+				<section>
+					<h4>File related sub-expressions</h4>
+					<p>
+					There are two sub-expressions used in conjunction with these <a title="External Single Expression">External Single Expressions</a> in order to provide input. 
+					The first is a generic <dfn>File Expression</dfn> which itself takes two parameters.  The first is OPTIONAL, a <a>String Provider</a> that is prepended to the second 
+					to create a full path in the event that a column holds only a filename rather than a full filepath.  You MUST supply the second parameter which is either a 
+					<a>Column Reference</a> or a <a>File Name Expression</a>, which is actually just a simple <a>String Literal</a>.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[63]</td>
+							<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? (<a>ColumnRef</a> | <a>FileNameExpr</a>) ")"</td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[64]</td>
+							<td class="ebnf-left"><a title="ebnf-file-name-expr"><dfn>FileNameExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>StringLiteral</a></td> 
+						</tr>     
+					</table>
+				</section>
 			</section>
 		</section>
 	</section>
