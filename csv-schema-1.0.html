@@ -353,7 +353,7 @@ simon,57,male
 					<h4>Separator Directive</h4>
 					<p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. 
 					As with all <a>Global Directives</a> the Separator Directive is OPTIONAL, if not supplied the default value is assumed.
-					By default the separator is a <code>comma</code> i.e. the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
+					By default the separator is a <code>comma (,)</code> i.e. the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
 					</p>
 					<p>
 					The Separator Directive takes a MANDATORY parameter in the form of either a <dfn>TAB Expression</dfn> or a <dfn>Separator Character</dfn>.
@@ -511,13 +511,13 @@ simon,57,male
 				There are two types of <dfn>Comment</dfn>: either <a title="Single Line Comment">Single Line</a> or <a title="Multiple Line Comment">Multiple Line</a>.
 				</p>
 				<p>
-				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>. 
+				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes (/)</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>. 
 				It is terminated by any [[UTF-8]] character that creates a line-break.
 				</p>
 				<p>
-				A <dfn>Multiple Line Comment</dfn> is started using the combination of a <code>forward slash</code> and an <code>asterisk</code>, 
+				A <dfn>Multiple Line Comment</dfn> is started using the combination of a <code>forward slash (/)</code> and an <code>asterisk (*)</code>, 
 				i.e. the [[UTF-8]] character codes <code>0x2F 0x2A</code>. 
-				It is terminated by the reverse combination, <code>asterisk</code> <code>forward slash</code>, 
+				It is terminated by the reverse combination, <code>asterisk (*)</code> <code>forward slash (/)</code>, 
 				i.e. the [[UTF-8]] character codes <code>0x2A 0x2F</code>. 
 				<strong>Any</strong> [[UTF-8]] character may be used between these comment markers, even if it forces a new line.
 				Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a>.
@@ -566,7 +566,7 @@ simon,57,male
 			<section>
 				<h3>Column Definitions</h3>
 				<p>
-				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon</code>, 
+				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon (:)</code>, 
 				i.e. the [[UTF-8]] character code <code>0x3A</code>, followed by a <a>Column Rule</a>.  
 				There MUST be a Column Definition for every column in the CSV that will be validated against the Schema.
 				</p>
@@ -589,7 +589,7 @@ simon,57,male
 					</p>
 					<p>
 					The <a>Quoted Column Identifier</a> allows a greater range of characters (<a>Non Double Quote Characters</a> to be used in naming the column, 
-					but the identifier must be wrapped in <code>doublequotes</code>, 
+					but the identifier must be wrapped in <code>doublequotes (")</code>, 
 					i.e. the [[UTF-8]] character code <code>0x22</code>.
 					</p>
 					<p>
@@ -1069,8 +1069,8 @@ simon,57,male
 					<h4>Partial UK Date Expression</h4>
 					<p>
 					A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>, 
-					but allows for difficulties in transcribing from original archival material by accepting a <code>question mark</code>, 
-					i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk</code>, 
+					but allows for difficulties in transcribing from original archival material by accepting a <code>question mark (?)</code>, 
+					i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>, 
 					i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
 					it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
 					</p>
@@ -1207,7 +1207,7 @@ simon,57,male
 					</tr>     
 				</table>
 				<section>
-					<h4>File Exists Expressions<h4>
+					<h4>File Exists Expressions</h4>
 					<p>
 					A <dfn>File Exists Expression</dfn> checks a filesystem to see if the specified file actually exists at the specified path.  
 					It takes an OPTIONAL expression in the form of a <a>String Provider</a> which allows you to supply a string (or reference to a string) 
@@ -1223,7 +1223,7 @@ simon,57,male
 					</table>
 				</section>
 				<section>
-					<h4>Checksum Expressions<h4>
+					<h4>Checksum Expressions</h4>
 					<p>
 					A <dfn>Checksum Expression</dfn> allows the verification of a checksum value supplied in a CSV metadata file by calculating the checksum for a specific file, 
 					and comparing it against the the supplied value.  You can also indicate the type of checksum algorithm to be used.  You MUST supply both the file location
@@ -1277,6 +1277,28 @@ simon,57,male
 					</table>
 				</section>
 			</section>
+			<section>
+				<h3>Input parameters used in Single Expressions and External Single Expressions</h3>
+				<p>
+				Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
+				as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a> or a <a>String Literal</a>.  A <dfn>Column Reference</dfn> comprises 
+				a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
+				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[65]</td>
+						<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a></td> 
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[66]</td>
+						<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ColumnRef</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
+					</tr>     
+				</table>
+ 			</section>
 		</section>
 	</section>
 	
