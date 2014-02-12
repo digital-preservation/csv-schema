@@ -1358,15 +1358,65 @@ simon,57,male
 			</section>
 			<section>
 				<h3>Parenthesized Expressions</h3>
+				<p>
 				<dfn title="Parenthesized Expression">Parenthesized Expressions</dfn> are used to vary the standard left-to-right evaluation order of evaluation of 
 				<a title="Combinatorial Expression">Combinatorial Expressions</a>.  Parenthesized Expressions can be nested, the deepest level will be evaluated first, working upwards. 
 				Equally nested Parenthesized Expressions revert to the standard left-to-right evaluation order.
+				</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[71]</td>
 						<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 						<td>::=</td>
 						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a> ")"</td> 
+					</tr>     
+				</table>
+			</section>
+		</section>
+		<section>
+			<h2>Conditional Expressions</h2>
+			<p>
+			A <dfn>Conditional Expression</dfn> is used to apply different <a title="Column Validation Expression">Column Validation Expressions</a> to a column on the basis of the 
+			result of the evaluation of some other <a>Non Conditional Expression</a>.  
+			This is particularly useful when the data expected in one column depends on the value of another column.  There is only one form of Conditional Expression, 
+			the <a>If Expression</a>.
+			</p>
+			<table class="ebnf-table">
+				<tr>
+					<td class="ebnf-num">[72]</td>
+					<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a>IfExpr</a></td> 
+				</tr>     
+			</table>
+			<section>
+				<h3>If Expressions</h3>
+				<p>
+				The <dfn>If Expression</dfn> is the only form of <a>Conditional Expression</a>. It takes three input parameters: the first two of these MUST be used, firstly a
+				<a>Non Conditional Expression</a>; when that evaluates to true, the second parameter, the <a>Then Expression</a> is applied; the third parameter is OPTIONAL, 
+				this is the <a>Else Expression</a> which is used when the first parameter evaluates to false.
+				</p>
+				Both the <dfn>Then Expression</dfn> and the <dfn>Else Expression</dfn> are simply <a title="Column Validation Expression">Column Validation Expressions</a>.
+				<p>
+				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[73]</td>
+						<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"if(" <a>NonConditionalExpr<a> "," <a>ThenExpr</a> ("," <a>ElseExpr</a>)? ")" /* if with optional else */</td> 
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[74]</td>
+						<td class="ebnf-left"><a title="ebnf-then-expr"><dfn>ThenExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[75]</td>
+						<td class="ebnf-left"><a title="ebnf-else-expr"><dfn>ElseExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
 					</tr>     
 				</table>
 			</section>
@@ -1745,7 +1795,6 @@ simon,57,male
 					<td>::=</td>
 					<td class="ebnf-right">"positiveInteger"</td>
 				</tr>
-              ::=     (ExplicitContextExpr)? FileExistsExpr | ChecksumExpr | FileCountExpr
 				<tr>
 					<td class="ebnf-num">[60]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
@@ -1815,6 +1864,30 @@ simon,57,male
 				<tr>
 					<td class="ebnf-num">[71]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-parenthesized-expr">ParenthesizedExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[72]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-conditional-expr">ConditionalExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-if-expr">IfExpr</a></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[73]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-if-expr">IfExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"if(" <a title="ebnf-non-conditional-expr">NonConditionalExpr</a> "," <a title="ebnf-then-expr">ThenExpr</a> ("," <a title="ebnf-else-expr">ElseExpr</a>)? ")" /* if with optional else */</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[74]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-then-expr">ThenExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[75]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-else-expr">ElseExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
 				</tr>
