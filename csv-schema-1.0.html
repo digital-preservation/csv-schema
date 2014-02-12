@@ -752,7 +752,7 @@ simon,57,male
 		<table class="ebnf-table">
 			<tr>
 				<td class="ebnf-num">[26]</td>
-				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpression</dfn></a></td>
+				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpr</dfn></a></td>
 				<td>::=</td>
 				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td> 
 			</tr>     
@@ -1307,6 +1307,69 @@ simon,57,male
 					</tr>     
 				</table>
  			</section>
+			<section>
+				<h3>Combinatorial Expressions</h3>
+				<p>
+				A <dfn>Combinatorial Expression</dfn> are operators for combining <a title="Column Validation Expression">Column Validation Expressions</a> into more complicated tests 
+				on the validity of data in a column.  
+				There are two types, <a title="Or Expression">Or Expressions</a> and <a title="And Expression">And Expressions</a>. 
+				They are of equal precedence, and evaluation of <a title="Column Validation Expression">Column Validation Expressions</a> is performed from left-to-right.
+				</p>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[68]</td>
+						<td class="ebnf-left"><a title="ebnf-combinatorial-expr"><dfn>CombinatorialExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right"><a>OrExpr</a> | <a>AndExpr</a></td> 
+					</tr>     
+				</table>
+				<section>
+					<h4>Or Expressions</h4>
+					<p>
+					An <dfn>Or Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if either (or both) 
+					the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the Or Expression are true.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[69]</td>
+							<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>ColumnValidationExpr</a> ("or" ColumnValidationExpr)*</td> 
+						</tr>     
+					</table>
+				</section>
+				<section>
+					<h4>And Expressions</h4>
+					<p>
+					An <dfn>And Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if and only if both 
+					the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the And Expression are true.  Use of an explicit And Expression is OPTIONAL:
+					if two <a title="Column Validation Expression">Column Validation Expressions</a> are written in succession for the same column they will be treated as having an
+					implicit And Expression joining them.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[70]</td>
+							<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
+							<td>::=</td>
+							<td class="ebnf-right"><a>ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td> 
+						</tr>     
+					</table>
+				</section>
+			</section>
+			<section>
+				<h3>Parenthesized Expressions</h3>
+				<dfn title="Parenthesized Expression">Parenthesized Expressions</dfn> are used to vary the standard left-to-right evaluation order of evaluation of 
+				<a title="Combinatorial Expression">Combinatorial Expressions</a>.  Parenthesized Expressions can be nested, the deepest level will be evaluated first, working upwards. 
+				Equally nested Parenthesized Expressions revert to the standard left-to-right evaluation order.
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[71]</td>
+						<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
+						<td>::=</td>
+						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a> ")"</td> 
+					</tr>     
+				</table>
+			</section>
 		</section>
 	</section>
 	
@@ -1475,7 +1538,7 @@ simon,57,male
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[26]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-column-validation-expr">ColumnValidationExpression</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-validation-expr">ColumnValidationExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="ebnf-conditional-expr">ConditionalExpr</a></td>
 				</tr>     
@@ -1682,47 +1745,78 @@ simon,57,male
 					<td>::=</td>
 					<td class="ebnf-right">"positiveInteger"</td>
 				</tr>
+              ::=     (ExplicitContextExpr)? FileExistsExpr | ChecksumExpr | FileCountExpr
 				<tr>
 					<td class="ebnf-num">[60]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">(<a title="ebnf-explicit-content-expr">ExplicitContextExpr</a>)? <a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[61]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-exists-expr">FileExistsExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"fileExists" ("(" <a title="ebnf-string-provider">StringProvider</a> ")")? /* optional path to prepend to this cell with filename in */</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[61]</td>
+					<td class="ebnf-num">[62]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-checksum-expr">ChecksumExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"checksum(" <a title="ebnf-file-expr">FileExpr</a> "," <a title="ebnf-string-literal">StringLiteral/a> ")" /* first arg is file expr, second arg is algorithm to use for checksum */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[62]</td>
+					<td class="ebnf-num">[63]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-count-expr">FileCountExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"fileCount(" <a title="ebnf-file-expr">FileExpr</a> ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[63]</td>
+					<td class="ebnf-num">[64]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-expr">FileExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"file(" (<a title="ebnf-string-provider">StringProvider</a> ",")? (<a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-file-name-expr">FileNameExpr</a>) ")" /* first (optional) arg is path (or ColumnRef of path) to prepend to second arg, second arg is reference to column containing filename, of a FileNameExpr */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[64]</td>
+					<td class="ebnf-num">[65]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-name-expr">FileNameExpr</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-string-literal">StringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[65]</td>
+					<td class="ebnf-num">[66]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-string-provider">StringProvider</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-string-literal">StringLiteral</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[66]</td>
+					<td class="ebnf-num">[67]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-column-ref">ColumnRef</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right">"$" (<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-quoted-column-identifier">QuotedColumnIdentifier</a>)</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[68]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-combinatorial-expr">CombinatorialExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-or-expr">OrExpr</a> | <a title="ebnf-and-expr">AndExpr</a></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[69]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-or-expr">OrExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidatonExpr</a> ("or" ColumnValidationExpr)*</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[70]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-and-expr">AndExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[71]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-parenthesized-expr">ParenthesizedExpr</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
 				</tr>
 			</table>
 		</section>
