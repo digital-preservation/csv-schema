@@ -1528,32 +1528,156 @@ simon,57,male
 			A <dfn>Numeric Literal</dfn> is a data type representing any <a>Number</a>. 
 			</p>
 			<table class="ebnf-table">
-				<tr>
-					<td class="ebnf-num">[81]</td>
+				<tr>	
+					<td class="ebnf-num">[82]</td>
 					<td class="ebnf-left"><a title="ebnf-numeric-literal"><dfn>NumericLiteral</dfn></a></td>
 					<td>::=</td>
 					<td class="ebnf-right"><a title="number-def">Number</a></td>
 				</tr>
 			</table>
 		</section>
+		<section>
+			<h2>Integer Literals</h2>
+			<p>
+			An <dfn>Integer Literal</dfn> is a data type representing any <a>Integer</a>. 
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[83]</td>
+					<td class="ebnf-left"><a title="ebnf-integer-literal"><dfn>IntegerLiteral</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"><a title="integer-def">Integer</a></td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Character Literals</h2>
 			<p>
 			A <dfn>Character Literal</dfn> is a single <a>Non-breaking Character</a>.
 			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[84]</td>
+					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>CharacterLiteral</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"'" <a>NonBreakingChar</a> "'"</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>String Literals</h2>
 			<p>
-			<dfn>Non-breaking Character</dfn>: Unicode characters not including those represented in regex by <code>\n</code> or <code>\r</code><!--Unicode equivalents??-->.
+			A <dfn>String Literal</dfn> is one or more <a title="Non-breaking Character">Non-breaking Characters</a>.
 			</p>
-IntegerLiteral                  ::=     Integer
-CharacterLiteral                ::=     "'" NonBreakingChar "'"
-StringLiteral                   ::=     "\"" NonBreakingChar+ "\""
-WildcardLiteral                 ::=     "*" 
-Ident                           ::=     /* [A-Za-z0-9\-_\.]+ */
-NonDoubleQuoteChar              ::=     /* [^"]+ */
-
-
-Number                                          /* Any Real Number expressed as an Integer or Decimal */
-Integer                                         /* Any Non-Fractional and Non-Decimal Number */
-NonBreakingChar                                 /* same class as char but without \n or \r */
-
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[85]</td>
+					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>StringLiteral</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"'" <a>NonBreakingChar</a>+ "'"</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Wildcard Literals</h2>
+			<p>
+			A <dfn>Wildcard Literal</dfn> is a single <code>asterisk (*)</code> i.e. the [[UTF-8]] character code <code>0x2A</code>.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[86]</td>
+					<td class="ebnf-left"><a title="ebnf-wildcard-literal"><dfn>WildcardLiteral</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">"*"</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Idents</h2>
+			<p>
+			An <dfn>Ident</dfn> is the set of characters which can be used in an ordinary <a>Column Identifier</a>.  Upper and lower case alphabetic characters (unaccented), along with
+			digits 0-9, the <code>hyphen (-)</code>, <code>underscore (_)</code> and <code>full stop (.)</code>, i.e. the [[UTF-8]] character codes <code>0x2D</code>, <code>0x5F</code> 
+			and <code>0x2E</code>.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[87]</td>
+					<td class="ebnf-left"><a title="ebnf-ident"><dfn title="ident-def">Ident</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Non Double Quote Characters</h2>
+			<p>
+			A <dfn>Non Double Quote Character</dfn> is any unicode character other than <code>double quote (")</code>, i.e. the [[UTF-8]] character code <code>0x22</code>.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[88]</td>
+					<td class="ebnf-left"><a title="ebnf-non-double-quote-char"><dfn>NonDoubleQuoteChar</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Number</h2>
+			<p>
+			A <dfn>Number</dfn> is any real number that can be expressed as an integer or (terminating) decimal.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[89]</td>
+					<td class="ebnf-left"><a title="ebnf-number"><dfn title="number-def">Number</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">/* Any Real Number expressed as an Integer or Decimal */</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Integer</h2>
+			<p>
+			An <dfn>Integer</dfn> is any integer, a subset of <a>Number</a>.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[90]</td>
+					<td class="ebnf-left"><a title="ebnf-integer"><dfn title="integer-def">Integer</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">/* Any Non-Fractional and Non-Decimal Number */</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>NonBreakingChar</h2>
+			<p>
+			<dfn>Non Breaking Character</dfn>: Unicode characters not including those represented in regex by <code>\n</code> or <code>\r</code><!--Unicode equivalents??-->.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-left"><a title="ebnf-integer"><dfn>NonBreakingChar</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right">/* same class as char but without \n or \r */</td>
+				</tr>
+			</table>
+		</section>
+		<section>
+			<h2>Char</h2>
+			<p>
+			<dfn>Character</dfn>: Any Unicode character in the [[!UTF-8]] set.
+			</p>
+			<table class="ebnf-table">
+				<tr>	
+					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-left"><a title="ebnf-char"><dfn>Char</dfn></a></td>
+					<td>::=</td>
+					<td class="ebnf-right"></td>
+				</tr>
+			</table>
+		</section>
 	</section>
 	
 	
