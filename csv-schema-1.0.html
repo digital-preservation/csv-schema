@@ -404,7 +404,7 @@ simon,57,male
 					<h4>Total Columns Directive</h4>
 					<p>
 					The <dfn>Total Columns Directive</dfn> allows you to specify the total number of data columns expected to make up each row of the CSV file.
-					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a title="Column Rule">Column Rules</a>,
+					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a>Column Rules</a>,
 					a mismatch is considered a <a>Schema Error</a>.
 					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
 					and it will be assumed that you have supplied the correct number of Column Rules.
@@ -1687,7 +1687,41 @@ simon,57,male
 			</table>
 		</section>
 	</section>
-	
+	<section>
+		<h1>Errors and Warnings</h1>
+		<p>
+		Running the validator will produce a report.  First of all the validator checks that the schema itself is syntactically correct.  If not, a <a>Schema Error</a> is produced, 
+		and no validation of the actual data occurs.  If the schema check is successful then data validation begins.  A report is produced for each <a>Column Validation Expression</a> 
+		that fails validation.  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used to convert errors within that 
+		<a title="Column Rules">Column Rule</a> into a <a>Validation Warning</a>.
+		</p>
+		<section>
+			<h2>Schema Errors</h2>
+			<p>
+			A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the schema itself.  This might be an incorrect <a>Version Declaration</a> or a mismatch between the 
+			number specified for <a>Total Columns Directive</a> and the actual number of <a title="Column Definition">Column Definitions</a> given in the <a>Body</a> of the Schema. 
+			Schema Errors would also be produced by mismatched <a title="Parenthesized Expression">Parenthesized Expressions</a>, 
+			unrecognised <a title="Column Validation Expression">Column Validation Expressions</a> and <a title="Explicit Context Expression">Explicit Context Expressions</a> which do not 
+			match an actual <a>Column Identifier</a>.
+			</p>
+			<p>
+			The Schema Error will be logged in the output report, and execution will terminate without attempting to validate the data against the schema.
+		</section>
+		<section>
+			<h2>Validation Errors</h2>
+			<p>
+			If column data does not validate successfully against a <a title="Column Rules">Column Rule</a> a <dfn>Validation Error</dfn> will be produced and logged in the output report. 
+			In general a Validation Error does not terminate execution, all data will be processed, and all errors logged.  When Validation Errors have been encountered the validator will 
+			give a non-zero return code TO DO specify.  The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
+			treated only as a <a>Validation Warning</a>.
+			</p>
+			<p>
+			A <dfn>Validation Warning</dfn> can be used when you wish to highlight unexpected values that are encountered in the data, but for some reason they are not to be considered 
+			failures of validation.  For example within archival documents the date has been recorded as an "impossible" date such as 30 February or 31 April.  A transcriber has correctly 
+			entered the data as seen on the original document, but it is not a valid date.  You may wish to highlight these cases for additional QA, but it cannot be considered an error.
+			</p>
+		</section>
+	</section>
 	
       TODO a note on file uri handling on different platforms etc!
       TODO a note on mime-type and filenaming
