@@ -1173,6 +1173,7 @@ simon,57,male
 					<p>
 					A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
 					(<strong>U</strong>niversally <strong>U</strong>nique <strong>Id</strong>entifier), see [[!RFC4122]].
+					UUIDs MUST use lowercase hex values.
 					</p>
 					<table class="ebnf-table">
 						<tr>
@@ -1430,6 +1431,18 @@ simon,57,male
 			<h2>Column Expression examples</h2>
 			<p>
 				<pre class="example" title="Column Expression Syntax">
+piece: is("1") and (in($file_path) and in($resource_uri))	/*The column "piece" must have the specific value 1
+			the value must also be part of the value of the columns "file_path" and "resource_uri"
+			explicit And Expression is used between each specified Column Expression*/
+item: range(1,540)											//this field must contain an integer between 1 and 540 inclusive
+file_uuid: uuid4 unique										/*must be a version 4 uuid, and the value must be unique within the file uuids must be lower case
+			Here an implicit And Expression is used*/
+file_path: fileExists uri starts("file:///")							//fileExists checks that there is actually a file of the given name at the 
+//												  						  specified location on the file system.
+file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value given in this field to the checksum calculated for the file
+//												  						  found at the location given in the "file_path" field
+//												 						  Use the specified checksum algorithm (SHA-256)
+//												  						  (must use lowercase hex characters).
 				</pre>
 			</p>
 		</section>
