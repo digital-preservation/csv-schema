@@ -1237,6 +1237,11 @@ simon,57,male
 					and comparing it against the the supplied value.  You can also indicate the type of checksum algorithm to be used.  You MUST supply both the file location
 					and a checksum algorithm.  File location is given in the form of a <a>File Expression</a>.
 					</p>
+					<p>
+					The EBNF does not specify valid values for the <a>String Literal</a> representing the checksum algorithm.  In The National Archives' implementation the following are 
+					recognised: <code>md5</code>, <code>sha-1</code>, <code>sha-2</code>, <code>sha-3</code>, <code>sha-256</code>.  It is important to note that the checksum value MUST 
+					use lowercase hex characters only.
+					</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[62]</td>
