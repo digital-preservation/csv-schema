@@ -359,10 +359,14 @@ simon,57,male
 					The Separator Directive takes a MANDATORY parameter in the form of either a <a>TAB Expression</a> or a <a>Separator Character</a>.
 					</p>
 					<p>
-					A <dfn>TAB Expression</dfn> indicates that the separator comprises one (or more) <code>spaces</code> i.e. the [[UTF-8]] character code <code>0x20</code>. 
+					A <dfn>TAB Expression</dfn> indicates that the separator comprises either a specific tab character, i.e. [[UTF-8]] character code <code>0x09</code>, 
+					or one (or more) <code>spaces</code> i.e. the [[UTF-8]] character code <code>0x20</code>. 
 					It takes an OPTIONAL parameter of an <a>Integer Literal</a>: any positive, non-zero, integer value.
-					If no value is supplied, the default of four spaces is assumed, but any other positive number can be specified as an integer input to the parameter.
-					<!--In fact currently any integer value would be accepted, even 0 or -ve values, this has been raised as an issue-->
+					If no value is supplied, the default is a tab character, but any positive number can be specified as an integer input to the parameter, 
+					which would specify the separator as that number of spaces.
+					(<strong>NB</strong>, <em>due to limitations of the libraries employed, 
+					The National Archives' implementation&emdash;<a href="http://digital-preservation.github.io/csv-validator/">CSV Validator</a>&emdash;does not include the ability 
+					to specify multiple spaces as the separator</em>.)
 					</p>
 					<p>
 					A <dfn>Separator Character</dfn> is a <a>Character Literal</a>: the character which is to be treated as the column separator.
