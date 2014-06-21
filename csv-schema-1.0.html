@@ -345,7 +345,7 @@ simon,57,male
 						<td class="ebnf-num">[4]</td>
 						<td class="ebnf-left"><a title="ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
+						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
 					</tr>
 					<tr>
 						<td class="ebnf-num">[5]</td>
@@ -496,7 +496,7 @@ simon,57,male
 					<td class="ebnf-num">[14]</td>
 					<td class="ebnf-left"><a title="ebnf-body-part"><dfn>BodyPart</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">((<a title="comment-def">Comment</a>* <a>ColumnDefinition</a>) | (<a>ColumnDefinition</a> <a title="comment-def">Comment</a>*))</td>
+					<td class="ebnf-right"><a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*</td>
 				</tr>     
 			</table>
 			<section>
@@ -646,7 +646,7 @@ simon,57,male
 								<td class="ebnf-num">[22]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
-								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?</td> 
+								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td> 
 							</tr>     
 						</table>
 						<section>
@@ -1802,7 +1802,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[4]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
+					<td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[5]</td>
@@ -1861,7 +1861,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[14]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-body-part">BodyPart</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">((<a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a>) | (<a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*))</td>
+					<td class="ebnf-right"><a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*</td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[15]</td>
@@ -1909,7 +1909,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[22]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-column-directives">ColumnDirectives</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-optional-directive">OptionalDirective</a>? <a title="ebnf-match-is-false-directive">MatchIsFalseDirective</a>? <a title="ebnf-ignore-case-directive">IgnoreCaseDirective</a>? <a title="ebnf-warning-directive">WarningDirective</a>?</td>
+					<td class="ebnf-right"><a title="ebnf-optional-directive">OptionalDirective</a>? <a title="ebnf-match-is-false-directive">MatchIsFalseDirective</a>? <a title="ebnf-ignore-case-directive">IgnoreCaseDirective</a>? <a title="ebnf-warning-directive">WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
 				</tr>
         <tr>
           <td class="ebnf-num">[23]</td>
