@@ -127,6 +127,17 @@
         td.ebnf-num, td.ebnf-left, td.ebnf-bind, td.ebnf-right {
         	vertical-align: text-top;
         }
+        
+        body {
+        	counter-reset: ebnf;
+        }
+        
+        /*
+        td.ebnf-num:before {
+        	content: counters(ebnf, "[[.]]");
+        	counter-increment: ebnf;
+        }*/
+        
 		-->
     </style>
   </head>
@@ -756,9 +767,72 @@ simon,57,male
 				<td class="ebnf-num">[27]</td>
 				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpr</dfn></a></td>
 				<td class="ebnf-bind">::=</td>
-				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td> 
+				<td class="ebnf-right"><a>CombinatorialExpr</a> | <a>NonCombinatorialExpr</a></td> 
 			</tr>     
 		</table>
+    	<section>
+    		<h3>Combinatorial Expressions</h3>
+    		<p>
+    			A <dfn>Combinatorial Expression</dfn> are operators for combining <a title="Column Validation Expression">Column Validation Expressions</a> into more complicated tests 
+    			on the validity of data in a column.  
+    			There are two types, <a title="Or Expression">Or Expressions</a> and <a title="And Expression">And Expressions</a>. 
+    			They are of equal precedence, and evaluation of <a title="Column Validation Expression">Column Validation Expressions</a> is performed from left-to-right.
+    		</p>
+    		<table class="ebnf-table">
+    			<tr>
+    				<td class="ebnf-num">[28]</td>
+    				<td class="ebnf-left"><a title="ebnf-combinatorial-expr"><dfn>CombinatorialExpr</dfn></a></td>
+    				<td class="ebnf-bind">::=</td>
+    				<td class="ebnf-right"><a>OrExpr</a> | <a>AndExpr</a></td> 
+    			</tr>     
+    		</table>
+    		<section>
+    			<h4>Or Expressions</h4>
+    			<p>
+    				An <dfn>Or Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if either (or both) 
+    				the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the Or Expression are true.
+    			</p>
+    			<table class="ebnf-table">
+    				<tr>
+    					<td class="ebnf-num">[29]</td>
+    					<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
+    					<td class="ebnf-bind">::=</td>
+    					<td class="ebnf-right"><a>ColumnValidationExpr</a> ("or" ColumnValidationExpr)*</td> 
+    				</tr>     
+    			</table>
+    		</section>
+    		<section>
+    			<h4>And Expressions</h4>
+    			<p>
+    				An <dfn>And Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if and only if both 
+    				the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the And Expression are true.  Use of an explicit And Expression is OPTIONAL:
+    				if two <a title="Column Validation Expression">Column Validation Expressions</a> are written in succession for the same column they will be treated as having an
+    				implicit And Expression joining them.
+    			</p>
+    			<table class="ebnf-table">
+    				<tr>
+    					<td class="ebnf-num">[30]</td>
+    					<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
+    					<td class="ebnf-bind">::=</td>
+    					<td class="ebnf-right"><a>ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td> 
+    				</tr>     
+    			</table>
+    		</section>
+    	</section>
+    	
+    	<section>
+    		<h2>Non-Combinatorial Expressions</h2>
+    		<p>TODO</p>
+    		<table class="ebnf-table">
+    			<tr>
+    				<td class="ebnf-num">[31]</td>
+    				<td class="ebnf-left"><a><dfn title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</dfn></a></td>
+    				<td class="ebnf-bind">::=</td>
+    				<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="conditional-expr">ConditionalExpr</a></td>
+    			</tr>
+    		</table>
+    	</section>
+    	
 		<section>
 			<h2>Non Conditional Expressions</h2>
 			<p>
@@ -770,10 +844,10 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[28]</td>
+					<td class="ebnf-num">[32]</td>
 					<td class="ebnf-left"><a title="ebnf-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>CombinatorialExpr</a> | <a>ParenthesizedExpr</a></td> 
+					<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>ParenthesizedExpr</a></td> 
 				</tr>     
 			</table>
 			<section>
@@ -785,10 +859,10 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[29]</td>
+						<td class="ebnf-num">[33]</td>
 						<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</A> | 
+						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</a> | 
 						<a>RegExpExpr</a> | <a>RangeExpr</a> | <a>LengthExpr</a> | <a>EmptyExpr</a> | <a>NotEmptyExpr</a> | <a>UniqueExpr</a> | <a>UriExpr</a> | <a>XsdDateTimeExpr</a> | 
 						<a>XsdDateExpr</a> | <a>UkDateExpr</a> | <a>XsdTimeExpr</a> | <a>Uuid4Expr</a> | <a>PositiveIntegerExpr</a></td> 
 					</tr>     
@@ -801,7 +875,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[30]</td>
+							<td class="ebnf-num">[34]</td>
 							<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
@@ -815,7 +889,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[31]</td>
+							<td class="ebnf-num">[36]</td>
 							<td class="ebnf-left"><a title="ebnf-is-expr"><dfn>IsExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
@@ -829,7 +903,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[32]</td>
+							<td class="ebnf-num">[37]</td>
 							<td class="ebnf-left"><a title="ebnf-not-expr"><dfn>NotExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
@@ -844,7 +918,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[33]</td>
+							<td class="ebnf-num">[38]</td>
 							<td class="ebnf-left"><a title="ebnf-in-expr"><dfn>InExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
@@ -858,7 +932,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[34]</td>
+							<td class="ebnf-num">[39]</td>
 							<td class="ebnf-left"><a title="ebnf-starts-with-expr"><dfn>StartsWithExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
@@ -872,7 +946,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[35]</td>
+							<td class="ebnf-num">[40]</td>
 							<td class="ebnf-left"><a title="ebnf-ends-with-expr"><dfn>EndsWithExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
@@ -888,7 +962,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[36]</td>
+							<td class="ebnf-num">[41]</td>
 							<td class="ebnf-left"><a title="ebnf-reg-exp-expr"><dfn>RegExpExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
@@ -902,7 +976,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[37]</td>
+							<td class="ebnf-num">[42]</td>
 							<td class="ebnf-left"><a title="ebnf-range-expr"><dfn>RangeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"range(" <a>NumericLiteral</a> "," NumericLiteral ")"</td> 
@@ -924,13 +998,13 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[38]</td>
+							<td class="ebnf-num">[43]</td>
 							<td class="ebnf-left"><a title="ebnf-length-expr"><dfn>LengthExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"length(" (<a>PositiveIntegerOrAny</a> ",")? PositiveIntegerOrAny ")"</td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[39]</td>
+							<td class="ebnf-num">[44]</td>
 							<td class="ebnf-left"><a title="ebnf-positive-integer-or-any"><dfn>PositiveIntegerOrAny</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>PositiveIntegerLiteral</a> | <a>WildcardLiteral</a></td> 
@@ -944,7 +1018,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[40]</td>
+							<td class="ebnf-num">[45]</td>
 							<td class="ebnf-left"><a title="ebnf-empty-expr"><dfn>EmptyExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"empty"</td> 
@@ -958,7 +1032,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[41]</td>
+							<td class="ebnf-num">[46]</td>
 							<td class="ebnf-left"><a title="ebnf-not-empty-expr"><dfn>NotEmptyExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"notEmpty"</td> 
@@ -975,7 +1049,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[42]</td>
+							<td class="ebnf-num">[47]</td>
 							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UniqueExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"unique" ("(" <a>ColumnRef</a> ("," ColumnRef)* ")")?</td> 
@@ -989,7 +1063,7 @@ simon,57,male
 				</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[43]</td>
+							<td class="ebnf-num">[48]</td>
 							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UriExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"uri"</td> 
@@ -1005,7 +1079,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[44]</td>
+							<td class="ebnf-num">[XX]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"xDateTime" ("(" <a>fromXsdDateTimeExpr</a> "," <a>toXsdDateTimeExpr</a> ")")?</td> 
@@ -1021,7 +1095,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[45]</td>
+							<td class="ebnf-num">[47]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"xDate" ("(" <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a> ")")?</td> 
@@ -1037,7 +1111,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[46]</td>
+							<td class="ebnf-num">[48]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"xTime" ("(" <a>fromXsdTimeExpr</a> "," <a>toXsdTimeExpr</a> ")")?</td> 
@@ -1053,7 +1127,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[47]</td>
+							<td class="ebnf-num">[49]</td>
 							<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"ukDate" ("(" <a>fromUkDateExpr</a> "," <a>toUkDateExpr</a> ")")?</td> 
@@ -1070,7 +1144,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[48]</td>
+							<td class="ebnf-num">[50]</td>
 							<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"date(" <a>StringProvider</a> "," StringProvider "," StringProvider ("," <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a>)? ")"</td> 
@@ -1088,7 +1162,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-num">[51]</td>
 							<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"partUkDate"</td> 
@@ -1104,7 +1178,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[50]</td>
+							<td class="ebnf-num">[52]</td>
 							<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," StringProvider "," StringProvider ")"</td> 
@@ -1123,49 +1197,49 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[51]</td>
+							<td class="ebnf-num">[53]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>fromXsdDateTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[52]</td>
+							<td class="ebnf-num">[54]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>toXsdDateTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[53]</td>
+							<td class="ebnf-num">[55]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>fromXsdDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[54]</td>
+							<td class="ebnf-num">[56]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>toXsdDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[55]</td>
+							<td class="ebnf-num">[57]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromXsdTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[56]</td>
+							<td class="ebnf-num">[58]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toXsdTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>XsdTimeStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[57]</td>
+							<td class="ebnf-num">[59]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromUkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[58]</td>
+							<td class="ebnf-num">[60]</td>
 							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toUkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
@@ -1181,7 +1255,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[59]</td>
+							<td class="ebnf-num">[61]</td>
 							<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"uuid4"</td> 
@@ -1195,7 +1269,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[60]</td>
+							<td class="ebnf-num">[62]</td>
 							<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"positiveInteger"</td> 
@@ -1213,7 +1287,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[61]</td>
+						<td class="ebnf-num">[63]</td>
 						<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a> 
@@ -1228,7 +1302,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[62]</td>
+							<td class="ebnf-num">[64]</td>
 							<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
@@ -1249,7 +1323,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[63]</td>
+							<td class="ebnf-num">[65]</td>
 							<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
@@ -1264,7 +1338,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[64]</td>
+							<td class="ebnf-num">[66]</td>
 							<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
@@ -1281,13 +1355,13 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[65]</td>
+							<td class="ebnf-num">[67]</td>
 							<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? (<a>ColumnRef</a> | <a>FileNameExpr</a>) ")"</td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[66]</td>
+							<td class="ebnf-num">[68]</td>
 							<td class="ebnf-left"><a title="ebnf-file-name-expr"><dfn>FileNameExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>StringLiteral</a></td> 
@@ -1304,68 +1378,19 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[67]</td>
+						<td class="ebnf-num">[69]</td>
 						<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a></td> 
 					</tr>     
 					<tr>
-						<td class="ebnf-num">[68]</td>
+						<td class="ebnf-num">[35]</td>
 						<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ColumnRef</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
 					</tr>     
 				</table>
  			</section>
-			<section>
-				<h3>Combinatorial Expressions</h3>
-				<p>
-				A <dfn>Combinatorial Expression</dfn> are operators for combining <a title="Column Validation Expression">Column Validation Expressions</a> into more complicated tests 
-				on the validity of data in a column.  
-				There are two types, <a title="Or Expression">Or Expressions</a> and <a title="And Expression">And Expressions</a>. 
-				They are of equal precedence, and evaluation of <a title="Column Validation Expression">Column Validation Expressions</a> is performed from left-to-right.
-				</p>
-				<table class="ebnf-table">
-					<tr>
-						<td class="ebnf-num">[69]</td>
-						<td class="ebnf-left"><a title="ebnf-combinatorial-expr"><dfn>CombinatorialExpr</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>OrExpr</a> | <a>AndExpr</a></td> 
-					</tr>     
-				</table>
-				<section>
-					<h4>Or Expressions</h4>
-					<p>
-					An <dfn>Or Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if either (or both) 
-					the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the Or Expression are true.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[70]</td>
-							<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>ColumnValidationExpr</a> ("or" ColumnValidationExpr)*</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>And Expressions</h4>
-					<p>
-					An <dfn>And Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if and only if both 
-					the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the And Expression are true.  Use of an explicit And Expression is OPTIONAL:
-					if two <a title="Column Validation Expression">Column Validation Expressions</a> are written in succession for the same column they will be treated as having an
-					implicit And Expression joining them.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[71]</td>
-							<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td> 
-						</tr>     
-					</table>
-				</section>
-			</section>
 			<section>
 				<h3>Parenthesized Expressions</h3>
 				<p>
@@ -1375,7 +1400,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[72]</td>
+						<td class="ebnf-num">[74]</td>
 						<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a> ")"</td> 
@@ -1393,7 +1418,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[73]</td>
+					<td class="ebnf-num">[75]</td>
 					<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a>IfExpr</a></td> 
@@ -1411,19 +1436,19 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[74]</td>
+						<td class="ebnf-num">[76]</td>
 						<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">"if(" <a>NonConditionalExpr</a> "," <a>ThenExpr</a> ("," <a>ElseExpr</a>)? ")" /* if with optional else */</td> 
 					</tr>     
 					<tr>
-						<td class="ebnf-num">[75]</td>
+						<td class="ebnf-num">[77]</td>
 						<td class="ebnf-left"><a title="ebnf-then-expr"><dfn>ThenExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
 					</tr>     
 					<tr>
-						<td class="ebnf-num">[76]</td>
+						<td class="ebnf-num">[78]</td>
 						<td class="ebnf-left"><a title="ebnf-else-expr"><dfn>ElseExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
@@ -1470,7 +1495,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 		<h1>Data types</h1>
 		<p>
 		Most <a title="Column Validation Expression">Column Validation Expressions</a> rely on a small number of underlying data types.  Some of these are defined by means of a specific 
-		regex in the EBNF, others rely on underlying Scala/Java data types. TO DO - what about eg URI where there's a REGEX in the codebase, should that actually be defined in EBNF?
+		regex in the EBNF, others rely on underlying Scala/Java data types. TODO - what about eg URI where there's a REGEX in the codebase, should that actually be defined in EBNF?
 		There are 17 data types, <a>XSD Date Time String Literal</a>, <a>XSD Date String Literal</a>, <a>XSD Time String Literal</a>, <a>UK Date String Literal</a>, 
 		<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>Integer Literal</a>, <a>Character Literal</a>, <a>StringLiteral</a>, 
 		<a>Wildcard Literal</a>, <a>Identifier</a>, <a>Non Double Quote Character</a>, <a>Number</a>, <a>Integer</a>, <a>Non Breaking Character</a>, and <a>Character</a>.
@@ -1485,7 +1510,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[77]</td>
+					<td class="ebnf-num">[79]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-date-time-string-literal"><dfn>XsdDateTimeStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
@@ -1502,7 +1527,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[78]</td>
+					<td class="ebnf-num">[80]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-date-string-literal"><dfn>XsdDateStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
@@ -1520,7 +1545,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[79]</td>
+					<td class="ebnf-num">[81]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-time-string-literal"><dfn>XsdTimeStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" ([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
@@ -1535,7 +1560,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[80]</td>
+					<td class="ebnf-num">[82]</td>
 					<td class="ebnf-left"><a title="ebnf-uk-date-string-literal"><dfn>UKDateStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" (((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4} "\""</td>
@@ -1551,7 +1576,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[81]</td>
+					<td class="ebnf-num">[83]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-non-zero-integer-literal"><dfn>PositiveNonZeroIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[1-9][0-9]* /* A Natural Number - i.e. IntegerLiteral constrained by [1-9][0-9]* */</td>
@@ -1567,7 +1592,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[82]</td>
+					<td class="ebnf-num">[84]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-integer-literal"><dfn>PositiveIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[0-9]+ /* A Natural Number or Zero - i.e. IntegerLiteral constrained by [0-9]+ */</td>
@@ -1581,7 +1606,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[83]</td>
+					<td class="ebnf-num">[85]</td>
 					<td class="ebnf-left"><a title="ebnf-numeric-literal"><dfn>NumericLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="number-def">Number</a></td>
@@ -1595,7 +1620,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[84]</td>
+					<td class="ebnf-num">[86]</td>
 					<td class="ebnf-left"><a title="ebnf-integer-literal"><dfn>IntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="integer-def">Integer</a></td>
@@ -1609,7 +1634,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[85]</td>
+					<td class="ebnf-num">[87]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>CharacterLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"'" <a>NonBreakingChar</a> "'"</td>
@@ -1623,7 +1648,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[86]</td>
+					<td class="ebnf-num">[88]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>StringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"'" <a>NonBreakingChar</a>+ "'"</td>
@@ -1637,7 +1662,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[87]</td>
+					<td class="ebnf-num">[89]</td>
 					<td class="ebnf-left"><a title="ebnf-wildcard-literal"><dfn>WildcardLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"*"</td>
@@ -1653,7 +1678,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[88]</td>
+					<td class="ebnf-num">[90]</td>
 					<td class="ebnf-left"><a title="ebnf-ident"><dfn>Ident</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
@@ -1667,7 +1692,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[89]</td>
+					<td class="ebnf-num">[91]</td>
 					<td class="ebnf-left"><a title="ebnf-non-double-quote-char"><dfn>NonDoubleQuoteChar</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
@@ -1681,7 +1706,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[90]</td>
+					<td class="ebnf-num">[92]</td>
 					<td class="ebnf-left"><a title="ebnf-number"><dfn title="number-def">Number</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* Any Real Number expressed as an Integer or Decimal */</td>
@@ -1695,7 +1720,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-num">[93]</td>
 					<td class="ebnf-left"><a title="ebnf-integer"><dfn title="integer-def">Integer</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* Any Non-Fractional and Non-Decimal Number */</td>
@@ -1709,7 +1734,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[92]</td>
+					<td class="ebnf-num">[94]</td>
 					<td class="ebnf-left"><a title="ebnf-integer"><dfn>NonBreakingChar</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* same class as char but without \n or \r */</td>
@@ -1723,7 +1748,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[93]</td>
+					<td class="ebnf-num">[95]</td>
 					<td class="ebnf-left"><a title="ebnf-char"><dfn>Char</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"></td>
@@ -1756,7 +1781,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			<p>
 			If column data does not validate successfully against a <a title="Column Rules">Column Rule</a> a <dfn>Validation Error</dfn> will be produced and logged in the output report. 
 			In general a Validation Error does not terminate execution, all data will be processed, and all errors logged.  When Validation Errors have been encountered the validator will 
-			give a non-zero return code TO DO specify.  The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
+			give a non-zero return code TODO specify.  The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
 			treated only as a <a>Validation Warning</a>.
 			</p>
 			<p>
@@ -1911,12 +1936,12 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-optional-directive">OptionalDirective</a>? <a title="ebnf-match-is-false-directive">MatchIsFalseDirective</a>? <a title="ebnf-ignore-case-directive">IgnoreCaseDirective</a>? <a title="ebnf-warning-directive">WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
 				</tr>
-        <tr>
-          <td class="ebnf-num">[23]</td>
-          <td class="ebnf-left"><a><dfn title="ebnf-optional-directive">OptionalDirective</dfn></a></td>
-          <td class="ebnf-bind">::=</td>
-          <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "optional"</td>
-        </tr>
+		        <tr>
+		          <td class="ebnf-num">[23]</td>
+		          <td class="ebnf-left"><a><dfn title="ebnf-optional-directive">OptionalDirective</dfn></a></td>
+		          <td class="ebnf-bind">::=</td>
+		          <td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "optional"</td>
+		        </tr>
 				<tr>
 					<td class="ebnf-num">[24]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-match-is-false-directive">MatchIsFalseDirective</dfn></a></td>
@@ -1939,70 +1964,100 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[27]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-column-validation-expr">ColumnValidationExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="ebnf-conditional-expr">ConditionalExpr</a></td>
-				</tr>     
+					<td class="ebnf-right"><a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</a></td>
+				</tr>
 				<tr>
 					<td class="ebnf-num">[28]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-non-conditional-expr">NonConditionalExpr</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-combinatorial-expr">CombinatorialExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-single-expr">SingleExpr</a> | <a title="ebnf-external-single-expr">ExternalSingleExpr</a> | <a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-parenthesized-expr">ParenthesizedExpr</a></td>
-				</tr>     
+					<td class="ebnf-right"><a title="ebnf-or-expr">OrExpr</a> | <a title="ebnf-and-expr">AndExpr</a></td>
+				</tr>
 				<tr>
 					<td class="ebnf-num">[29]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-or-expr">OrExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</a> "or" ColumnValidationExpr</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[30]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-and-expr">AndExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</a> "and" ColumnValidationExpr</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[31]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="conditional-expr">ConditionalExpr</a></td>
+				</tr>  
+				<tr>
+					<td class="ebnf-num">[32]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-non-conditional-expr">NonConditionalExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-single-expr">SingleExpr</a> | <a title="ebnf-external-single-expr">ExternalSingleExpr</a> | <a title="ebnf-parenthesized-expr">ParenthesizedExpr</a></td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[33]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-single-expr">SingleExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-is-expr">IsExpr</a> | <a title="ebnf-not-expr">NotExpr</a> | <a title="ebnf-in-expr">InExpr</a> | <a title="ebnf-starts-with-expr">StartsWithExpr</a> | <a title="ebnf-ends-with-expr">EndsWithExpr</a> | <a title="ebnf-reg-exp-expr">RegExpExpr</a> | <a title="ebnf-range-expr">RangeExpr</a> | <a title="ebnf-length-expr">LengthExpr</a> | <a title="ebnf-empty-expr">EmptyExpr</a> | <a title="ebnf-not-empty-expr">NotEmptyExpr</a> | <a title="ebnf-unique-expr">UniqueExpr</a> | <a title="ebnf-uri-expr">UriExpr</a> | <a title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</a> | <a title="ebnf-xsd-date-expr">XsdDateExpr</a> | <a title="ebnf-xsd-time-expr">XsdTimeExpr</a> | <a title="ebnf-uk-date-expr">UkDateExpr</a> | <a title="ebnf-date-expr">DateExpr</a> | <a title="ebnf-partial-uk-date-expr">PartialUkDateExpr</a> | <a title="ebnf-partial-date-expr">PartialDateExpr</a> | <a title="ebnf-uuid4-expr">Uuid4Expr</a> | <a title="ebnf-positive-integer-expr">PositiveIntegerExpr</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[30]</td>
+					<td class="ebnf-num">[34]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-explicit-context-expr">ExplicitContextExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> "/"</td>
-				</tr>     
+				</tr>
 				<tr>
-					<td class="ebnf-num">[31]</td>
+					<td class="ebnf-num">[35]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-column-ref">ColumnRef</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"$" (<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-quoted-column-identifier">QuotedColumnIdentifier</a>)</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[36]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-is-expr">IsExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"is(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[32]</td>
+					<td class="ebnf-num">[37]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-not-expr">NotExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"not(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[33]</td>
+					<td class="ebnf-num">[38]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-in-expr">InExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"in(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[34]</td>
+					<td class="ebnf-num">[39]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-starts-with-expr">StartsWithExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"starts(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[35]</td>
+					<td class="ebnf-num">[40]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-ends-with-expr">EndsWithExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"ends(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[36]</td>
+					<td class="ebnf-num">[41]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-reg-exp-expr">RegExpExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"regex(" <a title="ebnf-string-literal">StringLiteral</a> ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[37]</td>
+					<td class="ebnf-num">[42]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-range-expr">RangeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"range(" <a title="ebnf-numeric-literal">NumericLiteral</a> "," NumericLiteral ")" /* range is inclusive */</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[38]</td>
+					<td class="ebnf-num">[43]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-length-expr">LengthExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"length(" (<a title="ebnf-positive-integer-or-any">PositiveIntegerOrAny</a> ",")? PositiveIntegerOrAny ")"
@@ -2014,330 +2069,306 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					*/</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[39]</td>
+					<td class="ebnf-num">[44]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-or-any">PositiveIntegerOrAny</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-positive-integer-literal">PositiveIntegerLiteral</a> | <a title="ebnf-wildcard-literal">WildcardLiteral</a></td>
-				</tr>     
+				</tr>
 				<tr>
-					<td class="ebnf-num">[40]</td>
+					<td class="ebnf-num">[45]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-empty-expr">EmptyExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"empty"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[41]</td>
+					<td class="ebnf-num">[46]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-not-empty-expr">NotEmptyExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"notEmpty"
 				<tr>
-					<td class="ebnf-num">[42]</td>
+					<td class="ebnf-num">[47]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-unique-expr">UniqueExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"unique" ("(" <a title="ebnf-column-ref">ColumnRef</a> ("," ColumnRef)* ")")?</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[43]</td>
+					<td class="ebnf-num">[48]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-uri-expr">UriExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"uri"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[44]</td>
+					<td class="ebnf-num">[XX]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"xDateTime" ("(" <a title="ebnf-from-xsd-date-time-expr">fromXsdDateTimeExpr</a> "," <a title="ebnf-to-xsd-date-time-expr">toXsdDateTimeExpr</a> ")")?</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[45]</td>
+					<td class="ebnf-num">[47]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-expr">XsdDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"xDate" ("(" <a title="ebnf-from-xsd-date-expr">fromXsdDateExpr</a> "," <a title="ebnf-to-xsd-date-expr">toXsdDateExpr</a> ")")?</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[46]</td>
+					<td class="ebnf-num">[48]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-expr">XsdTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"xTime" ("(" <a title="ebnf-from-xsd-time-expr">fromXsdTimeExpr</a> "," <a title="ebnf-to-xsd-time-expr">toXsdTimeExpr</a> ")")?</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[47]</td>
+					<td class="ebnf-num">[49]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-expr">UkDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"ukDate" ("(" <a title="ebnf-from-uk-date-expr">fromUkDateExpr</a> "," <a title="ebnf-to-uk-date-expr">toUkDateExpr</a> ")")?</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[48]</td>
+					<td class="ebnf-num">[50]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-date-expr">DateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"date("  <a title="ebnf-string-provider">StringProvider</a> "," StringProvider "," StringProvider ("," <a title="ebnf-from-xsd-date-expr">fromXsdDateExpr</a> "," <a title="ebnf-to-xsd-date-expr">toXsdDateExpr</a>)? ")"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[49]</td>
+					<td class="ebnf-num">[51]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-partial-uk-date-expr">PartialUkDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"partUkDate"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[50]</td>
+					<td class="ebnf-num">[52]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-partial-date-expr">PartialDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"partDate("  <a title="ebnf-string-provider">StringProvider</a> "," StringProvider "," StringProvider ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[51]</td>
+					<td class="ebnf-num">[53]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-date-time-expr">fromXsdDateTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[52]</td>
+					<td class="ebnf-num">[54]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-date-time-expr">toXsdDateTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[53]</td>
+					<td class="ebnf-num">[55]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-date-expr">fromXsdDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[54]</td>
+					<td class="ebnf-num">[56]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-date-expr">toXsdDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[55]</td>
+					<td class="ebnf-num">[57]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-time-expr">fromXsdTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[56]</td>
+					<td class="ebnf-num">[58]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-time-expr">toXsdTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[57]</td>
+					<td class="ebnf-num">[59]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-from-uk-date-expr">fromUkDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-uk-date-string-literal">UkDateStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[58]</td>
+					<td class="ebnf-num">[60]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-to-uk-date-expr">toUkDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-uk-date-string-literal">UkDateStringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[59]</td>
+					<td class="ebnf-num">[61]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-uuid4-expr">Uuid4Expr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"uuid4"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[60]</td>
+					<td class="ebnf-num">[62]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-expr">PositiveIntegerExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"positiveInteger"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[61]</td>
+					<td class="ebnf-num">[63]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[62]</td>
+					<td class="ebnf-num">[64]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-exists-expr">FileExistsExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"fileExists" ("(" <a title="ebnf-string-provider">StringProvider</a> ")")? /* optional path to prepend to this cell with filename in */</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[63]</td>
+					<td class="ebnf-num">[65]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-checksum-expr">ChecksumExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"checksum(" <a title="ebnf-file-expr">FileExpr</a> "," <a title="ebnf-string-literal">StringLiteral</a> ")" /* first arg is file expr, second arg is algorithm to use for checksum */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[64]</td>
+					<td class="ebnf-num">[66]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-count-expr">FileCountExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"fileCount(" <a title="ebnf-file-expr">FileExpr</a> ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[65]</td>
+					<td class="ebnf-num">[67]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-expr">FileExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"file(" (<a title="ebnf-string-provider">StringProvider</a> ",")? (<a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-file-name-expr">FileNameExpr</a>) ")" /* first (optional) arg is path (or ColumnRef of path) to prepend to second arg, second arg is reference to column containing filename, of a FileNameExpr */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[66]</td>
+					<td class="ebnf-num">[68]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-file-name-expr">FileNameExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-string-literal">StringLiteral</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[67]</td>
+					<td class="ebnf-num">[69]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-string-provider">StringProvider</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-string-literal">StringLiteral</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[68]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-column-ref">ColumnRef</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"$" (<a title="ebnf-column-identifier">ColumnIdentifier</a> | <a title="ebnf-quoted-column-identifier">QuotedColumnIdentifier</a>)</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[69]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-combinatorial-expr">CombinatorialExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-or-expr">OrExpr</a> | <a title="ebnf-and-expr">AndExpr</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[70]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-or-expr">OrExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidatonExpr</a> ("or" ColumnValidationExpr)*</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[71]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-and-expr">AndExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[72]</td>
+					<td class="ebnf-num">[74]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-parenthesized-expr">ParenthesizedExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[73]</td>
+					<td class="ebnf-num">[75]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-conditional-expr">ConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-if-expr">IfExpr</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[74]</td>
+					<td class="ebnf-num">[76]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-if-expr">IfExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"if(" <a title="ebnf-non-conditional-expr">NonConditionalExpr</a> "," <a title="ebnf-then-expr">ThenExpr</a> ("," <a title="ebnf-else-expr">ElseExpr</a>)? ")" /* if with optional else */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[75]</td>
+					<td class="ebnf-num">[77]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-then-expr">ThenExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[76]</td>
+					<td class="ebnf-num">[78]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-else-expr">ElseExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[77]</td>
+					<td class="ebnf-num">[79]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[78]</td>
+					<td class="ebnf-num">[80]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[79]</td>
+					<td class="ebnf-num">[81]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" ([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[80]</td>
+					<td class="ebnf-num">[82]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-string-literal">UkDateStringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" (((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4} "\""</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[81]</td>
+					<td class="ebnf-num">[83]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[1-9][0-9]* /* A Natural Number - i.e. IntegerLiteral constrained by [1-9][0-9]* */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[82]</td>
+					<td class="ebnf-num">[84]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-literal">PositiveIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[0-9]+ /* A Natural Number or Zero - i.e. IntegerLiteral constrained by [0-9]+ */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[83]</td>
+					<td class="ebnf-num">[85]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-numeric-literal">NumericLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-number">Number</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[84]</td>
+					<td class="ebnf-num">[86]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-integer-literal">IntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-integer">Integer</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[85]</td>
+					<td class="ebnf-num">[87]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-character-literal">CharacterLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"'" <a title="ebnf-non-breaking-char">NonBreakingChar</a> "'"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[86]</td>
+					<td class="ebnf-num">[88]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-string-literal">StringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" <a title="ebnf-non-breaking-char">NonBreakingChar</a>+ "\""</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[87]</td>
+					<td class="ebnf-num">[89]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-wildcard-literal">WildcardLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"*"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[88]</td>
+					<td class="ebnf-num">[90]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-ident">Ident</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[89]</td>
+					<td class="ebnf-num">[91]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-non-double-quote-char">NonDoubleQuoteChar</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [^"]+ */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[90]</td>
+					<td class="ebnf-num">[92]</td>
 					<td class="ebnf-left"><a title="number-def"><dfn title="ebnf-number">Number</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* Any Real Number expressed as an Integer or Decimal */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-num">[93]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-integer">Integer</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* Any Non-Fractional and Non-Decimal Number */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[92]</td>
+					<td class="ebnf-num">[94]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-non-breaking-char">NonBreakingChar</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* same class as char but without \n or \r */</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[93]</td>
+					<td class="ebnf-num">[95]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-char">Char</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"></td>
