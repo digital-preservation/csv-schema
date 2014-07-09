@@ -1233,10 +1233,10 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[63]</td>
+						<td class="ebnf-num">[59]</td>
 						<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a></td>
+						<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a>)</td>
 					</tr>     
 				</table>
 				<section>
@@ -1248,7 +1248,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[64]</td>
+							<td class="ebnf-num">[60]</td>
 							<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
@@ -1259,7 +1259,7 @@ simon,57,male
 					<h4>Checksum Expressions</h4>
 					<p>
 					A <dfn>Checksum Expression</dfn> allows the verification of a checksum value supplied in a CSV metadata file by calculating the checksum for a specific file, 
-					and comparing it against the the supplied value.  You can also indicate the type of checksum algorithm to be used.  You MUST supply both the file location
+					and comparing it against the the supplied value. You can also indicate the type of checksum algorithm to be used. You MUST supply both the file location
 					and a checksum algorithm.  File location is given in the form of a <a>File Expression</a>.
 					</p>
 					<p>
@@ -1269,7 +1269,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[65]</td>
+							<td class="ebnf-num">[61]</td>
 							<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
@@ -1284,7 +1284,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[66]</td>
+							<td class="ebnf-num">[63]</td>
 							<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
@@ -1294,24 +1294,18 @@ simon,57,male
 				<section>
 					<h4>File related sub-expressions</h4>
 					<p>
-					There are two sub-expressions used in conjunction with these <a title="External Single Expression">External Single Expressions</a> in order to provide input. 
-					The first is a generic <dfn>File Expression</dfn> which itself takes two parameters.  The first is OPTIONAL, a <a>String Provider</a> that is prepended to the second 
-					to create a full path in the event that a column holds only a filename rather than a full filepath.  You MUST supply the second parameter which is either a 
-					<a>Column Reference</a> or a <dfn>File Name Expression</dfn>, which is actually just a simple <a>String Literal</a> representing the name of the file.
+					The sub-expression used in conjunction with <a title="External Single Expression">External Single Expressions</a> in order to provide input 
+					is a generic <dfn>File Expression</dfn> which itself takes two parameters.  The first parameter is OPTIONAL, a <a>String Provider</a> that is prepended to the second 
+					parameter to create a full path in the event that a column holds only a filename rather than a full filepath.  You MUST supply the second parameter which is a 
+					<a>String Provider</a>, which resolves to the name of the file.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[67]</td>
+							<td class="ebnf-num">[62]</td>
 							<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? (<a>ColumnRef</a> | <a>FileNameExpr</a>) ")"</td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[68]</td>
-							<td class="ebnf-left"><a title="ebnf-file-name-expr"><dfn>FileNameExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>StringLiteral</a></td> 
-						</tr>     
+							<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? <a>StringProvider</a> ")"</td> 
+						</tr>
 					</table>
 				</section>
 			</section>
@@ -1324,7 +1318,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[69]</td>
+						<td class="ebnf-num">[58]</td>
 						<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a></td> 
@@ -1346,10 +1340,10 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[74]</td>
+						<td class="ebnf-num">[64]</td>
 						<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a> ")"</td> 
+						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a>+ ")"</td> 
 					</tr>     
 				</table>
 			</section>
@@ -1364,7 +1358,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[75]</td>
+					<td class="ebnf-num">[65]</td>
 					<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a>IfExpr</a></td> 
@@ -1374,30 +1368,15 @@ simon,57,male
 				<h3>If Expressions</h3>
 				<p>
 				The <dfn>If Expression</dfn> is the only form of <a>Conditional Expression</a>. It takes three input parameters: the first two of these MUST be used, firstly a
-				<a>Non Conditional Expression</a>; when that evaluates to true, the second parameter, the <a>Then Expression</a> is applied; the third parameter is OPTIONAL, 
-				this is the <a>Else Expression</a> which is used when the first parameter evaluates to false.
-				</p>
-				Both the <dfn>Then Expression</dfn> and the <dfn>Else Expression</dfn> are simply <a title="Column Validation Expression">Column Validation Expressions</a>.
-				<p>
+				<a>Combinatorial Expression</a> or <a>Non Conditional Expression</a>; when that evaluates to <code>true</code>, the second parameter, one or more <a>ColumnValidationExpr</a>s are applied; the third parameter is OPTIONAL, 
+				this is the <em>else</em> expression which is used when the first parameter evaluates to <code>false</code>.
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[76]</td>
+						<td class="ebnf-num">[66]</td>
 						<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">"if(" <a>NonConditionalExpr</a> "," <a>ThenExpr</a> ("," <a>ElseExpr</a>)? ")" /* if with optional else */</td> 
-					</tr>     
-					<tr>
-						<td class="ebnf-num">[77]</td>
-						<td class="ebnf-left"><a title="ebnf-then-expr"><dfn>ThenExpr</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
-					</tr>     
-					<tr>
-						<td class="ebnf-num">[78]</td>
-						<td class="ebnf-left"><a title="ebnf-else-expr"><dfn>ElseExpr</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>ColumnValidationExpr</a></td> 
+						<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")" /* if with optional else */</td>
 					</tr>     
 				</table>
 			</section>
@@ -1743,13 +1722,15 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
       TODO a note on mime-type and filenaming
       
     <section class="appendix">
-			<h2>CSV Schema Grammar</h2>
-			<section id="ebnf">
+		<h2>CSV Schema Grammar</h2>
+		<section id="ebnf">
 			<h3>EBNF</h3>
 			<p>
-			Conventions used in this appendix: 
-			links on the <em>left</em> of a definition go to more detailed discussion of the term in the body of this document;
-			links on the <em>right</em> of a definition go to a further definition within this appendix.
+				Conventions used in this appendix:
+				<ul>
+					<li>links on the <em>left</em> of a definition go to more detailed discussion of the term in the body of this document</li>
+					<li>links on the <em>right</em> of a definition go to a further definition within this appendix.</li>
+				</ul>
 			</p>
 			<table class="ebnf-table">
 				<tr>
@@ -1799,6 +1780,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-left"><a><dfn title="ebnf-separator-char">SeparatorChar</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-character-literal">CharacterLiteral</a></td>
+				</tr>
 				<tr>
 					<td class="ebnf-num">[9]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-quoted-directive">QuotedDirective</dfn></a></td>
@@ -2031,7 +2013,8 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[46]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-not-empty-expr">NotEmptyExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"notEmpty"
+					<td class="ebnf-right">"notEmpty"</td>
+				</tr>
 				<tr>
 					<td class="ebnf-num">[47]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-unique-expr">UniqueExpr</dfn></a></td>
@@ -2099,79 +2082,65 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-right">"positiveInteger"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[XX]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[64]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-file-exists-expr">FileExistsExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"fileExists" ("(" <a title="ebnf-string-provider">StringProvider</a> ")")? /* optional path to prepend to this cell with filename in */</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[65]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-checksum-expr">ChecksumExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"checksum(" <a title="ebnf-file-expr">FileExpr</a> "," <a title="ebnf-string-literal">StringLiteral</a> ")" /* first arg is file expr, second arg is algorithm to use for checksum */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[66]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-file-count-expr">FileCountExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"fileCount(" <a title="ebnf-file-expr">FileExpr</a> ")"</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[67]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-file-expr">FileExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"file(" (<a title="ebnf-string-provider">StringProvider</a> ",")? (<a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-file-name-expr">FileNameExpr</a>) ")" /* first (optional) arg is path (or ColumnRef of path) to prepend to second arg, second arg is reference to column containing filename, of a FileNameExpr */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[68]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-file-name-expr">FileNameExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-string-literal">StringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[69]</td>
+					<td class="ebnf-num">[58]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-string-provider">StringProvider</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-string-literal">StringLiteral</a></td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[74]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-parenthesized-expr">ParenthesizedExpr</dfn></a></td>
+					<td class="ebnf-num">[59]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
+					<td class="ebnf-right"><a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>? (<a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a>)</td>
+				</tr>
+				
+				<tr>
+					<td class="ebnf-num">[60]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-file-exists-expr">FileExistsExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"fileExists" ("(" <a title="ebnf-string-provider">StringProvider</a> ")")? /* optional path to prepend to this cell with filename in */</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[75]</td>
+					<td class="ebnf-num">[61]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-checksum-expr">ChecksumExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"checksum(" <a title="ebnf-file-expr">FileExpr</a> "," <a title="ebnf-string-literal">StringLiteral</a> ")" /* first arg is file expr, second arg is algorithm to use for checksum */</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[62]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-file-expr">FileExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"file(" (<a title="ebnf-string-provider">StringProvider</a> ",")? <a title="ebnf-string-provider">StringProvider</a> ")" /* first (optional) arg is path (or ColumnRef of path) to prepend to second arg, second arg is filename (or ColumnRef of filename) */</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[63]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-file-count-expr">FileCountExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"fileCount(" <a title="ebnf-file-expr">FileExpr</a> ")"</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[64]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-parenthesized-expr">ParenthesizedExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a>+ ")"</td>
+				</tr>
+				<tr>
+					<td class="ebnf-num">[65]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-conditional-expr">ConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-if-expr">IfExpr</a></td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[76]</td>
+					<td class="ebnf-num">[66]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-if-expr">IfExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"if(" <a title="ebnf-non-conditional-expr">NonConditionalExpr</a> "," <a title="ebnf-then-expr">ThenExpr</a> ("," <a title="ebnf-else-expr">ElseExpr</a>)? ")" /* if with optional else */</td>
+					<td class="ebnf-right">"if(" (<a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-non-conditional-expr">NonConditionalExpr</a>) "," <a title="ebnf-column-validation-expr">ColumnValidationExpr</a>+ ("," <a title="ebnf-column-validation-expr">ColumnValidationExpr</a>+)? ")" /* if with optional else */</td>
 				</tr>
+			</table>
+			<h4>EBNF Lexical (Terminal Symbols)</h4>
+			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[77]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-then-expr">ThenExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-column-validation-expr">ColumnValidationExpr</a></td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[78]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-else-expr">ElseExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"(" <a title="ebnf-column-validation-expr">ColumnValidationExpr</a> ")"</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[79]</td>
+					<td class="ebnf-num">[XX]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
