@@ -132,12 +132,19 @@
         	counter-reset: ebnf;
         }
         
-        /*
-        td.ebnf-num:before {
-        	content: counters(ebnf, "[[.]]");
+        :not(#ebnf) > table > tbody > tr > td.ebnf-num:before {
+        	content: "{{" counters(ebnf, ".") "}}";
         	counter-increment: ebnf;
-        }*/
+        }
         
+        section #ebnf {
+        	counter-reset: ebnf2;
+        }
+        
+        #ebnf > table > tbody > tr > td.ebnf-num:before {
+        	content: "{{" counters(ebnf2, ".") "}}";
+        	counter-increment: ebnf2;
+        }
 		-->
     </style>
   </head>
@@ -1074,15 +1081,15 @@ simon,57,male
 					<h4>XSD Date Time Expressions</h4>
 					<p>
 					An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-					You can also provide an OPTIONAL <a>From XSD Date Time Expression</a> and <a>To XSD Date Time Expression</a> 
+					You can also provide an OPTIONAL from <a>XSD Date Time Expression</a> and to <a>XSD Date Time Expression</a> 
 					(inclusive, and in the same XML Schema dateTime format) to ensure that the value in the column falls within an expected date-time range.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[XX]</td>
+							<td class="ebnf-num">[49]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xDateTime" ("(" <a>fromXsdDateTimeExpr</a> "," <a>toXsdDateTimeExpr</a> ")")?</td> 
+							<td class="ebnf-right">"xDateTime" ("(" <a>XsdDateTimeLiteral</a> "," <a>XsdDateTimeLiteral</a> ")")?</td> 
 						</tr>     
 					</table>	
 				</section>
@@ -1095,10 +1102,10 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[47]</td>
+							<td class="ebnf-num">[50]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xDate" ("(" <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a> ")")?</td> 
+							<td class="ebnf-right">"xDate" ("(" <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a> ")")?</td> 
 						</tr>     
 					</table>	
 				</section>
@@ -1111,26 +1118,26 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[48]</td>
+							<td class="ebnf-num">[51]</td>
 							<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xTime" ("(" <a>fromXsdTimeExpr</a> "," <a>toXsdTimeExpr</a> ")")?</td> 
+							<td class="ebnf-right">"xTime" ("(" <a>XsdTimeLiteral</a> "," <a>XsdTimeLiteral</a> ")")?</td> 
 						</tr>     
 					</table>	
 				</section>
 				<section>
 					<h4>UK Date Expressions</h4>
 					<p>
-					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy, a <a>UK Date String Literal</a>. 
+					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy, a <a>UK Date Literal</a>. 
 					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
 					to ensure that the value in the column falls within an expected date-time range.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[49]</td>
+							<td class="ebnf-num">[52]</td>
 							<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"ukDate" ("(" <a>fromUkDateExpr</a> "," <a>toUkDateExpr</a> ")")?</td> 
+							<td class="ebnf-right">"ukDate" ("(" <a>UkDateLiteral</a> "," <a>UkDateLiteral</a> ")")?</td> 
 						</tr>     
 					</table>	
 				</section>
@@ -1140,14 +1147,14 @@ simon,57,male
 					A <dfn>Date Expression</dfn> allows a full date to be constructed from several columns, or strings. The expression takes five arguments:
 					you MUST supply three strings or <a title="Column Reference">Column References</a> representing Year, Month and Day 
 					(although supplied as strings, these values must in fact be integers); 
-					and there are two OPTIONAL parameters to ensure the date falls in a range specified by <a>From XSD Date Time Expression</a> and <a>To XSD Date Time Expression</a>.
+					and there are two OPTIONAL parameters to ensure the date falls in a range specified by from <a>XSD Date Expression</a> and to <a>XSD Date Expression</a>.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[50]</td>
+							<td class="ebnf-num">[53]</td>
 							<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"date(" <a>StringProvider</a> "," StringProvider "," StringProvider ("," <a>fromXsdDateExpr</a> "," <a>toXsdDateExpr</a>)? ")"</td> 
+							<td class="ebnf-right">"date(" <a>StringProvider</a> "," StringProvider "," StringProvider ("," <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a>)? ")"</td> 
 						</tr>     
 					</table>
 				</section>
@@ -1162,7 +1169,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[51]</td>
+							<td class="ebnf-num">[54]</td>
 							<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"partUkDate"</td> 
@@ -1178,71 +1185,10 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[52]</td>
+							<td class="ebnf-num">[55]</td>
 							<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," StringProvider "," StringProvider ")"</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>Date input sub-expressions</h4>
-					<p>
-					These are a group of of sub-expressions used to provide input into the previous group of date expressions:
-					<dfn>From XSD Date Time Expression</dfn> and <dfn>To XSD Date Time Expression</dfn> are both <a title="XsdDateTimeStringLiteral">XsdDateTimeStringLiterals</a> used respectively as the from and to 
-					dates in input to some of the above date expressions.  
-					Likewise, <dfn>From XSD Date Expression</dfn> and <dfn>To XSD Date Expression</dfn> are both <a title="XsdDateStringLiteral">XsdDateTimeStringLiterals</a> while 
-					<dfn>From XSD Time Expression</dfn> and <dfn>To XSD Time Expression</dfn> are both <a title="XsdDateTimeStringLiteral">XsdTimeStringLiterals</a>. 
-					Finally <dfn>From UK Date Expression</dfn> and <dfn>To UK Date Expression</dfn> are <dfn title="UK Date String Literal">UK Date String Literals</dfn> used similarly.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[53]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>fromXsdDateTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[54]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-date-time-expr"><dfn>toXsdDateTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdDateTimeStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[55]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>fromXsdDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[56]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-date-expr"><dfn>toXsdDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[57]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromXsdTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdDateStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[58]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toXsdTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>XsdTimeStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[59]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>fromUkDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[60]</td>
-							<td class="ebnf-left"><a title="ebnf-from-xsd-time-expr"><dfn>toUkDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>UkDateStringLiteral</a></td> 
 						</tr>     
 					</table>
 				</section>
@@ -1255,7 +1201,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[61]</td>
+							<td class="ebnf-num">[56]</td>
 							<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"uuid4"</td> 
@@ -1269,7 +1215,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[62]</td>
+							<td class="ebnf-num">[57]</td>
 							<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"positiveInteger"</td> 
@@ -1290,7 +1236,7 @@ simon,57,male
 						<td class="ebnf-num">[63]</td>
 						<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a> 
+						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a></td>
 					</tr>     
 				</table>
 				<section>
@@ -1496,64 +1442,64 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 		<p>
 		Most <a title="Column Validation Expression">Column Validation Expressions</a> rely on a small number of underlying data types.  Some of these are defined by means of a specific 
 		regex in the EBNF, others rely on underlying Scala/Java data types. TODO - what about eg URI where there's a REGEX in the codebase, should that actually be defined in EBNF?
-		There are 17 data types, <a>XSD Date Time String Literal</a>, <a>XSD Date String Literal</a>, <a>XSD Time String Literal</a>, <a>UK Date String Literal</a>, 
+		There are 17 data types, <a>XSD Date Time Literal</a>, <a>XSD Date Literal</a>, <a>XSD Time Literal</a>, <a>UK Date Literal</a>, 
 		<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>Integer Literal</a>, <a>Character Literal</a>, <a>StringLiteral</a>, 
 		<a>Wildcard Literal</a>, <a>Identifier</a>, <a>Non Double Quote Character</a>, <a>Number</a>, <a>Integer</a>, <a>Non Breaking Character</a>, and <a>Character</a>.
 		</p>
 		<section>
-			<h2>XSD Date Time String Literals</h2>
+			<h2>XSD Date Time Literals</h2>
 			<p>
-			An <dfn>XSD Date Time String Literal</dfn> MUST be a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
+			An <dfn>XSD Date Time Literal</dfn> MUST be a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
 			yyyy-mm-ddThh:mm:ss(.MMMMM) (year-month-day followed by time in hours, minutes, seconds and OPTIONAL fractions of a second).  There are two OPTIONAL parts, a minus sign MAY 
-			be used for BC dates, and there MAY be a suffix indicating the applicable timezone as an offset from GMT/UTC.  GMT itself may be indicated by a suffix Z for Zulu.  
+			be used for BC dates, and there MAY be a suffix indicating the applicable timezone as an offset from GMT/UTC. GMT itself may be indicated by a suffix Z for Zulu.  
 			It is represented in the EBNF by a regular expression defining precisely which characters are to be used.
 			</p>
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[79]</td>
-					<td class="ebnf-left"><a title="ebnf-xsd-date-time-string-literal"><dfn>XsdDateTimeStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a title="ebnf-xsd-date-time-literal"><dfn>XsdDateTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
 		<section>
-			<h2>XSD Date String Literals</h2>
+			<h2>XSD Date Literals</h2>
 			<p>
-			An <dfn>XSD Date String Literal</dfn> MUST be a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
+			An <dfn>XSD Date Literal</dfn> MUST be a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
 			yyyy-mm-dd (year-month-day).  There is one OPTIONAL part, a minus sign MAY be used for BC dates.  
 			It is represented in the EBNF by a regular expression defining precisely which characters are to be used. 
-			It is identical to the date part of <a>XSD Date Time String Literal</a>.
+			It is identical to the date part of <a>XSD Date Time Literal</a>.
 			</p>
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[80]</td>
-					<td class="ebnf-left"><a title="ebnf-xsd-date-string-literal"><dfn>XsdDateStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a title="ebnf-xsd-date-literal"><dfn>XsdDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
 		<section>
-			<h2>XSD Time String Literals</h2>
+			<h2>XSD Time Literals</h2>
 			<p>
-			An <dfn>XSD Time String Literal</dfn> MUST be a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
+			An <dfn>XSD Time Literal</dfn> MUST be a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]) of the basic form 
 			hh:mm:ss(.MMMMM) (time in hours, minutes, seconds and OPTIONAL fractions of a second).  There is one OPTIONAL part, 
 			there MAY be a suffix indicating the applicable timezone as an offset from GMT/UTC.  GMT itself may be indicated by a suffix Z for Zulu.   
 			It is represented in the EBNF by a regular expression defining precisely which characters are to be used. 
-			It is identical to the time part of <a>XSD Date Time String Literal</a>.
+			It is identical to the time part of <a>XSD Date Time Literal</a>.
 			</p>
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[81]</td>
-					<td class="ebnf-left"><a title="ebnf-xsd-time-string-literal"><dfn>XsdTimeStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a title="ebnf-xsd-time-literal"><dfn>XsdTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" ([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
 		<section>
-			<h2>UK Date String Literals</h2>
+			<h2>UK Date Literals</h2>
 			<p>
 			A <dfn>UK Time Date Literal</dfn> is a data type representing the usual UK format for writing dates, dd/mm/yyyy. 
 			It is represented in the EBNF by a regular expression defining precisely which characters are to be used. 
@@ -1561,9 +1507,9 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[82]</td>
-					<td class="ebnf-left"><a title="ebnf-uk-date-string-literal"><dfn>UKDateStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a title="ebnf-uk-date-literal"><dfn>UkDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" (((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4} "\""</td>
+					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
@@ -1775,6 +1721,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 			</p>
 			<p>
 			The Schema Error will be logged in the output report, and execution will terminate without attempting to validate the data against the schema.
+			</p>
 		</section>
 		<section>
 			<h2>Validation Errors</h2>
@@ -1797,7 +1744,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
       
     <section class="appendix">
 			<h2>CSV Schema Grammar</h2>
-			<section>
+			<section id="ebnf">
 			<h3>EBNF</h3>
 			<p>
 			Conventions used in this appendix: 
@@ -2098,109 +2045,61 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-right">"uri"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[XX]</td>
+					<td class="ebnf-num">[49]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"xDateTime" ("(" <a title="ebnf-from-xsd-date-time-expr">fromXsdDateTimeExpr</a> "," <a title="ebnf-to-xsd-date-time-expr">toXsdDateTimeExpr</a> ")")?</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[47]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-expr">XsdDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"xDate" ("(" <a title="ebnf-from-xsd-date-expr">fromXsdDateExpr</a> "," <a title="ebnf-to-xsd-date-expr">toXsdDateExpr</a> ")")?</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[48]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-expr">XsdTimeExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"xTime" ("(" <a title="ebnf-from-xsd-time-expr">fromXsdTimeExpr</a> "," <a title="ebnf-to-xsd-time-expr">toXsdTimeExpr</a> ")")?</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[49]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-expr">UkDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"ukDate" ("(" <a title="ebnf-from-uk-date-expr">fromUkDateExpr</a> "," <a title="ebnf-to-uk-date-expr">toUkDateExpr</a> ")")?</td>
+					<td class="ebnf-right">"xDateTime" ("(" <a title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</a> "," <a title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</a> ")")?</td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[50]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-date-expr">DateExpr</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-expr">XsdDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"date("  <a title="ebnf-string-provider">StringProvider</a> "," StringProvider "," StringProvider ("," <a title="ebnf-from-xsd-date-expr">fromXsdDateExpr</a> "," <a title="ebnf-to-xsd-date-expr">toXsdDateExpr</a>)? ")"</td>
+					<td class="ebnf-right">"xDate" ("(" <a title="ebnf-xsd-date-literal">XsdDateLiteral</a> "," <a title="ebnf-xsd-date-literal">XsdDateLiteral</a> ")")?</td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num">[51]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-expr">XsdTimeExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"xTime" ("(" <a title="ebnf-xsd-time-literal">XsdTimeLiteral</a> "," <a title="ebnf-xsd-time-literal">XsdTimeLiteral</a> ")")?</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[52]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-expr">UkDateExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"ukDate" ("(" <a title="ebnf-uk-date-literal">UkDateLiteral</a> "," <a title="ebnf-uk-date-literal">UkDateLiteral</a> ")")?</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[53]</td>
+					<td class="ebnf-left"><a><dfn title="ebnf-date-expr">DateExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"date("  <a title="ebnf-string-provider">StringProvider</a> "," StringProvider "," StringProvider ("," <a title="ebnf-xsd-date-literal">XsdDateLiteral</a> "," <a title="ebnf-xsd-date-literal">XsdDateLiteral</a>)? ")"</td>
+				</tr>     
+				<tr>
+					<td class="ebnf-num">[54]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-partial-uk-date-expr">PartialUkDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"partUkDate"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[52]</td>
+					<td class="ebnf-num">[55]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-partial-date-expr">PartialDateExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"partDate("  <a title="ebnf-string-provider">StringProvider</a> "," StringProvider "," StringProvider ")"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[53]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-date-time-expr">fromXsdDateTimeExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[54]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-date-time-expr">toXsdDateTimeExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[55]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-date-expr">fromXsdDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</a></td>
-				</tr>
-				<tr>
 					<td class="ebnf-num">[56]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-date-expr">toXsdDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[57]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-from-xsd-time-expr">fromXsdTimeExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[58]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-to-xsd-time-expr">toXsdTimeExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[59]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-from-uk-date-expr">fromUkDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-uk-date-string-literal">UkDateStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[60]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-to-uk-date-expr">toUkDateExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-uk-date-string-literal">UkDateStringLiteral</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[61]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-uuid4-expr">Uuid4Expr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"uuid4"</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[62]</td>
+					<td class="ebnf-num">[57]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-expr">PositiveIntegerExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"positiveInteger"</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[63]</td>
+					<td class="ebnf-num">[XX]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-external-single-expr">ExternalSingleExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a></td>
@@ -2273,27 +2172,27 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 				</tr>
 				<tr>
 					<td class="ebnf-num">[79]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-string-literal">XsdDateTimeStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[80]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-string-literal">XsdDateStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-literal">XsdDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" -?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[81]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-string-literal">XsdTimeStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-literal">XsdTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" ([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-999])?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)? "\""</td>
+					<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[82]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-string-literal">UkDateStringLiteral</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-literal">UkDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" (((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4} "\""</td>
+					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[83]</td>
