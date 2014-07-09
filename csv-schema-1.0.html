@@ -141,7 +141,7 @@
         	counter-reset: ebnf2;
         }
         
-        #ebnf > table > tbody > tr > td.ebnf-num:before {
+        #ebnf table > tbody > tr > td.ebnf-num:before {
         	content: "{{" counters(ebnf2, ".") "}}";
         	counter-increment: ebnf2;
         }
@@ -363,7 +363,7 @@ simon,57,male
 						<td class="ebnf-num">[4]</td>
 						<td class="ebnf-left"><a title="ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
+						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
 					</tr>
 					<tr>
 						<td class="ebnf-num">[5]</td>
@@ -379,7 +379,7 @@ simon,57,male
 					By default the separator is a <code>comma (,)</code> i.e. the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
 					</p>
 					<p>
-					The Separator Directive takes a MANDATORY parameter in the form of either a <a>TAB Expression</a> or a <a>Separator Character</a>.
+					The Separator Directive takes a MANDATORY parameter in the form of either a <a>Separator Tab Expression</a> or a <a>Separator Character</a>.
 					</p>
 					<p>
 					A <dfn>Separator Tab Expression</dfn> indicates that the separator comprises a tab character, i.e. [[UTF-8]] character code <code>0x09</code>.
@@ -429,7 +429,6 @@ simon,57,male
 					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
 					and it will be assumed that you have supplied the correct number of Column Rules.
 					</p>
-<!--					TotalColumnsDirective       ::=     DirectivePrefix "totalColumns" PositiveNonZeroIntegerLiteral-->
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[10]</td>
@@ -664,7 +663,7 @@ simon,57,male
 								<td class="ebnf-num">[22]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
-								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td> 
+								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td> 
 							</tr>     
 						</table>
 						<section>
@@ -833,9 +832,9 @@ simon,57,male
     		<table class="ebnf-table">
     			<tr>
     				<td class="ebnf-num">[31]</td>
-    				<td class="ebnf-left"><a><dfn title="ebnf-non-combinatorial-expr">NonCombinatorialExpr</dfn></a></td>
+    				<td class="ebnf-left"><a title="ebnf-non-combinatorial-expr"><dfn>NonCombinatorialExpr</dfn></a></td>
     				<td class="ebnf-bind">::=</td>
-    				<td class="ebnf-right"><a title="ebnf-non-conditional-expr">NonConditionalExpr</a> | <a title="conditional-expr">ConditionalExpr</a></td>
+    				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td>
     			</tr>
     		</table>
     	</section>
@@ -1438,7 +1437,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[79]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-date-time-literal"><dfn>XsdDateTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
@@ -1455,7 +1454,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[80]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-date-literal"><dfn>XsdDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
+					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
@@ -1473,14 +1472,14 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[81]</td>
 					<td class="ebnf-left"><a title="ebnf-xsd-time-literal"><dfn>XsdTimeLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
+					<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
 		<section>
 			<h2>UK Date Literals</h2>
 			<p>
-			A <dfn>UK Time Date Literal</dfn> is a data type representing the usual UK format for writing dates, dd/mm/yyyy. 
+			A <dfn>UK Date Literal</dfn> is a data type representing the usual UK format for writing dates, dd/mm/yyyy. 
 			It is represented in the EBNF by a regular expression defining precisely which characters are to be used. 
 			</p>
 			<table class="ebnf-table">
@@ -1488,7 +1487,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[82]</td>
 					<td class="ebnf-left"><a title="ebnf-uk-date-literal"><dfn>UkDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
+					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
 				</tr>
 			</table>
 		</section>
@@ -1725,13 +1724,19 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 		<h2>CSV Schema Grammar</h2>
 		<section id="ebnf">
 			<h3>EBNF</h3>
-			<p>
-				Conventions used in this appendix:
-				<ul>
-					<li>links on the <em>left</em> of a definition go to more detailed discussion of the term in the body of this document</li>
-					<li>links on the <em>right</em> of a definition go to a further definition within this appendix.</li>
-				</ul>
-			</p>
+			<p>The grammar of CSV Schema uses the same simple <abbr title="Extended Backus-Naur Form">EBNF</abbr> (Extended Backus-Naur Form) notation as [[!XML10]] with the following minor differences.</p>
+			<ul>
+				<li>All named symbols have a name that begins with an uppercase letter.</li>
+				<li>Comments or extra-grammatical constraints on grammar productions are between <code>/*</code> and <code>*/</code> symbols.</li>
+				<li>A <code>xgc:</code> prefix is an extra-grammatical constraint, the details of which are explained in <a href="#xgc"></a></li>
+				<li>The terminal symbols for this grammar include the quoted strings used in the production rules below, and the terminal symbols defined in section <a href="#lexical"></a>.</li>
+			</ul>
+			<p>To increase readability, the EBNF in the main body of this document omits some of these notational features. This appendix is the normative version of the EBNF.</p>
+			<p>Link conventions used in this appendix:</p>
+			<ul>
+				<li>links on the <em>left</em> of an expression go to more detailed discussion of the term in the body of this document</li>
+				<li>links on the <em>right</em> of an expresson go to a further definition within this appendix.</li>
+			</ul>
 			<table class="ebnf-table">
 				<tr>
 					<td class="ebnf-num">[1]</td>
@@ -1755,7 +1760,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[4]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
+					<td class="ebnf-right"><a title="ebnf-separator-directive">SeparatorDirective</a>? <a title="ebnf-quoted-directive">QuotedDirective</a>? <a title="ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a title="ebnf-no-header-directive">NoHeaderDirective</a> | <a title="ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num">[5]</td>
@@ -1863,7 +1868,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num">[22]</td>
 					<td class="ebnf-left"><a><dfn title="ebnf-column-directives">ColumnDirectives</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-optional-directive">OptionalDirective</a>? <a title="ebnf-match-is-false-directive">MatchIsFalseDirective</a>? <a title="ebnf-ignore-case-directive">IgnoreCaseDirective</a>? <a title="ebnf-warning-directive">WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>expr:unordered</a> */</td>
+					<td class="ebnf-right"><a title="ebnf-optional-directive">OptionalDirective</a>? <a title="ebnf-match-is-false-directive">MatchIsFalseDirective</a>? <a title="ebnf-ignore-case-directive">IgnoreCaseDirective</a>? <a title="ebnf-warning-directive">WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
 				</tr>
 		        <tr>
 		          <td class="ebnf-num">[23]</td>
@@ -2137,112 +2142,126 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-right">"if(" (<a title="ebnf-combinatorial-expr">CombinatorialExpr</a> | <a title="ebnf-non-conditional-expr">NonConditionalExpr</a>) "," <a title="ebnf-column-validation-expr">ColumnValidationExpr</a>+ ("," <a title="ebnf-column-validation-expr">ColumnValidationExpr</a>+)? ")" /* if with optional else */</td>
 				</tr>
 			</table>
-			<h4>EBNF Lexical (Terminal Symbols)</h4>
-			<table class="ebnf-table">
-				<tr>
-					<td class="ebnf-num">[XX]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[80]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-literal">XsdDateLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[81]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-literal">XsdTimeLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[82]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-uk-date-literal">UkDateLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>expr:regular-expression</a> */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[83]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">[1-9][0-9]* /* A Natural Number - i.e. IntegerLiteral constrained by [1-9][0-9]* */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[84]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-literal">PositiveIntegerLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">[0-9]+ /* A Natural Number or Zero - i.e. IntegerLiteral constrained by [0-9]+ */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[85]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-numeric-literal">NumericLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-number">Number</a></td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[86]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-integer-literal">IntegerLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-integer">Integer</a></td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[87]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-character-literal">CharacterLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"'" <a title="ebnf-non-breaking-char">NonBreakingChar</a> "'"</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[88]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-string-literal">StringLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"\"" <a title="ebnf-non-breaking-char">NonBreakingChar</a>+ "\""</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[89]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-wildcard-literal">WildcardLiteral</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">"*"</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[90]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-ident">Ident</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[91]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-non-double-quote-char">NonDoubleQuoteChar</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">/* [^"]+ */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[92]</td>
-					<td class="ebnf-left"><a title="number-def"><dfn title="ebnf-number">Number</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">/* Any Real Number expressed as an Integer or Decimal */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[93]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-integer">Integer</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">/* Any Non-Fractional and Non-Decimal Number */</td>
-				</tr>
-				<tr>
-					<td class="ebnf-num">[94]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-non-breaking-char">NonBreakingChar</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">/* same class as char but without \n or \r */</td>
-				</tr>     
-				<tr>
-					<td class="ebnf-num">[95]</td>
-					<td class="ebnf-left"><a><dfn title="ebnf-char">Char</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"></td>
-				</tr>
-			</table>
+			<section id="lexical">
+				<h4>Lexical (Terminal Symbols)</h4>
+				<table class="ebnf-table">
+					<tr>
+						<td class="ebnf-num">[XX]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-time-literal">XsdDateTimeLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))T([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[80]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-xsd-date-literal">XsdDateLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[81]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-xsd-time-literal">XsdTimeLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[82]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-uk-date-literal">UkDateLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}&#160;&#160;&#160;&#160;/* <a>xgc:regular-expression</a> */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[83]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">[1-9][0-9]* /* A Natural Number - i.e. IntegerLiteral constrained by [1-9][0-9]* */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[84]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-positive-integer-literal">PositiveIntegerLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">[0-9]+ /* A Natural Number or Zero - i.e. IntegerLiteral constrained by [0-9]+ */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[85]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-numeric-literal">NumericLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right"><a title="ebnf-number">Number</a></td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[86]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-integer-literal">IntegerLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right"><a title="ebnf-integer">Integer</a></td>
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[87]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-character-literal">CharacterLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">"'" <a title="ebnf-non-breaking-char">NonBreakingChar</a> "'"</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[88]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-string-literal">StringLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">"\"" <a title="ebnf-non-breaking-char">NonBreakingChar</a>+ "\""</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[89]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-wildcard-literal">WildcardLiteral</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">"*"</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[90]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-ident">Ident</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[91]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-non-double-quote-char">NonDoubleQuoteChar</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">/* [^"]+ */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[92]</td>
+						<td class="ebnf-left"><a title="number-def"><dfn title="ebnf-number">Number</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">/* Any Real Number expressed as an Integer or Decimal */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[93]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-integer">Integer</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">/* Any Non-Fractional and Non-Decimal Number */</td>
+					</tr>
+					<tr>
+						<td class="ebnf-num">[94]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-non-breaking-char">NonBreakingChar</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right">/* same class as char but without \n or \r */</td>
+					</tr>     
+					<tr>
+						<td class="ebnf-num">[95]</td>
+						<td class="ebnf-left"><a><dfn title="ebnf-char">Char</dfn></a></td>
+						<td class="ebnf-bind">::=</td>
+						<td class="ebnf-right"></td>
+					</tr>
+				</table>
+			</section>
+			<section id="xgc">
+				<h4>Extra-grammatical Constraints</h4>
+				<section>
+					<h5><dfn>xgc:regular-expression</dfn></h5>
+					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java.</p>
+				</section>
+				<section>
+					<h5><dfn>xgc:unordered</dfn></h5>
+					<p>Implies that each distinct symbol in the expression may appear in any order.</p>
+				</section>
+			</section>
 		</section>
+    	
     </section>  
 
       
