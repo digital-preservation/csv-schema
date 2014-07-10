@@ -128,10 +128,23 @@
         	vertical-align: text-top;
         }
         
+        #ebnf table.ebnf-table tr {
+        	margin-bottom: 2pt;
+        }
+        
+        #ebnf table td.ebnf-left {
+        	width: 18%;
+        }
+        
+        #ebnf table td.ebnf-right {
+        	width: 50%;
+        }
+        
         td.ebnf-note {
         	padding-left: 3pt;
         }
         
+        /*
         body {
         	counter-reset: ebnf;
         }
@@ -140,6 +153,7 @@
         	content: "{{" counters(ebnf, ".") "}}";
         	counter-increment: ebnf;
         }
+        */ /* do not auto-number the EBNF rules in the body descriptions, as sometimes it makes sense to discuss in an informative as opposed to normative order */
         
         section #ebnf {
         	counter-reset: ebnf2;
@@ -171,13 +185,11 @@
     
     <section id="introduction" class='informative'>
         <h1>Introduction</h1>
-        <p>
-            The intention of this document is twofold:
-            <ol>
-                <li>To be informative to users who are writing CSV Schemas, and provide a reference to the available syntax and functions.</li>
-                <li>To provide enough detail such that anyone with sufficient technical expertise should be able to implement a CSV Schema parser and/or CSV validator following the rules defined in a CSV Schema.</li>
-            </ol>
-        </p>
+        <p>The intention of this document is twofold:</p>
+        <ol>
+            <li>To be informative to users who are writing CSV Schemas, and provide a reference to the available syntax and functions.</li>
+            <li>To provide enough detail such that anyone with sufficient technical expertise should be able to implement a CSV Schema parser and/or CSV validator following the rules defined in a CSV Schema.</li>
+        </ol>
         <section id="background">
             <h2>Background</h2>
             <p>
@@ -231,32 +243,29 @@
             A column rule may express constraints based on the content of other columns in the same row, however at present there is no scope for looking forward or backward through rows directly.
 			However, it possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
         </p>
-        <p>
-            A CSV Schema is made up of two main parts:
+        <p>A CSV Schema is made up of two main parts:</p>
+		<ol class="nested">
+			<li class="nested"><span class="point"><a>Prolog</a></span>
+			<p>In turn this comprises (at most) two sections (the second being OPTIONAL):</p>
 			<ol class="nested">
-				<li class="nested"><span class="point"><a>Prolog</a></span>
-				<p>In turn this comprises (at most) two sections (the second being OPTIONAL):</p>
-				<ol class="nested">
-					<li class="nested">
-						<span class="point"><a>Version Declaration</a></span>
-						<p>The CSV Schema MUST explicitly state (as its first non-comment line) the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
-					</li>
-					<li class="nested">
-						<span class="point"><a>Global Directives</a></span>
-						<p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
-						<p>The use of Global Directives is OPTIONAL, default values are used if they are not specified.</p>
-					</li>
-				</ol>
+				<li class="nested">
+					<span class="point"><a>Version Declaration</a></span>
+					<p>The CSV Schema MUST explicitly state (as its first non-comment line) the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
 				</li>
 				<li class="nested">
-					<span class="point"><a>Body</a></span>
-					<p>The Body of the CSV Schema MUST declare, in order, a <a title="Column Rules">Column Rule</a> for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule is used.</p>
+					<span class="point"><a>Global Directives</a></span>
+					<p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
+					<p>The use of Global Directives is OPTIONAL, default values are used if they are not specified.</p>
 				</li>
 			</ol>
-        </p>
-        <p>
-            Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:
-            <pre class="example" title="Simple CSV Schema">
+			</li>
+			<li class="nested">
+				<span class="point"><a>Body</a></span>
+				<p>The Body of the CSV Schema MUST declare, in order, a <a title="Column Rules">Column Rule</a> for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule is used.</p>
+			</li>
+		</ol>
+        <p>Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:</p>
+        <pre class="example" title="Simple CSV Schema">
 version 1.0
 
 @totalColumns 3
@@ -275,17 +284,15 @@ name,age,gender
 james,21,m
 lauren,19,f
 simon,57,m
-            </pre>
-            An example of CSV data would fail the rule definitions in the CSV schema could be
-            as follows:
-            <pre class="example" title="Invalid CSV Data">
+        </pre>
+    	<p>An example of CSV data would fail the rule definitions in the CSV schema could be as follows:</p>
+        <pre class="example" title="Invalid CSV Data">
 name,age,gender
 james,4 years,m
 lauren,19,f
 simon,57,male
-            </pre>
-            The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.
-        </p>
+        </pre>
+        <p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.</p>
     </section>
     <section>
 		<h1>Schema structure</h1>
@@ -339,11 +346,9 @@ simon,57,male
 				</table>
 					<section>
 						<h4>Example Version Declaration</h4>
-						<p>
-							<pre class="example" title="Version Declaration Syntax">
+						<pre class="example" title="Version Declaration Syntax">
 		version 1.0
-							</pre>
-						</p>
+						</pre>
 				</section>
 			</section>
 			<section>
@@ -385,12 +390,8 @@ simon,57,male
 					<p>
 					The Separator Directive takes a MANDATORY parameter in the form of either a <a>Separator Tab Expression</a> or a <a>Separator Character</a>.
 					</p>
-					<p>
-					A <dfn>Separator Tab Expression</dfn> indicates that the separator comprises a tab character, i.e. [[UTF-8]] character code <code>0x09</code>.
-					</p>
-					<p>
-					A <dfn>Separator Character</dfn> is a <a>Character Literal</a>: the character which is to be treated as the column separator.
-					</p>
+					<p>A <dfn>Separator Tab Expression</dfn> indicates that the separator comprises a <emphasis>tab</emphasis> character, i.e. [[UTF-8]] character code <code>0x09</code>.</p>
+					<p>A <dfn>Separator Character</dfn> is a <a>Character Literal</a>: the character which is to be treated as the column separator.</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[6]</td>
@@ -414,7 +415,7 @@ simon,57,male
 				</section>
 				<section>
 					<h4>Quoted Directive</h4>
-					<p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all columns are quoted.</p>
+					<p>The <dfn>Quoted Directive</dfn> allows you to specify whether or not all columns are <em>quoted</em>. That is to say that their values are encased in <em>quotation mark</em> characters, i.e. [[UTF-8]] character code <code>0x22</code>.</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[9]</td>
@@ -446,16 +447,10 @@ simon,57,male
 					<h4>No Header Directive</h4>
 					<p>
 					The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: i.e. all rows are data rows.
-					The No Header Directive is OPTIONAL: when this directive is not used the parser assumes the default that the first row of the CSV file to be validated contains column names,
+					The No Header Directive is OPTIONAL: when this directive is not used the parser assumes by default that the first row of the CSV file to be validated contains column names,
 					not data, and so the first row is skipped during validation.
 					</p>
-					<p>
-					NB Even when this directive is not specified, the parser is not required to match the <a title="Column Identifier">Column Identifiers</a> present in the CSV file against the Column Identifiers used to 
-					specify the <a title="Column Definition">Column Definitions</a> in the <a>Body</a> of the CSV Schema.
-					</p>
-					<p>
-					The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.
-					</p>
+					<p>The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[11]</td>
@@ -469,8 +464,7 @@ simon,57,male
 					<h4>Ignore Column Name Case Directive</h4>
 					<p>
 					The <dfn>Ignore Column Name Case Directive</dfn> is intended to tell the parser to ignore mismatches in case between the <a title="Column Identifier">Column Identifiers</a> supplied in a CSV file to be validated 
-					and those used in giving the <a title="Column Definition">Column Definitions</a>.  However, presently no cross-check is carried out at all.
-					</p>
+					and those used in giving the <a title="Column Definition">Column Definitions</a> in the schema.</p>
 					<p>
 					The Ignore Column Name Case Directive is mutually exclusive to the use of the <a>No Header Directive</a>, when one is used, the other MUST NOT be.
 					</p>
@@ -485,17 +479,15 @@ simon,57,male
 				</section>
 				<section>
 					<h4>Example Global Directives</h4>
-					<p>
 					<pre class="example" title="Global Directives Syntax 1">
 	@separator ';' @quoted @totalColumns 21 @noHeader
 					</pre>
 					<pre class="example" title="Global Directives Syntax 2">
-	@separator TAB(3)
+	@separator TAB
 	@quoted
 	@totalColumns 21
 	@ignoreColumnNameCase
-					</pre>
-					</p>			
+					</pre>	
 				</section>
 			</section>
 		</section>
@@ -526,7 +518,7 @@ simon,57,male
 				There are two types of <dfn>Comment</dfn>: either <a title="Single Line Comment">Single Line</a> or <a title="Multiple Line Comment">Multiple Line</a>.
 				</p>
 				<p>
-				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes (/)</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>. 
+				A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes (//)</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>. 
 				It is terminated by any [[UTF-8]] character that creates a line-break.
 				</p>
 				<p>
@@ -534,8 +526,8 @@ simon,57,male
 				i.e. the [[UTF-8]] character codes <code>0x2F 0x2A</code>. 
 				It is terminated by the reverse combination, <code>asterisk (*)</code> <code>forward slash (/)</code>, 
 				i.e. the [[UTF-8]] character codes <code>0x2A 0x2F</code>. 
-				<strong>Any</strong> [[UTF-8]] character may be used between these comment markers, even if it forces a new line.
-				Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a>.
+				<strong>Any</strong> [[UTF-8]] character except asterisk may be used between these comment markers, even if it forces a new line.
+				Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a> or another <a>Comment</a>.
 				</p>
 				<table class="ebnf-table">
 					<tr>
@@ -559,7 +551,6 @@ simon,57,male
 				</table>
 				<section>
 					<h4>Example Comments</h4>
-					<p>
 					<pre class="example" title="Comment Syntax">
 	//This Comment is a Single Line Comment it terminates at this line break
 	/*This Comment is a Multi Line Comment:
@@ -575,7 +566,6 @@ simon,57,male
 	
 	for as many lines as you like, until you type*/
 					</pre>
-					</p>		
 				</section>
 			</section>
 			<section>
@@ -583,7 +573,7 @@ simon,57,male
 				<p>
 				<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon (:)</code>, 
 				i.e. the [[UTF-8]] character code <code>0x3A</code>, followed by a <a title="Column Rules">Column Rule</a>.  
-				There MUST be a Column Definition for every column in the CSV that will be validated against the Schema.
+				There MUST be a Column Definition for every column in the CSV that will be validated against the Schema, however the Column Rule can be left empty if no validation is needed for a specific column.
 				</p>
 				<table class="ebnf-table">
 					<tr>
@@ -599,12 +589,11 @@ simon,57,male
 					There are two classes of identifier that can be used for columns, the original simple <dfn>Column Identifier</dfn>, and the <dfn>Quoted Column Identifier</dfn>. 
 					</p>
 					<p>A <a>Column Identifier</a> is either a <a>Positive Non Zero Integer Literal</a> (most commonly used when the CSV file to be validated has no header row - 
-					see <a>No Header Directive</a>) 
-					or an <a>Ident</a>.					 
+					see <a>No Header Directive</a>) which indicates the offset of the column (starting from 1), or an <a>Ident</a>.					 
 					</p>
 					<p>
-					The <a>Quoted Column Identifier</a> allows a greater range of characters to be used in naming the column, 
-					but the identifier must be wrapped in <code>doublequotes (")</code>, 
+					The <a>Quoted Column Identifier</a> allows a greater range of characters to be used in naming the column than can be supported by an <a>Ident</a>, 
+					but the identifier must be wrapped in <code>quotation marks (")</code>, 
 					i.e. the [[UTF-8]] character code <code>0x22</code>.
 					</p>
 					<p>
@@ -659,9 +648,8 @@ simon,57,male
 						</p>
 						<p>
 						The Column Directives are the <a>Optional Directive</a>, the <a>Match Is False Directive</a>, the <a>Ignore Case Directive</a>, 
-						and the <a>Warning Directive</a>.  The first three may be specified in any order (though there is no straightforward way to express this in <a>EBNF</a> 
-						without listing every possible order).  The Warning Directive must always be specified last.
-						</p>
+						and the <a>Warning Directive</a>.  The column directives may be specified in any order (though there is no straightforward way to express this in <a>EBNF</a> 
+						without listing every possible order).</p>
 						<table class="ebnf-table">
 							<tr>
 								<td class="ebnf-num">[22]</td>
@@ -674,7 +662,7 @@ simon,57,male
 							<h6>Optional Directive</h6>
 							<p>
 							The <dfn>Optional Directive</dfn> is used when completion of the data field in the original CSV file to be validated is OPTIONAL. 
-							When this directive is used the data in the column is considered valid if the <a title="Column Rules">Column Rule</a> evaluates to true, of if the column is empty.
+							When this directive is used the data in the column is considered valid if the <a title="Column Rules">Column Rule</a> evaluates to true, or if the column is empty.
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -703,8 +691,8 @@ simon,57,male
 						<section>
 							<h6>Ignore Case Directive</h6>
 							<p>
-							The <dfn>Ignore Case Directive</dfn> is used when the case of a column is not important. 
-							Two strings which differ only in the case used for characters within the string would be considered a match.
+							The <dfn>Ignore Case Directive</dfn> is used when the case of a column value is not important. 
+							Two strings which differ only in the case used for characters within the string would be considered a match for all string related column rules.
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -739,11 +727,11 @@ simon,57,male
 				</section>
 				<section>
 					<h4>Column Definitions examples</h4>
-					<p>
 					<pre class="example" title="Column Definition Syntax">
-	a_column_title:       is("somedata") or is("otherdata")        @optional @matchIsFalse @ignoreCase @warning
-	another_column_title: isNot("somedata") and isNot("otherdata")                         @ignoreCase
+	a_column_title:			is("somedata") or is("otherdata")        	@optional @matchIsFalse @ignoreCase @warning
+	another_column_title:	isNot("somedata") and isNot("otherdata")	@ignoreCase
 					</pre>
+					<p>
 					The two Column Definitions are both validating the data in their respective columns against the explicit strings <code>somedata</code> and <code>otherdata</code>.
 					Ignoring the <a>Column Directives</a> for the moment, the column rule defined for <code>a_column_title</code> would return true if the CSV data for that column 
 					contained either the precise string <code>somedata</code> or <code>otherdata</code>.  However, the <a>Optional Directive</a> means a completely empty column 
@@ -755,7 +743,7 @@ simon,57,male
 					<p>
 					The second Column Definition (with the effect of the <a>Match Is False Directive</a> on the first taken into account) is actually logically equivalent to the first 
 					(see <a href="http://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
-					would not be valid data, and since the <a>Warning Directive</a> has also not been included, such invalid data would be considered a <a>Validation Error</a>.					
+					would not be valid data, and since the <a>Warning Directive</a> has also not been included, a <a>Validation Warning</a> would be raised instead of a <a>Validation Error</a>.					
 					</p>
 				</section>
 			</section>
@@ -772,6 +760,8 @@ simon,57,male
 		then <code>Mr</code> would be regarded as invalid (strictly speaking that would also require the use of an <a>Explicit Context Expression</a> to refer to the other column, 
 		but that is a subexpression of the Non Conditional Expression class).
 		</p>
+    	<p><b>NOTE</b> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
+    	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
 				<td class="ebnf-num">[27]</td>
@@ -783,10 +773,10 @@ simon,57,male
     	<section>
     		<h3>Combinatorial Expressions</h3>
     		<p>
-    			A <dfn>Combinatorial Expression</dfn> are operators for combining <a title="Column Validation Expression">Column Validation Expressions</a> into more complicated tests 
+    			A <dfn>Combinatorial Expression</dfn> combines one or more <a title="Column Validation Expression">Column Validation Expressions</a>, which allows more complicated tests 
     			on the validity of data in a column.  
     			There are two types, <a title="Or Expression">Or Expressions</a> and <a title="And Expression">And Expressions</a>. 
-    			They are of equal precedence, and evaluation of <a title="Column Validation Expression">Column Validation Expressions</a> is performed from left-to-right.
+    			They are of equal precedence, and evaluation of <a title="Column Validation Expression">Column Validation Expressions</a> is performed from <em>left-to-right</em>.
     		</p>
     		<table class="ebnf-table">
     			<tr>
@@ -799,23 +789,23 @@ simon,57,male
     		<section>
     			<h4>Or Expressions</h4>
     			<p>
-    				An <dfn>Or Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if either (or both) 
-    				the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the Or Expression are true.
+    				An <dfn>Or Expression</dfn> is used as a standard boolean operator to indicate that the column data should be treated as being <em>valid if either (or both)</em> 
+    				the expressions linked by the Or Expression evaluate to true.
     			</p>
     			<table class="ebnf-table">
     				<tr>
     					<td class="ebnf-num">[29]</td>
     					<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
-    					<td class="ebnf-right"><a>ColumnValidationExpr</a> ("or" ColumnValidationExpr)*</td> 
+    					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "or" <a>ColumnValidationExpr</a></td> 
     				</tr>     
     			</table>
     		</section>
     		<section>
     			<h4>And Expressions</h4>
     			<p>
-    				An <dfn>And Expression</dfn> is used as standard Boolean operator to indicate that the column data should be treated as being valid if and only if both 
-    				the <a title="Column Validation Expression">Column Validation Expressions</a> linked by the And Expression are true.  Use of an explicit And Expression is OPTIONAL:
+    				An <dfn>And Expression</dfn> is used as a standard boolean operator to indicate that the column data should be treated as being <em>valid when both</em>
+    				the expressions linked by the And Expression evaluate to true.  Use of an explicit And Expression is OPTIONAL:
     				if two <a title="Column Validation Expression">Column Validation Expressions</a> are written in succession for the same column they will be treated as having an
     				implicit And Expression joining them.
     			</p>
@@ -824,15 +814,16 @@ simon,57,male
     					<td class="ebnf-num">[30]</td>
     					<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
-    					<td class="ebnf-right"><a>ColumnValidationExpr</a> ("and" ColumnValidationExpr)*</td> 
+    					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "and" <a>ColumnValidationExpr</a></td> 
     				</tr>     
     			</table>
     		</section>
     	</section>
     	
     	<section>
-    		<h2>Non-Combinatorial Expressions</h2>
-    		<p>TODO</p>
+    		<h2>Non Combinatorial Expressions</h2>
+    		<p>A <dfn>Non Combinatorial Expression</dfn> is a Column Validation Expression which is evaluated by itself, unless it is combined with another through a <a>Combinatorial Expression</a>.
+    		The majority of Column Validation Expressions are of the Non-Combinatorial Expression class.</p>
     		<table class="ebnf-table">
     			<tr>
     				<td class="ebnf-num">[31]</td>
@@ -840,585 +831,584 @@ simon,57,male
     				<td class="ebnf-bind">::=</td>
     				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td>
     			</tr>
-    		</table>
-    	</section>
-    	
-		<section>
-			<h2>Non Conditional Expressions</h2>
-			<p>
-			<dfn title="Non Conditional Expression">Non Conditional Expressions</dfn> are divided into four classes of subexpressions: 
-			<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a>, 
-			<a title="Combinatorial Expression">Combinatorial Expressions</a>, and <a title="Parenthesized Expression">Parenthesized Expressions</a>. 
-			The first two are individual validation checks (differing in that the second allows access to some resource outside the CSV file being validated), 
-			While the last two provide ways of combining checks into more complex compound forms.
-			</p>
-			<table class="ebnf-table">
-				<tr>
-					<td class="ebnf-num">[32]</td>
-					<td class="ebnf-left"><a title="ebnf-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>ParenthesizedExpr</a></td> 
-				</tr>     
-			</table>
+    		</table> 	    	
 			<section>
-				<h3>Single Expressions</h3>
+				<h2>Non Conditional Expressions</h2>
 				<p>
-				<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 22 available for use 
-				(and some have their own subexpressions used as parameters), although the first is really used as an OPTIONAL modifier to the rest. 
-				In many cases values can be provided to the test either as an explicit string (or number where appropriate), or by reference to the value held by another column.
+				<dfn title="Non Conditional Expression">Non Conditional Expressions</dfn> are divided into three classes of sub-expressions: 
+				<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a>, and <a title="Parenthesized Expression">Parenthesized Expressions</a>. 
+				The first two are individual validation checks (differing in that the second allows access to some resource outside the CSV file being validated), 
+				whilst the last provides a mechanism for controlling the evaludation order of complex compound expressions.
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[33]</td>
-						<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
+						<td class="ebnf-num">[32]</td>
+						<td class="ebnf-left"><a title="ebnf-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">(<a>ExplicitContextExpr</a>)? <a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</a> | 
-						<a>RegExpExpr</a> | <a>RangeExpr</a> | <a>LengthExpr</a> | <a>EmptyExpr</a> | <a>NotEmptyExpr</a> | <a>UniqueExpr</a> | <a>UriExpr</a> | <a>XsdDateTimeExpr</a> | 
-						<a>XsdDateExpr</a> | <a>UkDateExpr</a> | <a>XsdTimeExpr</a> | <a>Uuid4Expr</a> | <a>PositiveIntegerExpr</a></td> 
+						<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>ParenthesizedExpr</a></td> 
 					</tr>     
-				</table>	
+				</table>
 				<section>
-					<h4>Explicit Context Expressions</h4>
+					<h3>Single Expressions</h3>
 					<p>
-					The <dfn>Explicit Context Expression</dfn> is used to indicate that the expression following should be tested against the value in another specified column, 
-					rather than the current column (which is the default context).
+					<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 21 available for use 
+					(and some have their own subexpressions used as parameters), although the first is really used as an OPTIONAL modifier to the rest. 
+					In many cases values can be provided to the test either as an explicit string (or number where appropriate), or by reference to the value held by another column.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[34]</td>
-							<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
+							<td class="ebnf-num">[33]</td>
+							<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
+							<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</a> | 
+							<a>RegExpExpr</a> | <a>RangeExpr</a> | <a>LengthExpr</a> | <a>EmptyExpr</a> | <a>NotEmptyExpr</a> | <a>UniqueExpr</a> | <a>UriExpr</a> | <a>XsdDateTimeExpr</a> | 
+							<a>XsdDateExpr</a> | <a>XsdTimeExpr</a> | <a>UkDateExpr</a> | <a>DateExpr</a> | <a>PartialUkDateExpr</a> | <a>PartialDateExpr</a> <a>Uuid4Expr</a> | <a>PositiveIntegerExpr</a>)</td> 
 						</tr>     
 					</table>	
+					<section>
+						<h4>Explicit Context Expressions</h4>
+						<p>
+						The <dfn>Explicit Context Expression</dfn> is used to indicate that the expression following should be tested against the value in a foreign column (explicit context), 
+						rather than the current column (which is the default context).
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[34]</td>
+								<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Is Expressions</h4>
+						<p>
+						An <dfn>Is Expression</dfn> checks that the value of the column is identical to the supplied string or the value in the referenced column.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[36]</td>
+								<td class="ebnf-left"><a title="ebnf-is-expr"><dfn>IsExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Not Expressions</h4>
+						<p>
+						A <dfn>Not Expression</dfn> checks that the value of the column is not equal to the supplied string or the value in the referenced column.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[37]</td>
+								<td class="ebnf-left"><a title="ebnf-not-expr"><dfn>NotExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>In Expressions</h4>
+						<p>
+						An <dfn>In Expression</dfn> checks that the value of the column contains the supplied string or the value in the referenced column 
+						(i.e. the column value is a super string of the supplied value).
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[38]</td>
+								<td class="ebnf-left"><a title="ebnf-in-expr"><dfn>InExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Starts With Expressions</h4>
+						<p>
+						A <dfn>Starts With Expression</dfn> checks that the value of the column <em>starts</em> with the supplied string or the value in the referenced column.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[39]</td>
+								<td class="ebnf-left"><a title="ebnf-starts-with-expr"><dfn>StartsWithExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Ends With Expressions</h4>
+						<p>
+						An <dfn>Ends With Expression</dfn> checks that the value of the column <em>ends</em> with the supplied string or the value in the referenced column.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[40]</td>
+								<td class="ebnf-left"><a title="ebnf-ends-with-expr"><dfn>EndsWithExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Regular Expression Expressions</h4>
+						<p>
+						A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.</p>
+						<p>Whilst, obviously many of the the other 
+						<a title="Column Validation Expression">Column Validation Expressions</a> could be written as Regular Expressions, it is felt that that would make the resulting Schema
+						harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
+						then that approach should be attempted first.
+						</p>
+						<p>The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[41]</td>
+								<td class="ebnf-left"><a title="ebnf-reg-exp-expr"><dfn>RegExpExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Range Expressions</h4>
+						<p>
+						A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[42]</td>
+								<td class="ebnf-left"><a title="ebnf-range-expr"><dfn>RangeExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"range(" <a>NumericLiteral</a> "," <a>NumericLiteral</a> ")"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Length Expressions</h4>
+						<p>A <dfn>Length Expression</dfn> checks that the number of characters in the column meets the supplied definition.  You can define the length in one of four ways:</p>						
+						<ol>
+							<li>Precisely <em>n</em> characters long. For example <code>length(10)</code> ensures that the length is <em>exactly</em> 10 characters.</li>
+							<li>At least <em>n</em> characters long. For example <code>length(10, *)</code> ensures that the length is <em>at least</em> 10 or more characters</li>
+							<li>At most <em>n</em> characters long. For example <code>length(*, 10)</code> ensures that the length is <em>at most</em> 10 characters.</li>
+							<li>Between <em>m</em> and <em>n</em> characters long (inclusive). For example <code>length(4, 7)</code> ensures that the length is at least 4 characters and at most 10 characters.</li>
+						</ol>
+						<p>
+							In order to do this the expression takes two input parameters, the first is defined as OPTIONAL, the second MUST be supplied.  Both take the form of a 
+							<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero), or a <a>Wildcard Literal</a>.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[43]</td>
+								<td class="ebnf-left"><a title="ebnf-length-expr"><dfn>LengthExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"length(" (<a>PositiveIntegerOrAny</a> ",")? <a>PositiveIntegerOrAny</a> ")"</td> 
+							</tr>     
+							<tr>
+								<td class="ebnf-num">[44]</td>
+								<td class="ebnf-left"><a title="ebnf-positive-integer-or-any"><dfn>PositiveIntegerOrAny</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right"><a>PositiveIntegerLiteral</a> | <a>WildcardLiteral</a></td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Empty Expressions</h4>
+						<p>
+						An <dfn>Empty Expression</dfn> checks that the column has no content.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[45]</td>
+								<td class="ebnf-left"><a title="ebnf-empty-expr"><dfn>EmptyExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"empty"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Not Empty Expression</h4>
+						<p>
+						A <dfn>Not Empty Expression</dfn> checks that the column has some content, though precisely what does not matter.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[46]</td>
+								<td class="ebnf-left"><a title="ebnf-not-empty-expr"><dfn>NotEmptyExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"notEmpty"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Unique Expressions</h4>
+						<p>
+						A <dfn>Unique Expression</dfn> checks that the column value is unique within the CSV file being validated 
+						(within the current column, the value may occur elsewhere in the file in another column, as in a primary-foreign key relationship in a database).  
+						You can also specify a comma separated list of <a title="Column Reference">Column References</a> in which case the combination of values of those columns 
+						(for the current row) must be unique within the whole CSV file.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[47]</td>
+								<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UniqueExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"unique" ("(" <a>ColumnRef</a> ("," <a>ColumnRef</a>)* ")")?</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>URI Expressions</h4>
+					<p>
+					A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
+					</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[48]</td>
+								<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UriExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"uri"</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>XSD Date Time Expressions</h4>
+						<p>
+						An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+							You can also provide an OPTIONAL <em>from</em> and <em>to</em> date-times
+						(inclusive) to ensure that the value in the column falls within an expected date-time range.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[49]</td>
+								<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"xDateTime" ("(" <a>XsdDateTimeLiteral</a> "," <a>XsdDateTimeLiteral</a> ")")?</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>XSD Date Expressions</h4>
+						<p>
+						An <dfn>XSD Date Expression</dfn> checks that the data in the column is expressed as a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+						You can also provide OPTIONAL <em>from</em> and to <em>dates</em> (inclusive) 
+						to ensure that the value in the column falls within an expected date range.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[50]</td>
+								<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"xDate" ("(" <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a> ")")?</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>XSD Time Expressions</h4>
+						<p>
+						An <dfn>XSD Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema time data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
+						You can also provide OPTIONAL <em>from</em> and <em>to</em> times (inclusive) 
+						to ensure that the value in the column falls within an expected time range.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[51]</td>
+								<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"xTime" ("(" <a>XsdTimeLiteral</a> "," <a>XsdTimeLiteral</a> ")")?</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>UK Date Expressions</h4>
+						<p>
+						A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date: <code>dd/mm/yyyy</code>, a <a>UK Date Literal</a>. 
+						You can also provide OPTIONAL <em>from</em> and <em>to</em> dates (inclusive) 
+						to ensure that the value in the column falls within an expected date range.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[52]</td>
+								<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"ukDate" ("(" <a>UkDateLiteral</a> "," <a>UkDateLiteral</a> ")")?</td> 
+							</tr>     
+						</table>	
+					</section>
+					<section>
+						<h4>Date Expression</h4>
+						<p>
+						A <dfn>Date Expression</dfn> allows a full date to be constructed from several columns, or strings. The expression takes five arguments:
+						you MUST supply three strings or <a title="Column Reference">Column References</a> representing Year, Month and Day 
+						(although supplied as strings, these values must in fact be integers); 
+						and there are two OPTIONAL parameters to ensure the date falls in a range specified by <em>from</em> <a>XSD Date Expression</a> and <em>to</em> <a>XSD Date Expression</a>.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[53]</td>
+								<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"date(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ("," <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a>)? ")"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>Partial UK Date Expression</h4>
+						<p>
+						A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>, 
+						but allows for difficulties in transcribing from original archival material by accepting a <code>question mark (?)</code>, 
+						i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>, 
+						i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
+						it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[54]</td>
+								<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"partUkDate"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>Partial Date Expression</h4>
+						<p>
+						A <dfn>Partial Date Expression</dfn> combines elements of <a>Partial UK Date Expression</a> with those of <a>Date Expression</a>, 
+						with the date being made up of columns or strings as in Date Expression, but also allowing the characters representing uncertainty as in Partial UK Date Expression.
+						However, the constituent parts of the date MUST be supplied as Year, Month, Day.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[55]</td>
+								<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ")"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>UUID4 Expression</h4>
+						<p>
+						A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
+						(<strong>U</strong>niversally <strong>U</strong>nique <strong>Id</strong>entifier), see [[!RFC4122]].
+						UUIDs MUST use lowercase hex values.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[56]</td>
+								<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"uuid4"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>Positive Integer Expression</h4>
+						<p>
+						A <dfn>Positive Integer Expression</dfn> checks that the column contains an integer value, greater than or equal to zero.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[57]</td>
+								<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"positiveInteger"</td> 
+							</tr>     
+						</table>
+					</section>
 				</section>
 				<section>
-					<h4>Is Expressions</h4>
+					<h3>External Single Expressions</h3>
 					<p>
-					An <dfn>Is Expression</dfn> checks that the value of the column is identical to the supplied string or the value in the referenced column.
+					An <dfn>External Single Expression</dfn> allows access to resources outside the CSV file being validated in order to verify some information contained within the file. 
+					For example, to check that an image file referenced from within a CSV file actually exists, or that a supplied checksum matches the value calculated for a file.  
+					The available expressions are the <a>File Exists Expression</a>, <a>Checksum Expression</a> and <a>File Count Expression</a>.  
+					Each may be prefixed with an <a>Explicit Context Expression</a> in order to refer to data in a different column.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[36]</td>
-							<td class="ebnf-left"><a title="ebnf-is-expr"><dfn>IsExpr</dfn></a></td>
+							<td class="ebnf-num">[59]</td>
+							<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Not Expressions</h4>
-					<p>
-					A <dfn>Not Expression</dfn> checks that the value of the column is not equal to the supplied string or the value in the referenced column.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[37]</td>
-							<td class="ebnf-left"><a title="ebnf-not-expr"><dfn>NotExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>In Expressions</h4>
-					<p>
-					An <dfn>In Expression</dfn> checks that the value of the column contains the supplied string or the value in the referenced column 
-					(i.e. the column value is a super string of the supplied value).
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[38]</td>
-							<td class="ebnf-left"><a title="ebnf-in-expr"><dfn>InExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Starts With Expressions</h4>
-					<p>
-					A <dfn>Starts With Expression</dfn> checks that the value of the column begins with the supplied string or the value in the referenced column.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[39]</td>
-							<td class="ebnf-left"><a title="ebnf-starts-with-expr"><dfn>StartsWithExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Ends With Expressions</h4>
-					<p>
-					An <dfn>Ends With Expression</dfn> checks that the value of the column finished with the supplied string or the value in the referenced column.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[40]</td>
-							<td class="ebnf-left"><a title="ebnf-ends-with-expr"><dfn>EndsWithExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Regular Expression Expressions</h4>
-					<p>
-					A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression. Obviously many of the the other 
-					<a title="Column Validation Expression">Column Validation Expressions</a> could be written as Regular Expressions, but that would generally make the resulting Schema
-					harder to read, particularly for less technical users.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[41]</td>
-							<td class="ebnf-left"><a title="ebnf-reg-exp-expr"><dfn>RegExpExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Range Expressions</h4>
-					<p>
-					A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[42]</td>
-							<td class="ebnf-left"><a title="ebnf-range-expr"><dfn>RangeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"range(" <a>NumericLiteral</a> "," NumericLiteral ")"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Length Expressions</h4>
-					<p>
-					A <dfn>Length Expression</dfn> checks that the number of characters in the column meets the supplied definition.  You can specify that the column is:
-					<ol>
-						<li>Precisely <em>n</em> characters long;</li>
-						<li>At least <em>n</em> characters long;</li>
-						<li>At most <em>n</em> characters long;</li>
-						<li>Between <em>m</em> and <em>n</em> characters long (inclusive).</li>
-					</ol>
-					In order to do this the expression takes two input parameters, the first is defined as OPTIONAL, the second MUST be supplied.  Both take the form of a 
-					<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero), or a <a>Wildcard Literal</a>.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[43]</td>
-							<td class="ebnf-left"><a title="ebnf-length-expr"><dfn>LengthExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"length(" (<a>PositiveIntegerOrAny</a> ",")? PositiveIntegerOrAny ")"</td> 
-						</tr>     
-						<tr>
-							<td class="ebnf-num">[44]</td>
-							<td class="ebnf-left"><a title="ebnf-positive-integer-or-any"><dfn>PositiveIntegerOrAny</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>PositiveIntegerLiteral</a> | <a>WildcardLiteral</a></td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Empty Expressions</h4>
-					<p>
-					An <dfn>Empty Expression</dfn> checks that the column has no content.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[45]</td>
-							<td class="ebnf-left"><a title="ebnf-empty-expr"><dfn>EmptyExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"empty"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Not Empty Expression</h4>
-					<p>
-					A <dfn>Not Empty Expression</dfn> checks that the column has some content, though precisely what does not matter.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[46]</td>
-							<td class="ebnf-left"><a title="ebnf-not-empty-expr"><dfn>NotEmptyExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"notEmpty"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Unique Expressions</h4>
-					<p>
-					A <dfn>Unique Expression</dfn> checks that the column value is unique within the CSV file being validated 
-					(within the current column, the value may occur elsewhere in the file in another column, as in a primary-foreign key relationship in a database).  
-					You can also specify a comma separated list of <a title="Column Identifier">Column Identifiers</a> in which case the combination of values of those columns 
-					(for the current row) must be unique within the whole CSV file.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[47]</td>
-							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UniqueExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"unique" ("(" <a>ColumnRef</a> ("," ColumnRef)* ")")?</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>URI Expressions</h4>
-				<p>
-				A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
-				</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[48]</td>
-							<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UriExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"uri"</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>XSD Date Time Expressions</h4>
-					<p>
-					An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-					You can also provide an OPTIONAL from <a>XSD Date Time Expression</a> and to <a>XSD Date Time Expression</a> 
-					(inclusive, and in the same XML Schema dateTime format) to ensure that the value in the column falls within an expected date-time range.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[49]</td>
-							<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xDateTime" ("(" <a>XsdDateTimeLiteral</a> "," <a>XsdDateTimeLiteral</a> ")")?</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>XSD Date Expressions</h4>
-					<p>
-					An <dfn>XSD Date Expression</dfn> checks that the data in the column is expressed as a valid XML Schema date data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-					You can also provide OPTIONAL from and to dates (inclusive, and in the same XML Schema date format) 
-					to ensure that the value in the column falls within an expected date range.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[50]</td>
-							<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xDate" ("(" <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a> ")")?</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>XSD Time Expressions</h4>
-					<p>
-					An <dfn>XSD Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema time data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-					You can also provide OPTIONAL from and to times (inclusive, and in the same XML Schema time format) 
-					to ensure that the value in the column falls within an expected date range.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[51]</td>
-							<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"xTime" ("(" <a>XsdTimeLiteral</a> "," <a>XsdTimeLiteral</a> ")")?</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>UK Date Expressions</h4>
-					<p>
-					A <dfn>UK Date Expression</dfn> checks that the data in the column is expressed as a valid UK-style date, dd/mm/yyyy, a <a>UK Date Literal</a>. 
-					You can also provide OPTIONAL from and to date-times (inclusive, and in the same format) 
-					to ensure that the value in the column falls within an expected date-time range.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[52]</td>
-							<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"ukDate" ("(" <a>UkDateLiteral</a> "," <a>UkDateLiteral</a> ")")?</td> 
-						</tr>     
-					</table>	
-				</section>
-				<section>
-					<h4>Date Expression</h4>
-					<p>
-					A <dfn>Date Expression</dfn> allows a full date to be constructed from several columns, or strings. The expression takes five arguments:
-					you MUST supply three strings or <a title="Column Reference">Column References</a> representing Year, Month and Day 
-					(although supplied as strings, these values must in fact be integers); 
-					and there are two OPTIONAL parameters to ensure the date falls in a range specified by from <a>XSD Date Expression</a> and to <a>XSD Date Expression</a>.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[53]</td>
-							<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"date(" <a>StringProvider</a> "," StringProvider "," StringProvider ("," <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a>)? ")"</td> 
+							<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a>)</td>
 						</tr>     
 					</table>
+					<section>
+						<h4>File Exists Expressions</h4>
+						<p>
+						A <dfn>File Exists Expression</dfn> checks a filesystem to see if the specified file actually exists at the specified path.  
+						It takes an OPTIONAL expression in the form of a <a>String Provider</a> which allows you to supply a string (or reference to a string) 
+						with a full filepath to prepend to the contents of the current column (in the case that for example it only contains just the name of the file).
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[60]</td>
+								<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>Checksum Expressions</h4>
+						<p>
+						A <dfn>Checksum Expression</dfn> allows the verification of a checksum value supplied in a CSV file by calculating the checksum for a specific file, 
+						and comparing it against the supplied value. You can also indicate the type of checksum algorithm to be used. You MUST supply both the file location
+						and a checksum algorithm.  File location is given in the form of a <a>File Expression</a>.
+						</p>
+						<p>
+						The EBNF does not specify valid values for the <a>String Literal</a> representing the checksum algorithm, that is instead implementation defined, however
+						it is strongly recommended that implementations SHOULD at least support: <code>MD5</code>, <code>SHA-1</code> and <code>SHA-256</code>. It is important to note that the checksum value MUST 
+						use lowercase hexadecimal characters only.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[61]</td>
+								<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>File Count Expressions</h4>
+						<p>
+						A <dfn>File Count Expression</dfn> allows a column representing the number of files in a particular folder to be verified against the actual files on disk.  
+						You MUST provide a <a>File Expression</a> as an input parameter which points to a filesystem folder to compare the count of files against.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[63]</td>
+								<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
+							</tr>     
+						</table>
+					</section>
+					<section>
+						<h4>File related sub-expressions</h4>
+						<p>
+						The sub-expression used in conjunction with <a title="External Single Expression">External Single Expressions</a> in order to provide input 
+						is a generic <dfn>File Expression</dfn> which itself takes two parameters.  The first parameter is OPTIONAL, a <a>String Provider</a> that is prepended to the second 
+						parameter to create a full path in the event that a column holds only a filename rather than a full filepath.  You MUST supply the second parameter which is a 
+						<a>String Provider</a>, which resolves to the name of the file.
+						</p>
+						<table class="ebnf-table">
+							<tr>
+								<td class="ebnf-num">[62]</td>
+								<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
+								<td class="ebnf-bind">::=</td>
+								<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? <a>StringProvider</a> ")"</td> 
+							</tr>
+						</table>
+					</section>
 				</section>
 				<section>
-					<h4>Partial UK Date Expression</h4>
+					<h3>Input parameters used in Single Expressions and External Single Expressions</h3>
 					<p>
-					A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>, 
-					but allows for difficulties in transcribing from original archival material by accepting a <code>question mark (?)</code>, 
-					i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>, 
-					i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
-					it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
+					Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
+					as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a> or a <a>String Literal</a>.  A <dfn>Column Reference</dfn> comprises 
+					a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[54]</td>
-							<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
+							<td class="ebnf-num">[58]</td>
+							<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"partUkDate"</td> 
+							<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a></td> 
+						</tr>     
+						<tr>
+							<td class="ebnf-num">[35]</td>
+							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ColumnRef</dfn></a></td>
+							<td class="ebnf-bind">::=</td>
+							<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
 						</tr>     
 					</table>
-				</section>
+	 			</section>
 				<section>
-					<h4>Partial Date Expression</h4>
+					<h3>Parenthesized Expressions</h3>
 					<p>
-					A <dfn>Partial Date Expression</dfn> combines elements of <a>Partial UK Date Expression</a> with those of <a>Date Expression</a>, 
-					with the date being made up of columns or strings as in Date Expression, but also allowing the characters representing uncertainty as in Partial UK Date Expression.
-					However, the constituent parts of the date MUST be supplied as year, month, day.
+					<dfn title="Parenthesized Expression">Parenthesized Expressions</dfn> are used to vary the standard left-to-right evaluation order of evaluation of 
+					<a title="Combinatorial Expression">Combinatorial Expressions</a>.  Parenthesized Expressions can be nested, the deepest level will be evaluated first, working outwards. 
+					Equally nested Parenthesized Expressions revert to the standard <em>left-to-right</em> evaluation order.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[55]</td>
-							<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
+							<td class="ebnf-num">[64]</td>
+							<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," StringProvider "," StringProvider ")"</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>UUID4 Expression</h4>
-					<p>
-					A <dfn>UUID4 Expression</dfn> checks that the data in the column is in the form of a Version 4 UUID 
-					(<strong>U</strong>niversally <strong>U</strong>nique <strong>Id</strong>entifier), see [[!RFC4122]].
-					UUIDs MUST use lowercase hex values.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[56]</td>
-							<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"uuid4"</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>Positive Integer Expression</h4>
-					<p>
-					A <dfn>Positive Integer Expression</dfn> checks that the column contains an integer value, greater than or equal to zero.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[57]</td>
-							<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"positiveInteger"</td> 
+							<td class="ebnf-right">"(" <a>ColumnValidationExpr</a>+ ")"</td> 
 						</tr>     
 					</table>
 				</section>
 			</section>
 			<section>
-				<h3>External Single Expressions</h3>
+				<h2>Conditional Expressions</h2>
 				<p>
-				An <dfn>External Single Expression</dfn> allows access to resources outside the CSV file being validated in order to verify some information contained within the file. 
-				For example, to check that an image file referenced within a metadata CSV actually exists, or that a supplied checksum matches the value calculated for the file.  
-				The available expressions are the <a>File Exists Expression</a>, <a>Checksum Expression</a> and <a>File Count Expression</a>.  
-				Each can again be prefixed with an <a>Explicit Context Expression</a> in order to refer to data in a different column.
+				A <dfn>Conditional Expression</dfn> is used to apply different <a title="Column Validation Expression">Column Validation Expressions</a> to a column on the basis of the 
+				result of the evaluation of some other <a>Non Conditional Expression</a>.  
+				This is particularly useful when the data expected in one column depends on the value of another column.  There is only one form of Conditional Expression at present, 
+				the <a>If Expression</a>.
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[59]</td>
-						<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
+						<td class="ebnf-num">[65]</td>
+						<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>FileExistsExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a>)</td>
+						<td class="ebnf-right"><a>IfExpr</a></td> 
 					</tr>     
 				</table>
 				<section>
-					<h4>File Exists Expressions</h4>
+					<h3>If Expressions</h3>
 					<p>
-					A <dfn>File Exists Expression</dfn> checks a filesystem to see if the specified file actually exists at the specified path.  
-					It takes an OPTIONAL expression in the form of a <a>String Provider</a> which allows you to supply a string (or reference to a string) 
-					with a full filepath to prepend to the contents of the current column if that only has the actual filename.
+					The <dfn>If Expression</dfn> is the only form of <a>Conditional Expression</a>. It takes three input parameters: the first two of these MUST be used, firstly a
+					<a>Combinatorial Expression</a> or <a>Non Conditional Expression</a>; when that evaluates to <code>true</code>, the second parameter, one or more <a>ColumnValidationExpr</a>s are applied; the third parameter is OPTIONAL, 
+					this is the <em>else</em> expression which is used when the first parameter evaluates to <code>false</code>.
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[60]</td>
-							<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
+							<td class="ebnf-num">[66]</td>
+							<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
+							<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
 						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>Checksum Expressions</h4>
-					<p>
-					A <dfn>Checksum Expression</dfn> allows the verification of a checksum value supplied in a CSV metadata file by calculating the checksum for a specific file, 
-					and comparing it against the the supplied value. You can also indicate the type of checksum algorithm to be used. You MUST supply both the file location
-					and a checksum algorithm.  File location is given in the form of a <a>File Expression</a>.
-					</p>
-					<p>
-					The EBNF does not specify valid values for the <a>String Literal</a> representing the checksum algorithm.  In The National Archives' implementation the following are 
-					recognised: <code>MD5</code>, <code>SHA-1</code>, <code>SHA-2</code>, <code>SHA-3</code>, <code>SHA-256</code>.  It is important to note that the checksum value MUST 
-					use lowercase hex characters only.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[61]</td>
-							<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>File Count Expressions</h4>
-					<p>
-					A <dfn>File Count Expression</dfn> allows a column representing the number of files in a particular folder to be verified against the actual files on disk.  
-					You MUST provide a <a>File Expression</a> as an input parameter.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[63]</td>
-							<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
-						</tr>     
-					</table>
-				</section>
-				<section>
-					<h4>File related sub-expressions</h4>
-					<p>
-					The sub-expression used in conjunction with <a title="External Single Expression">External Single Expressions</a> in order to provide input 
-					is a generic <dfn>File Expression</dfn> which itself takes two parameters.  The first parameter is OPTIONAL, a <a>String Provider</a> that is prepended to the second 
-					parameter to create a full path in the event that a column holds only a filename rather than a full filepath.  You MUST supply the second parameter which is a 
-					<a>String Provider</a>, which resolves to the name of the file.
-					</p>
-					<table class="ebnf-table">
-						<tr>
-							<td class="ebnf-num">[62]</td>
-							<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
-							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? <a>StringProvider</a> ")"</td> 
-						</tr>
 					</table>
 				</section>
 			</section>
 			<section>
-				<h3>Input parameters used in Single Expressions and External Single Expressions</h3>
-				<p>
-				Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
-				as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a> or a <a>String Literal</a>.  A <dfn>Column Reference</dfn> comprises 
-				a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
-				</p>
-				<table class="ebnf-table">
-					<tr>
-						<td class="ebnf-num">[58]</td>
-						<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a></td> 
-					</tr>     
-					<tr>
-						<td class="ebnf-num">[35]</td>
-						<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ColumnRef</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
-					</tr>     
-				</table>
- 			</section>
-			<section>
-				<h3>Parenthesized Expressions</h3>
-				<p>
-				<dfn title="Parenthesized Expression">Parenthesized Expressions</dfn> are used to vary the standard left-to-right evaluation order of evaluation of 
-				<a title="Combinatorial Expression">Combinatorial Expressions</a>.  Parenthesized Expressions can be nested, the deepest level will be evaluated first, working upwards. 
-				Equally nested Parenthesized Expressions revert to the standard left-to-right evaluation order.
-				</p>
-				<table class="ebnf-table">
-					<tr>
-						<td class="ebnf-num">[64]</td>
-						<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">"(" <a>ColumnValidationExpr</a>+ ")"</td> 
-					</tr>     
-				</table>
-			</section>
-		</section>
-		<section>
-			<h2>Conditional Expressions</h2>
-			<p>
-			A <dfn>Conditional Expression</dfn> is used to apply different <a title="Column Validation Expression">Column Validation Expressions</a> to a column on the basis of the 
-			result of the evaluation of some other <a>Non Conditional Expression</a>.  
-			This is particularly useful when the data expected in one column depends on the value of another column.  There is only one form of Conditional Expression, 
-			the <a>If Expression</a>.
-			</p>
-			<table class="ebnf-table">
-				<tr>
-					<td class="ebnf-num">[65]</td>
-					<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
-					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a>IfExpr</a></td> 
-				</tr>     
-			</table>
-			<section>
-				<h3>If Expressions</h3>
-				<p>
-				The <dfn>If Expression</dfn> is the only form of <a>Conditional Expression</a>. It takes three input parameters: the first two of these MUST be used, firstly a
-				<a>Combinatorial Expression</a> or <a>Non Conditional Expression</a>; when that evaluates to <code>true</code>, the second parameter, one or more <a>ColumnValidationExpr</a>s are applied; the third parameter is OPTIONAL, 
-				this is the <em>else</em> expression which is used when the first parameter evaluates to <code>false</code>.
-				</p>
-				<table class="ebnf-table">
-					<tr>
-						<td class="ebnf-num">[66]</td>
-						<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
-						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")" /* if with optional else */</td>
-					</tr>     
-				</table>
-			</section>
-		</section>
-		<section>
-			<h2>Column Expression examples</h2>
-			<p>
+				<h2>Column Expression examples</h2>
 				<pre class="example" title="Column Expression Syntax">
-piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
-                                                                   the value must also be part of the value of the columns "file_path" and "resource_uri"
-                                                                   explicit And Expression is used between each specified Column Expression*/
-item: range(1,540) unique($piece,$item)                            //this field must contain an integer between 1 and 540 inclusive.
-                                                                   the combination of piece and item must be unique within the file.
-file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be 
-                                                                   lower case). Here an implicit And Expression is used*/
-file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the 
-                                                                   specified location on the file system which is assumed to be the value held in "file_path".  
-                                                                   We know the location should be in the form of a URI so a URI expression is used, 
-                                                                   and in particular this should be a file url, so we further specify that the data 
-                                                                   in the column must start "file:///" */
-file_checksum: checksum(file($file_path),"SHA-256")                /* Compare the value given in this field to the checksum calculated for the file
-                                                                   found at the location given in the "file_path" field.
-                                                                   Use the specified checksum algorithm (SHA-256)
-                                                                   (must use lowercase hex characters). */
-image_split: is("yes") or is("no")                                 //must be string: yes; or string: no (precisely - case as shown)
-image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))    //if "image_split" field is yes, must be a uuid4, else must be blank
-image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
-                                                                   /*If "image_split" field is the string: yes (precisely)
-                                                                   then field must be 12 characters long.  This is further restricted by regex statement
-                                                                   to being only alphanumeric characters (upper and lower case). */
-image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+00:00,2014-03-04T23:59:59+00:00),is(""))
-                                                                   /*If "image_split" field is string: yes (precisely)
-                                                                   then timestamp for image split, compliant with XSD DateTime data type
-                                                                   and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December, 
-                                                                   to last second of 4 March), else it must be blank (ie "image_split" is no).
+	piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
+	                                                                   the value must also be part of the value of the columns "file_path" and "resource_uri"
+	                                                                   explicit And Expression is used between each specified Column Expression*/
+	item: range(1,540) unique($piece,$item)                            //this field must contain an integer between 1 and 540 inclusive.
+	                                                                   the combination of piece and item must be unique within the file.
+	file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be 
+	                                                                   lower case). Here an implicit And Expression is used*/
+	file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the 
+	                                                                   specified location on the file system which is assumed to be the value held in "file_path".  
+	                                                                   We know the location should be in the form of a URI so a URI expression is used, 
+	                                                                   and in particular this should be a file url, so we further specify that the data 
+	                                                                   in the column must start "file:///" */
+	file_checksum: checksum(file($file_path),"SHA-256")                /* Compare the value given in this field to the checksum calculated for the file
+	                                                                   found at the location given in the "file_path" field.
+	                                                                   Use the specified checksum algorithm (SHA-256)
+	                                                                   (must use lowercase hex characters). */
+	image_split: is("yes") or is("no")                                 //must be string: yes; or string: no (precisely - case as shown)
+	image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))    //if "image_split" field is yes, must be a uuid4, else must be blank
+	image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
+	                                                                   /*If "image_split" field is the string: yes (precisely)
+	                                                                   then field must be 12 characters long.  This is further restricted by regex statement
+	                                                                   to being only alphanumeric characters (upper and lower case). */
+	image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+00:00,2014-03-04T23:59:59+00:00),is(""))
+	                                                                   /*If "image_split" field is string: yes (precisely)
+	                                                                   then timestamp for image split, compliant with XSD DateTime data type
+	                                                                   and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December, 
+	                                                                   to last second of 4 March), else it must be blank (ie "image_split" is no).
 				</pre>
-			</p>
-		</section>
-	</section>
+			</section>
+    	</section>
+    </section>
 	<section>
 		<h1>Data types</h1>
 		<p>
@@ -1886,7 +1876,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-num"></td>
 					<td class="ebnf-left"><a><dfn title="ebnf-single-expr">SingleExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right">(<a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>)? <a title="ebnf-is-expr">IsExpr</a> | <a title="ebnf-not-expr">NotExpr</a> | <a title="ebnf-in-expr">InExpr</a> | <a title="ebnf-starts-with-expr">StartsWithExpr</a> | <a title="ebnf-ends-with-expr">EndsWithExpr</a> | <a title="ebnf-reg-exp-expr">RegExpExpr</a> | <a title="ebnf-range-expr">RangeExpr</a> | <a title="ebnf-length-expr">LengthExpr</a> | <a title="ebnf-empty-expr">EmptyExpr</a> | <a title="ebnf-not-empty-expr">NotEmptyExpr</a> | <a title="ebnf-unique-expr">UniqueExpr</a> | <a title="ebnf-uri-expr">UriExpr</a> | <a title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</a> | <a title="ebnf-xsd-date-expr">XsdDateExpr</a> | <a title="ebnf-xsd-time-expr">XsdTimeExpr</a> | <a title="ebnf-uk-date-expr">UkDateExpr</a> | <a title="ebnf-date-expr">DateExpr</a> | <a title="ebnf-partial-uk-date-expr">PartialUkDateExpr</a> | <a title="ebnf-partial-date-expr">PartialDateExpr</a> | <a title="ebnf-uuid4-expr">Uuid4Expr</a> | <a title="ebnf-positive-integer-expr">PositiveIntegerExpr</a></td>
+					<td class="ebnf-right"><a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>? (<a title="ebnf-is-expr">IsExpr</a> | <a title="ebnf-not-expr">NotExpr</a> | <a title="ebnf-in-expr">InExpr</a> | <a title="ebnf-starts-with-expr">StartsWithExpr</a> | <a title="ebnf-ends-with-expr">EndsWithExpr</a> | <a title="ebnf-reg-exp-expr">RegExpExpr</a> | <a title="ebnf-range-expr">RangeExpr</a> | <a title="ebnf-length-expr">LengthExpr</a> | <a title="ebnf-empty-expr">EmptyExpr</a> | <a title="ebnf-not-empty-expr">NotEmptyExpr</a> | <a title="ebnf-unique-expr">UniqueExpr</a> | <a title="ebnf-uri-expr">UriExpr</a> | <a title="ebnf-xsd-date-time-expr">XsdDateTimeExpr</a> | <a title="ebnf-xsd-date-expr">XsdDateExpr</a> | <a title="ebnf-xsd-time-expr">XsdTimeExpr</a> | <a title="ebnf-uk-date-expr">UkDateExpr</a> | <a title="ebnf-date-expr">DateExpr</a> | <a title="ebnf-partial-uk-date-expr">PartialUkDateExpr</a> | <a title="ebnf-partial-date-expr">PartialDateExpr</a> | <a title="ebnf-uuid4-expr">Uuid4Expr</a> | <a title="ebnf-positive-integer-expr">PositiveIntegerExpr</a>)</td>
 					<td class="ebnf-note"></td>
 				</tr>     
 				<tr>
@@ -1957,14 +1947,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 					<td class="ebnf-left"><a><dfn title="ebnf-length-expr">LengthExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"length(" (<a title="ebnf-positive-integer-or-any">PositiveIntegerOrAny</a> ",")? <a title="ebnf-positive-integer-or-any">PositiveIntegerOrAny</a> ")"</td>
-					<td class="ebnf-note">
-						/* length has 4 forms. 
-						<br/>1) length(n) ensures the value is: the exact length n (absolute length)
-						<br/>2) length(n, *) ensures the value is: longer than or equal to n (minimum length)
-						<br/>3) length(*, n) ensures the value is: shorter than or equal to n (maximum length)
-						<br/>4) length(n1, n2) ensures the value is: longer than or equal to n1 AND shorter than or equal to n2 (minumum and maximum lengths)
-						*/
-					</td>
+					<td class="ebnf-note"></td>
 				</tr>     
 				<tr>
 					<td class="ebnf-num"></td>
@@ -2235,7 +2218,7 @@ image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+0
 				<h4>Extra-grammatical Constraints</h4>
 				<section>
 					<h5><dfn>xgc:regular-expression</dfn></h5>
-					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java.</p>
+					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 				</section>
 				<section>
 					<h5><dfn>xgc:unordered</dfn></h5>
