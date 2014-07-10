@@ -1633,43 +1633,50 @@ simon,57,male
 	<section>
 		<h1>Errors and Warnings</h1>
 		<p>
-		Running the validator will produce a report.  First of all the validator checks that the schema itself is syntactically correct.  If not, a <a>Schema Error</a> is produced, 
-		and no validation of the actual data occurs.  If the schema check is successful then data validation begins.  A report is produced for each <a>Column Validation Expression</a> 
-		that fails validation.  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used to convert errors within that 
-		<a title="Column Rules">Column Rule</a> into a <a>Validation Warning</a>.
+		An implementation MUST first check that the provided CSV Schema(s) are syntactically correct. If not, a <a>Schema Error</a> is produced, 
+		and no further validation SHOULD of the CSV Schema(s) or provided CSV files(s) should be undertaken. If the schema check is successful then an implementation
+		MAY continue with further CSV Schema(s) and CSV file validation.</p>
+		<p>If an implementation performs validation of a CSV file against a CSV Schema, a report SHOULD be produced for each <a>Column Validation Expression</a> 
+		that fails validation;  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used reduce the severity of an error within a specific  
+		<a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
 		</p>
 		<section>
 			<h2>Schema Errors</h2>
 			<p>
-			A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the schema itself.  This might be an incorrect <a>Version Declaration</a> or a mismatch between the 
+			A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the CSV Schema.  These might include for example: an incorrect <a>Version Declaration</a>, or a mismatch between the 
 			number specified for <a>Total Columns Directive</a> and the actual number of <a title="Column Definition">Column Definitions</a> given in the <a>Body</a> of the Schema. 
 			Schema Errors would also be produced by mismatched <a title="Parenthesized Expression">Parenthesized Expressions</a>, 
 			unrecognised <a title="Column Validation Expression">Column Validation Expressions</a> and <a title="Explicit Context Expression">Explicit Context Expressions</a> which do not 
 			match an actual <a>Column Identifier</a>.
 			</p>
 			<p>
-			The Schema Error will be logged in the output report, and execution will terminate without attempting to validate the data against the schema.
+			An implementation MUST report a Schema Error.
 			</p>
 		</section>
 		<section>
 			<h2>Validation Errors</h2>
 			<p>
-			If column data does not validate successfully against a <a title="Column Rules">Column Rule</a> a <dfn>Validation Error</dfn> will be produced and logged in the output report. 
-			In general a Validation Error does not terminate execution, all data will be processed, and all errors logged.  When Validation Errors have been encountered the validator will 
-			give a non-zero return code TODO specify.  The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
+			If column data does not validate successfully against a <a title="Column Rules">Column Rule</a>, an implementation SHOULD report a <dfn>Validation Error</dfn>. 
+			It is implementation defined whether a Validation Error terminates execution, or whether execution continues. If execution continues, any further errors SHOULD be reported.</p> 
+			<p><b>NOTE</b> The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
 			treated only as a <a>Validation Warning</a>.
 			</p>
 			<p>
 			A <dfn>Validation Warning</dfn> can be used when you wish to highlight unexpected values that are encountered in the data, but for some reason they are not to be considered 
-			failures of validation.  For example within archival documents the date has been recorded as an "impossible" date such as 30 February or 31 April.  A transcriber has correctly 
-			entered the data as seen on the original document, but it is not a valid date.  You may wish to highlight these cases for additional QA, but it cannot be considered an error.
+			failures of validation.  For example within archival documents the date may have been recorded as an <em>impossible</em> date, such as 30 February or 31 April.  A transcriber has correctly 
+			entered the data as seen on the original document, but yet it is not a valid date. You may wish to highlight these cases for additional QA, but it should not be considered an error.
 			</p>
 		</section>
 	</section>
-	
-      TODO a note on file uri handling on different platforms etc!
-      TODO a note on mime-type and file-naming .csvs
-      
+	<section class="appendix">
+		<h2>The text/csv-schema Media Type</h2>
+		<p>This Appendix specifies the media type for CSV Schema Version 1.0. CSV Schema is a language for describing and validating CSV files, as specified in the main body of this document. This media type has being submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
+		<p>The <code>text/csv-schema</code> media type, is intended to be used for transmitting schemas written in the CSV Schema language.</p>
+		<section>
+			<h3>File Extensions</h3>
+			<p>The suggested file extension for use when naming CSV Schema files is <code>.csvs</code>.</p>
+		</section>
+	</section>      
     <section class="appendix">
 		<h2>CSV Schema Grammar</h2>
 		<section id="ebnf">
