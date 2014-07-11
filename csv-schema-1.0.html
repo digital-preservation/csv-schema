@@ -18,7 +18,7 @@
           subtitle   :  "A Language for Defining and Validating CSV Data",
 
           // if you wish the publication date to be other than today, set this
-          publishDate:  "2014-06-01",
+          publishDate:  "2014-07-11",
 
           // if the specification's copyright date is a range of years, specify
           // the start date here:
@@ -174,46 +174,48 @@
       such as the <a href="http://w3.org">W3C</a>.
     </section> 
     <section id='abstract'>
-      <acronym title="Comma Separated Value">CSV</acronym> data comes in many shapes and sizes. Apart from [[RFC4180]] which is fairly recent and frequently ignored
-      there is a lack of formal definition as to CSV data formats and in many ways this is one of its strengths.
+      <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
+      there is a lack of formal definition as to CSV data formats, although in many ways this is one of the strengths of the CSV data format.
       However, extracting structured information from CSV data for further processing or storage
       can prove difficult if the CSV data is not well understood or perhaps not even uniform. CSV Schema
       defines a textual language which can be used to define the data structure, types and rules for
-      particular CSV data. In parallel, a tool implementing this CSV Schema Language has been developed, 
-	  see <a href="http://digital-preservation.github.io/csv-validator/">CSV Schema and Validator</a>
+      CSV data formats.
     </section>
     
     <section id="introduction" class='informative'>
         <h1>Introduction</h1>
-        <p>The intention of this document is twofold:</p>
+        <p>The intention of this document is two-fold:</p>
         <ol>
             <li>To be informative to users who are writing CSV Schemas, and provide a reference to the available syntax and functions.</li>
-            <li>To provide enough detail such that anyone with sufficient technical expertise should be able to implement a CSV Schema parser and/or CSV validator following the rules defined in a CSV Schema.</li>
+            <li>To provide enough detail such that anyone with sufficient technical expertise should be able to implement a CSV Schema parser and/or CSV validator evaluating the rules defined in a CSV Schema.</li>
         </ol>
         <section id="background">
             <h2>Background</h2>
             <p>
-                The National Archives Digital Repository Infrastructure system archives digitised and born-digital materials provided by <acronym title="Other Governmental Department">OGD</acronym>s
-                and occasionally <acronym title="Non Governmental Organisation">NGO</acronym>s. For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
+            	The National Archives <acronym title="Digital Repository Infrastructure">DRI</acronym> (Digital Repository Infrastructure) system archives digitised and born-digital materials provided by <acronym title="Other Governmental Department">OGD</acronym>s (Other Government Departments)
+                and occasionally <acronym title="Non Governmental Organisation">NGO</acronym>s (Non-Governmental Organisations). For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
                 of this metadata is created by the supplying organisation or by transcription. The metadata is further processed, and ultimately stored both online in an
                 <acronym title="Resource Description Format">RDF</acronym> Triplestore and a majority subset archived in a non-RDF <acronym title="eXtensible Markup Language">XML</acronym> format.
                 However it was recognised that the creation of XML or RDF metadata by the supplier
                 was most likely unrealistic for either technical or financial reasons. As such, CSV was recognised as a simple data format that is human readable (to a degree), that almost anyone could create
-                simply; effectively CSV is the lowest common denominator in structured data formats.
+                simply; CSV is the <em>lowest common denominator</em> of structured data formats.
             </p>
             <p>
                 The National Archives have strict rules about various CSV file formats that they expect, and how the data in those file formats should be set out. To ensure the quality of their archival metadata
-                it was recognised that CSV files would have to be validated, as such a general schema language for CSV was developed alongside a validation tool.  For details of this tool,
-				see GitHub pages, <a href="http://digital-preservation.github.io/csv-validator/">CSV Schema and Validator</a>
+                it was recognised that CSV files would have to be validated. It was recognised that development of a schema language for CSV (and associated tools) would be of great benefit. It was
+                also further recognised that a general CSV Schema language would be of greater benefit if it was made publicly available and invited collaboration from other organisations and
+                individuals; the problem of CSV data formats is certainly not unique to The National Archives.
             </p>
-        </section>
+        	<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboriation and contributions from all iterested parties.</p>
+        	<p>A reference implemenation has been created to prove the standard: The open source <a href="http://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
+		</section>
         <section id="principles">
             <h2>Guiding Principles</h2>
             <p>The design of the CSV Schema language has been influenced by a few guiding principles, understanding these will help you to understand how and why it is structured the way that it is.</p>
             <ul>
                 <li>
                     <div class="principle">Simplicity</div>
-                    <p>The language should be expressible in plain text and should be simple enough that archival domain experts could easily write it without having to know a programming language or data/document modelling language such as XML or RDF.</p>
+                    <p>The language should be expressible in plain text and should be simple enough that non-technical domain experts could easily write it without having to know a programming language or data/document modelling language such as XML, JSON or RDF.</p>
                     <p><strong>Note</strong>, the CSV Schema Language is NOT itself expressed in CSV, it is expressed in a simple text format.</p>
                 </li>
                 <li>
@@ -222,7 +224,7 @@
                 </li>
                 <li>
                     <div class="principle">Stream Processing</div>
-                    <p>Metadata files may be very large as such the CSV Schema Language was designed with concern for implementation of a validation tool which could read and process CSV data as a stream. Few operations require mnenomization of data from the CSV file, and where they do this is limited and should be optimisable to keep memory use to a minimum.</p>
+                    <p>CSV files may be very large and so the CSV Schema Language was designed with concern for implementations, that although not required by the specification, MAY wish to read and process CSV data as a stream. Few operations require mnenomization of data from the CSV file, and where they do this is limited and should be optimisable to keep memory use to a minimum.</p>
                 </li>
                 <li>
                     <div class="principle">Sane Defaults</div>
@@ -241,7 +243,7 @@
             A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
             Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
             A column rule may express constraints based on the content of other columns in the same row, however at present there is no scope for looking forward or backward through rows directly.
-			However, it possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
+			However, it is possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
         </p>
         <p>A CSV Schema is made up of two main parts:</p>
 		<ol class="nested">
@@ -766,7 +768,7 @@ simon,57,male
 		then <code>Mr</code> would be regarded as invalid (strictly speaking that would also require the use of an <a>Explicit Context Expression</a> to refer to the other column, 
 		but that is a subexpression of the Non Conditional Expression class).
 		</p>
-    	<p><b>NOTE</b> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
+    	<p><strong>NOTE</strong> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
     	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
@@ -1658,7 +1660,7 @@ simon,57,male
 			<p>
 			If column data does not validate successfully against a <a title="Column Rules">Column Rule</a>, an implementation SHOULD report a <dfn>Validation Error</dfn>. 
 			It is implementation defined whether a Validation Error terminates execution, or whether execution continues. If execution continues, any further errors SHOULD be reported.</p> 
-			<p><b>NOTE</b> The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
+			<p><strong>NOTE</strong> The <a>Warning Directive</a> may be used within a Column Rule to specify that what would normally be a Validation Error should be 
 			treated only as a <a>Validation Warning</a>.
 			</p>
 			<p>
