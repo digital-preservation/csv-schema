@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSV Schema 1.0</title>
+    <meta charset='utf-8'/>
+    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "unofficial",
+          additionalCopyrightHolders: "Mozilla Public Licence version 2.0",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "csvs",
+
+          // if your specification has a subtitle that goes below the main
+          // formal title, define it here
+          subtitle   :  "A Language for Defining and Validating CSV Data",
+
+          // if you wish the publication date to be other than today, set this
+          publishDate:  "2013-11-01",
+
+          // if the specification's copyright date is a range of years, specify
+          // the start date here:
+          // copyrightStart: "2005"
+
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+
+          // if there a publicly available Editor's Draft, this is the link
+          // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
+          edDraftURI:           "http://digitalpreservation.github.com/csv-validator/csv-schema-1.0.html",
+
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Adam Retter", url: "http://adamretter.org.uk/",
+                company: "Adam Retter Consulting", companyURL: "http://adamretter.org.uk/" },
+          ],
+
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          
+          // name of the WG
+          wg:           "The National Archives - Digital Preservation",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
+          
+          // name (without the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "csvs",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          
+          // If specified, defines an array of alternate formats in which document is available (e.g., XML, Postscript). The format of the array is:
+          // alternateFormats:
+          
+          doRDFa: "1.1",
+      };
+    </script>
+    <style>
+      <!--
+        div.exampleInner {
+          background-color: #D5DEE3;
+          border-top-width: 4px;
+          border-top-style: double;
+          border-top-color: lightGrey;
+          border-bottom-width: 4px;
+          border-bottom-style: double;
+          border-bottom-color: lightGrey;
+          padding: 4px;
+          margin: 0em;
+        }
+        
+        code.function {
+          font-weight: bold;
+        }
+        
+        code.return-type {
+          font-style: italic;
+        }
+        
+        code.type {
+          font-style: italic;
+        }
+        
+        span.explain {
+          font-family: sans-serif;
+          font-style: italic;
+        }
+        
+        .principle, .point {
+            font: small-caps 100% sans-serif;
+        }
+      -->
+    </style>
+  </head>
+  <body>
+    <section id="sotd">
+      This document represents the specification of the CSV Schema 1.0 language
+      as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
+      It is unclear yet whether this document will be submitted to a formal standards body
+      such as the <a href="http://w3.org">W3C</a>.
+    </section> 
+    <section id='abstract'>
+      <acronym title="Comma Separated Value">CSV</acronym> data comes in many shapes and sizes. Apart from [[RFC4180]] which is fairly recent and frequently ignores
+      there is a lack of formal definition as to CSV data formats and in many ways this is one of it's strengths.
+      However, extracting structured information from CSV data for further processing or storage
+      can prove difficult if the CSV data is not well understood or perhaps even uniform. CSV Schema
+      defines a textual language which can be used to define the data structure, types and rules for
+      particular CSV data.
+    </section>
+    
+    <section id="introduction" class='informative'>
+        <h1>Introduction</h1>
+        <p>
+            The intention of this document is twofold:
+            <ol>
+                <li>To be informative to users who are writing CSV Schemas, and provide a reference to the available syntax and functions.</li>
+                <li>To provide enough detail such that anyone with sufficient technical expertise should be able to implement a CSV Schema parser and/or CSV validator following the rules defined in a CSV Schema.</li>
+            </ol>
+        </p>
+        <section id="background">
+            <h2>Background</h2>
+            <p>
+                The National Archives Digital Repository Infrastructure system archives digitised and born-digital materials provided by <acronym title="Other Governmenal Department">OGD</acronym>s
+                and occasionally <acronym title="Non Governmental Department">NGO</acronym>s. For the purposes of Digital Preservation the system processes and archives large amounts of metadata, much
+                of this metadata is created by the supplying organisation or by transcription. The metadata is further processed, and ultimately stored both online in an
+                <acronym title="Resource Description Format">RDF</acronym> Triplestore and a majority subset archived in a non-RDF <acronym title="eXtensible Markup Language">XML</acronym> format.
+                However it was recognised that the creation of XML or RDF metadata by the supplier
+                was most likely unrealistic for either technical or financial reasons. As such, CSV was recognised as a simple data format that is human readable (to a degree), that almost anyone could create
+                simply; effectively CSV is the lowest common denominator in structured data formats.
+            </p>
+            <p>
+                The National Archives have strict rules about various CSV file formats that they expect, and how the data in those file formats should be set out. To ensure the quality of their archival metadata
+                it was recognised that CSV files would have to be validated, as such a general schema language for CSV was developed alongside a validation tool.
+            </p>
+        </section>
+        <section id="principles">
+            <h2>Guiding Principles</h2>
+            <p>The design of the CSV Schema language has been influenced by a few guiding principles, understanding these will help you to understand how and why it is structured the way that it is.</p>
+            <ul>
+                <li>
+                    <div class="principle">Simplicity</div>
+                    <p>The language should be expressible in plain text and should be simple enough that archival domain experts could easily write it without having to know a programming language or data/document modelling language such as XML or RDF.</p>
+                    <p><strong>Note</strong>, the CSV Schema Language is NOT itself expressed in CSV, it is expressed in a simple text format.</p>
+                </li>
+                <li>
+                    <div class="principle">Context is King!</div>
+                    <p>Schema rules are written for each column of the CSV file. Each set of column rules are asserted against each row of the CSV file. Each rule in the CSV Schema operates on the current context (e.g. defined Column and parsed Row), unless otherwise specified. This makes the rules short and concise.</p>
+                </li>
+                <li>
+                    <div class="principle">Stream Processing</div>
+                    <p>Metadata files may be very large as such the CSV Schema Language was designed with concern for implementation of a validation tool which could read and process CSV data as a stream. Few operations require mnenomization of data from the CSV file, and where they do this is limited and should be optimisable to keep memory use to a minimum.</p>
+                </li>
+                <li>
+                    <div class="principle">Sane Defaults</div>
+                    <p>We try to do the right thing by default. CSV files and their brethren (Tab Separated Values etc.) can come in many shapes and sizes, by default we assume the CSV data format will comply with [[RFC4180]], of course we allow you to customize this behaviour in the CSV Schema.</p>
+                </li>
+                <li>
+                    <div class="principle">Not a Programming Language.</div>
+                    <p>This is worth stressing as it was something we had to keep site of ourselves during development; CSV Schema is a simple data definition and validation language for CSV!</p>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <section id="basics" class="informative">
+        <h1>Basics</h1>
+        <p>
+            A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
+            Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
+            A column rule may express constraints based on the content of other columns, however at present there is no scope for looking forward or backward through rows directly.
+        </p>
+        <p>
+            A CSV Schema is made up of three main parts:
+            <ul>
+                <ol>
+                    <li>
+                        <span class="point"><a>Version Declaration</a></span>
+                        <p>The CSV Schema must explicitly state as it's first non-comment line, the version of the CSV Schema language that it uses. This is to allow for future evolution of the CSV Schema language to be easily handled by CSV Schema processors.</p>
+                    </li>
+                    <li>
+                        <span class="point"><a>Global Directives</a></span>
+                        <p>Global Directives apply to all processing of the CSV data. Global Directives for example allow you to define the separator sequence between columns in the CSV data. Global Directives appear before Column Rules and are prefixed with an <code>@</code> character.</p>
+                    </li>
+                    <li>
+                        <span class="point"><a>Column Rule</a>s</span>
+                        <p>The CSV Schema must declare in-order a Column Rule for each Column in the CSV data. If validation of a Column is not desirable, then an empty rule may be used.</p>
+                    </li>
+                </ol>
+            </ul>
+        </p>
+        <p>
+            Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:
+            <pre class="example" title="Simple CSV Schema">
+version 1.0
+
+@totalColumns 3
+
+name: notEmpty
+age: range(0, 120)
+gender: is("m") or is("f") or is("t") or is("n") 
+            </pre>
+            This CSV Schema basically defines that the CSV data must have 3 columns, the first
+            column <em>name</em> must have some sort of value, the second column <em>age</em>
+            must be a number between 0 and 120 inclusive, and the third column <em>gender</em>
+            must be the character m, f, t or n. An example of CSV data that would match the
+            rule definitions in the CSV schema could be as follows:
+            <pre class="example" title="Valid CSV Data">
+name, age, gender
+james, 21, m
+lauren, 19, f
+simon, 57, m
+            </pre>
+            An example of CSV data would fail the rule definitions in the CSV schema could be
+            as follows:
+            <pre class="example" title="Invalid CSV Data">
+name, age, gender
+james, 4 years, m
+lauren, 19, f
+simon, 57, male
+            </pre>
+            The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.
+        </p>
+    </section>
+    <section>
+        <h1>Prolog</h1>
+        <p>The <dfn>prolog</dfn> of a CSV Schema MUST contain the <a>Version Declaration</a> and MAY contain one or more <a>Global Directives</a>.</p>
+        <table class="ebnf-table">
+            <tr>
+                <td class="ebnf-num">[2]</td>
+                <td class="ebnf-left"><a href="#ebnf-prolog">Prolog</a></td>
+                <td>::=</td>
+                <td class="ebnf-right"><a>VersionDecl</a> <a>GlobalDirectives</a></td>
+            </tr>
+        </table>
+        <section>
+            <h2>Version Declaration</h2>
+            <p>The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. At present this MUST be fixed to <code>1.0</code>. If the version is not valid this is considered a <a>Schema Error</a>.</p>
+            <table class="ebnf-table">
+                <tr>
+                    <td class="ebnf-num">[3]</td>
+                    <td class="ebnf-left"><a href="#ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
+                    <td>::=</td>
+                    <td class="ebnf-right">"version 1.0"</td>
+                </tr>
+            </table>
+            <p>
+                <pre class="example" title="Version Declaration Syntax">
+version 1.0
+                </pre>
+            </p>
+        </section>
+        <section>
+            <h2>Global Directives</h2>
+            <p>The <dfn>Global Directives</dfn> allow you to modify the processing of a CSV file or how subsequent <a>Column Rules</a> are evaluated. The use of Global Directives within a CSV Schema is OPTIONAL.</p>
+            <table class="ebnf-table">
+                <tr>
+                    <td class="ebnf-num">[4]</td>
+                    <td class="ebnf-left"><a href="#ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
+                    <td>::=</td>
+                    <td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
+                </tr>
+            </table>
+            <section>
+                <h3>Separator Directive</h3>
+                <p>The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data. By default the separator is a <code>comma</code> i.e. the UTF-8 character code <code>0x2c</code>.</p>
+                <table class="ebnf-table">
+                    <tr>
+                        <td class="ebnf-num">[5]</td>
+                        <td class="ebnf-left"><a href="#ebnf-directive-prefix"><dfn>DirectivePrefix</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right">"@"</td>
+                    </tr>
+                    <tr>
+                        <td class="ebnf-num">[6]</td>
+                        <td class="ebnf-left"><a href="#ebnf-separator-directive"><dfn>SeparatorDirective</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right"><a>DirectivePrefix</a> "separator" (<a>TABExpr</a> | <a>SeparatorChar</a>)</td>
+                    </tr>
+                    <tr>
+                        <td class="ebnf-num">[7]</td>
+                        <td class="ebnf-left"><a href="#ebnf-tab-expr"><dfn>TABExpr</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+                    </tr>
+                    <tr>
+                        <td class="ebnf-num">[8]</td>
+                        <td class="ebnf-left"><a href="#ebnf-separator-char"><dfn>SeparatorChar</dfn></a></td>
+                        <td>::=</td>
+                        <td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+                    </tr>
+                    
+                </table>
+            </section>
+        </section>
+    </section>
+      
+      TODO a note on file uri handling on different platforms etc!
+      TODO a not on mime-type and filenaming
+      
+    <section class="appendix">
+      <h2>CSV Schema Grammar</h2>
+      <section>
+          <h3>EBNF</h3>
+          <table class="ebnf-table">
+              <tr>
+                  <td class="ebnf-num">[1]</td>
+                  <td class="ebnf-left"><dfn title="ebnf-schema">Schema</dfn></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-prolog">Prolog</a> <a href="#ebnf-body">Body</a></td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[2]</td>
+                  <td class="ebnf-left"><a><dfn title="ebnf-prolog">Prolog</dfn></a></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-version-decl">VersionDecl</a> <a href="#ebnf-global-directives">GlobalDirectives</a></td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[3]</td>
+                  <td class="ebnf-left"><a><dfn title="ebnf-version-decl">VersionDecl</dfn></a></td>
+                  <td>::=</td>
+                  <td class="ebnf-right">"version 1.0"</td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[4]</td>
+                  <td class="ebnf-left"><a><dfn title="ebnf-global-directives">GlobalDirectives</dfn></a></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-separator-directive">SeparatorDirective</a>? <a href="#ebnf-quoted-directive">QuotedDirective</a>? <a href="#ebnf-total-columns-directive">TotalColumnsDirective</a>? (<a href="#ebnf-no-header-directive">NoHeaderDirective</a> | <a href="#ebnf-ignore-column-name-case-directive">IgnoreColumnNameCaseDirective</a>)?</td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[5]</td>
+                  <td class="ebnf-left"><dfn title="ebnf-directive-prefix">DirectivePrefix</dfn></td>
+                  <td>::=</td>
+                  <td class="ebnf-right">"@"</td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[6]</td>
+                  <td class="ebnf-left"><a><dfn title="ebnf-separator-directive">SeparatorDirective</dfn></a></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-directive-prefix">DirectivePrefix</a> "separator" (<a href="ebnf-tab-expr">TABExpr</a> | <a href="ebnf-separator-char">SeparatorChar</a>)</td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[7]</td>
+                  <td class="ebnf-left"><dfn title="ebnf-tab-expr">TABExpr</dfn></td>
+                  <td>::=</td>
+                  <td class="ebnf-right">"TAB" ("(" <a href="#ebnf-integer-literal">IntegerLiteral</a> ")")?</td>
+              </tr>
+              <tr>
+                  <td class="ebnf-num">[8]</td>
+                  <td class="ebnf-left"><dfn title="ebnf-separator-char">SeparatorChar</dfn></td>
+                  <td>::=</td>
+                  <td class="ebnf-right"><a href="#ebnf-character-literal">CharacterLiteral</a></td>
+              </tr>
+          </table>
+      </section>
+    </section>  
+      
+      
+    <section class='appendix'>
+      <h2>Acknowledgements</h2>
+      <p>
+        Many thanks to:
+        <ul>
+            <li>Robin Berjon for making the production of this specification much simpler with his cool <a href="https://github.com/darobin/respec">ReSpec</a> tool.</li>
+        </ul>
+      </p>
+    </section>
+  </body>
+</html>
