@@ -1,0 +1,96 @@
+version 1.0
+@totalColumns 40										//each line of the csv file being tested must contain 40 columns (fields)
+/****************************************************************************************************************************************************************
+*This schema is used to validate outputs produced by the appointed supplier                                                                                     *
+****************************************************************************************************************************************************************/
+batch_code: length(10) regex("^RG101B([0-9]{4})$")							//1st condition, must be 10 characters long,
+//												  and (implicitly multiple conditions are joined by a logical AND
+//												  unless another boolean is provided)
+department: (is("RG") (in($file_path) and in($resource_uri)))				//Parentheses control evaluation order of booleans as might be expected
+//												  The first set of grouped "is" statements simply defines expected values
+//												  The grouped "in" statements say that the value found in this field must also
+//												  be found as part of the fields "file_path" and "resource_uri"
+series: is("101") and (in($file_path) and in($resource_uri))				//in general we expect this field will be a positive (non-zero) integer
+//												  in this case it must have the specific value 1
+//												  the value must also be part of the fields "file_path" and "resource_uri"
+piece: range(1,69720) (in($file_path) and in($resource_uri))					//the value must also be part of the fields "file_path" and "resource_uri"
+item: unique($piece)
+volume_number: range(1,6972)
+page_number: range(1,23) or is("missing") or is("")
+title_page_exists: if($item/is("1"), regex("yes|no"), is("")) 
+following_blank_pages: regex("^[0-9/-]{1,}$") or is("")
+file_uuid: uuid4 unique										//must be a version 4 uuid, and the value must be unique within the file
+//												  uuids must be lower case.
+file_path: uri regex("^file:\/\/\/RG_101\/[0-9]{1,5}\/[0-9]{1,5}_.+\.jp2$") unique //fileExist    To run with the example csv files, the file exists checks has been commented out
+//													fileExists checks that there is actually a file of the given name at the 
+//												  specified location on the file system.  In practice, the validator will
+//												  normally be run with the --path switch which allows substitution of strings
+//												  within file paths to allow for the fact that drive letters or mount points
+//												  may vary between systems. eg the file_path specified in the file might begin
+//												  file:///D:/RG/101/1 but we have the external drive on E: instead, so would run
+//												  validate --path "file:///D:/RG/101/1" "file:///E:/RG/101/1" filename.csv schema
+//												  or for unix systems drop drive letter altogether and give the mount point.
+//												  We also require that the path is a valid uri, and begins file:///
+//												  (Conditions specified on earlier columns say that the values of those columns
+//												  must also appear as part of the content of this field)
+file_checksum: //checksum(file($file_path),"SHA-256")						//Compare the value given in this field to the checksum calculated for the file
+//												  found at the location given in the "file_path" field (again path substitution
+//												  may well be applied as described for the "file_path" field itself).
+//												  Use the specified checksum algorithm.  Commented out for use with example file
+//												  (must use lowercase hex characters)
+resource_uri: uri starts("http://datagov.nationalarchives.gov.uk/66/")				//Must be a valid uri which starts with the specified string
+//												  (Conditions specified on earlier columns say that the values of those columns
+//												  must also appear as part of the content of this field)
+scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")					//Similar to conditions to "batch_code" but only 12 alphanumeric characters
+scan_id: length(1,12) regex("^[0-9a-zA-Z_]{1,12}$")						//Same rule as "scan_operator"
+scan_location: regex("[-\w\s,]+")								//Spec did not define a maximum length for this field so the regex allows any
+//												  number of characters, allows general word and whitespace characters plus
+//												  hyphen and comma
+scan_native_format: regex("[0-9\w\s,.:]+")							//No length restriction was given for this field, nor any real restrictions on
+//												  characters to be used, so the regex allows all numerals, word characters,
+//												  whitespace, comma, fullstop and colon.  This was adjusted during the test
+//												  validation to ensure all reasonable characters were passed
+scan_timestamp: xDateTime									//timestamp for the scanning operation, compliant with XSD DateTime data type
+image_resolution: is("300")							//Generally must be a positive (non-zero) integer, and in this case explictly
+//												  300
+image_width: positiveInteger									//Must be a positive (non-zero) integer.  If the size of the material being
+//												  digitised is well understood could use a range check to ensure values are
+//												  within a "sensible" range eg range(2400,2600) for A4 material - just over
+//												  8" wide (portrait), and assuming 300 ppi
+image_height: positiveInteger									//Must be a positive (non-zero) integer.  If the size of the material being
+//												  digitised is well understood could use a range check to ensure values are
+//												  within a "sensible" range eg range(2400,2600) for A4 material - just over
+//												  11.5" high (portrait), and assuming 300 ppi
+image_tonal_resolution: is("24-bit colour")							//must be string: 24-bit colour (precisely - case as shown)
+image_format: is("x-fmt/392")									//must be string: x-fmt/392 (precisely) - ie a jp2 file as understood by PRONOM
+image_colour_space: is("sRGB")									//must be string: sRGB (precisely - case as shown)
+process_location: regex("[-\w\s,]+")								//See "scan_location"
+jp2_creation_timestamp: xDateTime								//timestamp for the conversion to jp2, compliant with XSD DateTime data type
+uuid_timestamp: xDateTime									//timestamp for creation of uuid, compliant with XSD DateTime data type
+embed_timestamp: xDateTime									//timestamp for embedding xml in jp2, compliant with XSD DateTime data type
+image_split: is("yes") or is("no")								//must be string: yes; or string: no (precisely - case as shown)
+image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))					//if "image_split" field is yes, must be a uuid4, else must be blank
+//												  (in certain circumstances it would be possible that this could be a list of
+//												  uuids, in which case the conditions would have to be reworked)
+image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))	//If "image_split" field is string:yes (precisely)
+//													  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//													  else must be blank
+image_split_timestamp: if($image_split/is("yes"),xDateTime,is(""))					//If "image_split" field is string:yes (precisely)
+//													  then timestamp for image split, compliant with XSD DateTime data type
+//													  else must be blank
+image_crop: is("auto") or is("manual") or is("none")							//must be string: auto; or string: manual or string: none
+//													  (precisely - case as shown)
+image_crop_operator: if($image_split/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))	
+image_crop_timestamp: if($image_crop/is("none"),is(""),xDateTime)					//If "image_crop" field is string: none (precisely)
+//													  then must be blank
+//													  else timestamp for image split, compliant with XSD DateTime data type
+image_deskew: is("yes") or is("no")										//must be string: yes; or string: no (precisely - case as shown)
+image_deskew_operator: if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"), is(""))	//If "image_split" field is string:yes (precisely)
+//													  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//													  else must be blank
+image_deskew_timestamp: if($image_deskew/is("yes"),xDateTime,is(""))					//If "image_crop" field is string: none (precisely)
+//													  then must be blank
+//													  else timestamp for image split, compliant with XSD DateTime data type
+QA-code: regex("^[0-9/,]{1,2}$") is("") @optional
+comments: regex("[\w\s,\.]+") @optional										//This field is optional, but if used the regex restricts to standard word
+//												  characters, whitespace plus comma and fullstop.  No length limit.	
