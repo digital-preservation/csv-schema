@@ -880,7 +880,9 @@ simon,57,male
 				<section>
 					<h4>Regular Expression Expressions</h4>
 					<p>
-					A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.
+					A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression. Obviously many of the the other 
+					<a title="Column Validation Expression">Column Validation Expressions</a> could be written as Regular Expressions, but that would generally make the resulting Schema
+					harder to read, particularly for less technical users.
 					</p>
 					<table class="ebnf-table">
 						<tr>
@@ -1431,18 +1433,33 @@ simon,57,male
 			<h2>Column Expression examples</h2>
 			<p>
 				<pre class="example" title="Column Expression Syntax">
-piece: is("1") and (in($file_path) and in($resource_uri))	/*The column "piece" must have the specific value 1
-			the value must also be part of the value of the columns "file_path" and "resource_uri"
-			explicit And Expression is used between each specified Column Expression*/
-item: range(1,540)											//this field must contain an integer between 1 and 540 inclusive
-file_uuid: uuid4 unique										/*must be a version 4 uuid, and the value must be unique within the file uuids must be lower case
-			Here an implicit And Expression is used*/
-file_path: fileExists uri starts("file:///")							//fileExists checks that there is actually a file of the given name at the 
-//												  						  specified location on the file system.
-file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value given in this field to the checksum calculated for the file
-//												  						  found at the location given in the "file_path" field
-//												 						  Use the specified checksum algorithm (SHA-256)
-//												  						  (must use lowercase hex characters).
+piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
+                                                                   the value must also be part of the value of the columns "file_path" and "resource_uri"
+                                                                   explicit And Expression is used between each specified Column Expression*/
+item: range(1,540) unique($piece,$item)                            //this field must contain an integer between 1 and 540 inclusive.
+                                                                   the combination of piece and item must be unique within the file.
+file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be 
+                                                                   lower case). Here an implicit And Expression is used*/
+file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the 
+                                                                   specified location on the file system which is assumed to be the value held in "file_path".  
+                                                                   We know the location should be in the form of a URI so a URI expression is used, 
+                                                                   and in particular this should be a file url, so we further specify that the data 
+                                                                   in the column must start "file:///" */
+file_checksum: checksum(file($file_path),"SHA-256")                /* Compare the value given in this field to the checksum calculated for the file
+                                                                   found at the location given in the "file_path" field.
+                                                                   Use the specified checksum algorithm (SHA-256)
+                                                                   (must use lowercase hex characters). */
+image_split: is("yes") or is("no")                                 //must be string: yes; or string: no (precisely - case as shown)
+image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))    //if "image_split" field is yes, must be a uuid4, else must be blank
+image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
+                                                                   /*If "image_split" field is the string: yes (precisely)
+                                                                   then field must be 12 characters long.  This is further restricted by regex statement
+                                                                   to being only alphanumeric characters (upper and lower case). */
+image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+00:00,2014-03-04T23:59:59+00:00),is(""))
+                                                                   /*If "image_split" field is string: yes (precisely)
+                                                                   then timestamp for image split, compliant with XSD DateTime data type
+                                                                   and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December, 
+                                                                   to last second of 4 March), else it must be blank (ie "image_split" is no).
 				</pre>
 			</p>
 		</section>
