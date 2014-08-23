@@ -18,7 +18,7 @@
           subtitle   :  "A Language for Defining and Validating CSV Data",
 
           // if you wish the publication date to be other than today, set this
-          publishDate:  "2014-07-11",
+          publishDate:  "2014-08-23",
 
           // if the specification's copyright date is a range of years, specify
           // the start date here:
@@ -39,10 +39,15 @@
           // editors, add as many as you like
           // only "name" is required
           editors:  [
-              { name: "Adam Retter", url: "http://adamretter.org.uk/",
-                company: "Evolved Binary Ltd", companyURL: "http://adamretter.org.uk/" },
+              { name: "Adam Retter",
+                company: "Evolved Binary Ltd",
+                companyURL: "http://adamretter.org.uk/" },
               { name: "David Underdown", 
-                company: "The National Archives", companyURL: "http://www.nationalarchives.gov.uk" },
+                company: "The National Archives",
+                companyURL: "http://www.nationalarchives.gov.uk" },
+              { name: "Rob Walpole",
+              	company: "Devexe Ltd",
+              	companyURL: "http://www.devexe.co.uk/"}
           ],
 
           // authors, add as many as you like. 
@@ -374,7 +379,7 @@ simon,57,male
 						<td class="ebnf-num">[4]</td>
 						<td class="ebnf-left"><a title="ebnf-global-directives"><dfn>GlobalDirectives</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
+						<td class="ebnf-right"><a>SeparatorDirective</a>? <a>QuotedDirective</a>? <a>TotalColumnsDirective</a>? <a>PermitEmptyDirective</a>? (<a>NoHeaderDirective</a> | <a>IgnoreColumnNameCaseDirective</a>)?</td>
 						<td class="ebnf-note">/* <a>xgc:unordered</a> */</td>
 					</tr>
 					<tr>
@@ -448,6 +453,23 @@ simon,57,male
 					</table>
 				</section>
 				<section>
+					<h4>Permit Empty Directive</h4>
+					<p>
+					The <dfn>Permit Empty Directive</dfn> allows you to specify that the CSV file can be empty: i.e. there is no row data.
+					The Permit Empty Directive is OPTIONAL: when not present an empty file will cause a validation error.
+					The Permit Empty Directive can be used in conjunction with the <a>No Header Directive</a> thereby permitting a completely empty CSV file. If the <a>No Header Directive</a> is not
+					present then a minimum of one row contatining column names must be provided.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[11]</td>
+							<td class="ebnf-left"><a title="ebnf-permit-empty-directive"><dfn>PermitEmptyDirective</dfn></a></td>
+							<td class="ebnf-bind">::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "permitEmpty"</td>
+						</tr>     
+					</table>
+				</section>
+				<section>
 					<h4>No Header Directive</h4>
 					<p>
 					The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: i.e. all rows are data rows.
@@ -457,7 +479,7 @@ simon,57,male
 					<p>The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[11]</td>
+							<td class="ebnf-num">[12]</td>
 							<td class="ebnf-left"><a title="ebnf-no-header-directive"><dfn>NoHeaderDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "noHeader"</td>
@@ -474,7 +496,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[12]</td>
+							<td class="ebnf-num">[13]</td>
 							<td class="ebnf-left"><a title="ebnf-ignore-column-name-case-directive"><dfn>IgnoreColumnNameCaseDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreColumnNameCase"</td>
@@ -490,6 +512,7 @@ simon,57,male
 	@separator TAB
 	@quoted
 	@totalColumns 21
+	@permitEmpty
 	@ignoreColumnNameCase
 					</pre>	
 				</section>
@@ -504,13 +527,13 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[13]</td>
+					<td class="ebnf-num">[14]</td>
 					<td class="ebnf-left"><a title="ebnf-body"><dfn title="body-def">Body</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a>BodyPart</a>+</td>
 				</tr>     
 				<tr>
-					<td class="ebnf-num">[14]</td>
+					<td class="ebnf-num">[15]</td>
 					<td class="ebnf-left"><a title="ebnf-body-part"><dfn>BodyPart</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*</td>
@@ -535,21 +558,21 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[15]</td>
+						<td class="ebnf-num">[16]</td>
 						<td class="ebnf-left"><a title="ebnf-comment"><dfn title="comment-def">Comment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>SingleLineComment</a> | <a>MultiLineComment</a></td>
 						<td class="ebnf-note"></td>
 					</tr>     
 					<tr>
-						<td class="ebnf-num">[16]</td>
+						<td class="ebnf-num">[17]</td>
 						<td class="ebnf-left"><a title="ebnf-single-line-comment"><dfn>SingleLineComment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">//[\S\t ]*</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>     
 					<tr>
-						<td class="ebnf-num">[17]</td>
+						<td class="ebnf-num">[18]</td>
 						<td class="ebnf-left"><a title="ebnf-multi-line-comment"><dfn>MultiLineComment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">\/\*(?:[^*\r\n]+|(?:\r?\n))*\*\/</td>
@@ -584,7 +607,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[18]</td>
+						<td class="ebnf-num">[19]</td>
 						<td class="ebnf-left"><a title="ebnf-column-definition"><dfn>ColumnDefinition</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">(<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>) ":" <a>ColumnRule</a></td> 
@@ -608,13 +631,13 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[19]</td>
+							<td class="ebnf-num">[20]</td>
 							<td class="ebnf-left"><a title="ebnf-column-identifier"><dfn>ColumnIdentifier</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>PositiveNonZeroIntegerLiteral</a> | <a>Ident</a></td> 
 						</tr>     
 						<tr>
-							<td class="ebnf-num">[20]</td>
+							<td class="ebnf-num">[21]</td>
 							<td class="ebnf-left"><a title="ebnf-quoted-column-identifier"><dfn>QuotedColumnIdentifier</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>StringLiteral</a></td> 
@@ -639,7 +662,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[21]</td>
+							<td class="ebnf-num">[22]</td>
 							<td class="ebnf-left"><a title="ebnf-column-rule"><dfn>ColumnRule</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ColumnValidationExpr</a>* <a>ColumnDirectives</a></td> 
@@ -659,7 +682,7 @@ simon,57,male
 						without listing every possible order).</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[22]</td>
+								<td class="ebnf-num">[23]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
@@ -674,7 +697,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[23]</td>
+									<td class="ebnf-num">[24]</td>
 									<td class="ebnf-left"><a title="ebnf-optional-directive"><dfn>OptionalDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "optional"</td> 
@@ -689,7 +712,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[24]</td>
+									<td class="ebnf-num">[25]</td>
 									<td class="ebnf-left"><a title="ebnf-match-is-false-directive"><dfn>MatchIsFalseDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "matchIsFalse"</td> 
@@ -704,7 +727,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[25]</td>
+									<td class="ebnf-num">[26]</td>
 									<td class="ebnf-left"><a title="ebnf-ignore-case-directive"><dfn>IgnoreCaseDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreCase"</td> 
@@ -724,7 +747,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[26]</td>
+									<td class="ebnf-num">[27]</td>
 									<td class="ebnf-left"><a title="ebnf-warning-directive"><dfn>WarningDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "warning"</td> 
@@ -772,7 +795,7 @@ simon,57,male
     	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
-				<td class="ebnf-num">[27]</td>
+				<td class="ebnf-num">[28]</td>
 				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpr</dfn></a></td>
 				<td class="ebnf-bind">::=</td>
 				<td class="ebnf-right"><a>CombinatorialExpr</a> | <a>NonCombinatorialExpr</a></td> 
@@ -788,7 +811,7 @@ simon,57,male
     		</p>
     		<table class="ebnf-table">
     			<tr>
-    				<td class="ebnf-num">[28]</td>
+    				<td class="ebnf-num">[29]</td>
     				<td class="ebnf-left"><a title="ebnf-combinatorial-expr"><dfn>CombinatorialExpr</dfn></a></td>
     				<td class="ebnf-bind">::=</td>
     				<td class="ebnf-right"><a>OrExpr</a> | <a>AndExpr</a></td> 
@@ -802,7 +825,7 @@ simon,57,male
     			</p>
     			<table class="ebnf-table">
     				<tr>
-    					<td class="ebnf-num">[29]</td>
+    					<td class="ebnf-num">[30]</td>
     					<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
     					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "or" <a>ColumnValidationExpr</a></td> 
@@ -819,7 +842,7 @@ simon,57,male
     			</p>
     			<table class="ebnf-table">
     				<tr>
-    					<td class="ebnf-num">[30]</td>
+    					<td class="ebnf-num">[31]</td>
     					<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
     					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "and" <a>ColumnValidationExpr</a></td> 
@@ -834,7 +857,7 @@ simon,57,male
     		The majority of Column Validation Expressions are of the Non-Combinatorial Expression class.</p>
     		<table class="ebnf-table">
     			<tr>
-    				<td class="ebnf-num">[31]</td>
+    				<td class="ebnf-num">[32]</td>
     				<td class="ebnf-left"><a title="ebnf-non-combinatorial-expr"><dfn>NonCombinatorialExpr</dfn></a></td>
     				<td class="ebnf-bind">::=</td>
     				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td>
@@ -850,7 +873,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[32]</td>
+						<td class="ebnf-num">[33]</td>
 						<td class="ebnf-left"><a title="ebnf-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>ParenthesizedExpr</a></td> 
@@ -865,7 +888,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[33]</td>
+							<td class="ebnf-num">[34]</td>
 							<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>IsExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | <a>EndsWithExpr</a> | 
@@ -881,7 +904,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[34]</td>
+								<td class="ebnf-num">[35]</td>
 								<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
