@@ -10,7 +10,7 @@ version 1.0
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
   and that there are 31 columns in total in the file.*/
-batch_code: length(1,11) regex("^WO95Y14B[0-9]{3}$")
+batch_code: length(1,11) regex("^WO95Y14B([0-9]{3}|smp)$")
   //1st part, batch_code must be between 1 and 11 characters long, and (implicitly multiple conditions are joined  
   //by a logical AND unless another boolean is provided). 2nd part restricts to form similar to WO95Y14B000 (last
   //three digits are running number for batches throughout the project.
