@@ -1,19 +1,21 @@
 version 1.0
 @totalColumns 42
-/********************************************************************************
-*Schema:   ADM_363-technical-acquisition-with-minimal-transcription.csvs        *
-*Authors:  Nicki Welch                                                          *
-*          David Underdown                                                      *
-*Purpose:  To capture metadata about the digitisation of the ADM 363 series     *
-*          Primarily technical metadata, but with a minimal amount of           *
-*          transcription to verify that the records may be publicly released    *
-*          after receipt by The National Archives                               *
-*Revision: 1.0 first release                                                    *
-*          1.1 update as some official numbers only single digit                *
-*          1.2 allow M as official number prefix too                            *
-*          1.3 further additions to prefixes, L, S, SS, SSX                     *
-*          1.4 allow for * and ? in official number                             *
-********************************************************************************/
+/*-------------------------------------------------------------------------------
+|Schema:   ADM_363-technical-acquisition-with-minimal-transcription.csvs        |
+|Authors:  Nicki Welch                                                          |
+|          David Underdown                                                      |
+|Purpose:  To capture metadata about the digitisation of the ADM 363 series     |
+|          Primarily technical metadata, but with a minimal amount of           |
+|          transcription to verify that the records may be publicly released    |
+|          after receipt by The National Archives                               |
+|Revision: 1.0 first release                                                    |
+|          1.1 update as some official numbers only single digit                |
+|          1.2 allow M as official number prefix too                            |
+|          1.3 further additions to prefixes, L, S, SS, SSX                     |
+|          1.4 allow for * and ? in official number                             |
+|          1.5 further prefixes MX, KX, JX, and longer volume number            |
+|          1.6 add explicit check that checksum is not that for a 0 byte file   |
+-------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM362B([0-9]{3})$")
 department: (is("ADM") if($file_path/notEmpty,in($file_path) and in($resource_uri)))
 series: is("362") and if($file_path/notEmpty,in($file_path) and in($resource_uri))
@@ -22,7 +24,7 @@ item: ((positiveInteger unique($piece,$item,$ordinal)) or empty) if($file_path/n
 ordinal: if($item/empty,empty,unique($item,$ordinal))
 file_uuid: if($ordinal/empty,empty,uuid4 unique)
 file_path: uri if($ordinal/empty,empty,unique fileExists regex("^file:\/\/\/ADM_362\/[0-9]{1,5}\/[0-9]{1,5}\/[0-9]{1,4}_.+\.jp2$"))
-file_checksum: if($ordinal/empty,empty,checksum(file($file_path),"SHA-256"))
+file_checksum: if($ordinal/empty,empty,isNot("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
 resource_uri: if($ordinal/notEmpty,uri starts("http://datagov.nationalarchives.gov.uk/66/"))
 scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
 scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z_]{1,12}$"))
@@ -51,8 +53,8 @@ image_deskew_operator: if($ordinal/empty,empty,if($image_deskew/is("yes"),regex(
 image_deskew_timestamp: if($ordinal/empty,empty,if($image_deskew/is("yes"),xDateTime,is("")))
 QA-code: regex("^[0-9/,]{1,2}$") @optional
 comments: regex("[\w\s,\.]+") @optional
-transcribed_volume_number: if($item/empty,regex("[0-9A-Z\-\s]{1,15}"),is(""))
+transcribed_volume_number: if($item/empty,regex("[0-9A-Z\-\s]{1,19}"),is(""))
 transcribed_birth_date_day:  if(($ordinal/empty and $item/notEmpty),regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$"),is("")) 
 transcribed_birth_date_month: if(($ordinal/empty and $item/notEmpty),is("*") or is("?") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December"), is(""))
 transcribed_birth_date_year: if(($ordinal/empty and $item/notEmpty),regex("^1[7-9][0-9\?]{2}|\*$"),is(""))
-transcribed_official_number: if(($ordinal/empty and $item/notEmpty),regex("^([FJKLMS]|SS|SSX)[/*/?0-9]{1,6}$"),is(""))
+transcribed_official_number: if(($ordinal/empty and $item/notEmpty),regex("^([FJKLMS]|MX|JX|KX|SS|SSX)[/*/?0-9]{1,6}$"),is(""))
