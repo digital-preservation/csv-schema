@@ -1,13 +1,13 @@
 version 1.0
 @totalColumns 27
-/***************************************************************************************************************
-*This schema is for the validation of technical acquisition metadata                                           *
-*csv files according to the specification given for digitised surrogates in                                    *
-*http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf *
-*This version is generic, for a given digtisation project, specific values/ranges for department, division,    *
-*series, sub_series, sub_sub_series, piece and item would be given, along with a specific format for batch_code*
-*(usually reflecting department and series)                                                                    *
-***************************************************************************************************************/
+/*--------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical acquisition metadata                                           |
+|csv files according to the specification given for digitised surrogates in                                    |
+|http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf |
+|This version is generic, for a given digitisation project, specific values/ranges for department, division,   |
+|series, sub_series, sub_sub_series, piece and item would be given, along with a specific format for batch_code|
+|(usually reflecting department and series)                                                                    |
+--------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 27, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
   and that there are 27 columns in total in the file.*/

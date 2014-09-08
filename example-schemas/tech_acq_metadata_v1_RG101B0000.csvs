@@ -1,8 +1,12 @@
 version 1.0
-@totalColumns 40										//each line of the csv file being tested must contain 40 columns (fields)
-/****************************************************************************************************************************************************************
-*This schema is used to validate outputs produced by the appointed supplier                                                                                     *
-****************************************************************************************************************************************************************/
+@totalColumns 40										
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|This schema is used to validate outputs produced by the appointed supplier                                                                                     |
+|Version History                                                                                                                                                |
+| DU 1.0   First issue                                                                                                                                          |
+---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+//The opening version 1.0 statement refers to the schema language version.
+//@totalColumns indicates that each line of the csv file being tested must contain 40 columns (fields)
 batch_code: length(10) regex("^RG101B([0-9]{4})$")							//1st condition, must be 10 characters long,
 //												  and (implicitly multiple conditions are joined by a logical AND
 //												  unless another boolean is provided)
@@ -91,6 +95,6 @@ image_deskew_operator: if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"), 
 image_deskew_timestamp: if($image_deskew/is("yes"),xDateTime,is(""))					//If "image_crop" field is string: none (precisely)
 //													  then must be blank
 //													  else timestamp for image split, compliant with XSD DateTime data type
-QA-code: regex("^[0-9/,]{1,2}$") is("") @optional
+QA-code: regex("^[0-9/,]{1,2}$") is("") @optional     //comma separated list of values as described in the ITT.
 comments: regex("[\w\s,\.]+") @optional										//This field is optional, but if used the regex restricts to standard word
 //												  characters, whitespace plus comma and fullstop.  No length limit.	
