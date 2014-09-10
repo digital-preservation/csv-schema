@@ -6,6 +6,8 @@ version 1.0
 |http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf  |
 |This version is for WO 95 digitisation in the period 2014-15                                                   |
 |  20140818   Version 1.0   DHU   First release version for this project                                        |
+|  20140910   Version 1.1   DHU   Updated date regex to fix issues, allowed items up to 14, disallow fullstops  |
+|								  at end of description as this causes search issues in Discovery.              |
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -33,7 +35,7 @@ piece: if($sub_sub_series/is("1"),range(1,85),if($sub_sub_series/is("2"),range(8
   //For this project there is a defined relationship between piece ranges as listed in Appendix E
   //This is encapsulated in this rather complex if,then,else statement
   //The value must also be part of the fields "file_path" and "resource_uri"
-item: (range(1,10) and in($file_path)) or is("")
+item: (range(1,14) and in($file_path)) or is("")
   //Most pieces are subdivided into items, there are not expected to be more than 10 per piece
   //The value must also be part of the fields "file_path" and "resource_uri"
   //In many cases the item level is not used, so this would be left blank.
@@ -47,7 +49,7 @@ ordinal: range(1,160) and in($file_path) unique($department,$division,$series,$s
   //the combination of fields indicated should be unique within the file
 description: not("")
   //description is a fairly free-form field, but must not be empty
-date: regex("^19(14|15|16|17|18|19|20|21|22|23) (Jan|Feb|Mar|April|Apr|May|June|Jun|July|Jul|Aug|Sept|Sep|Oct|Nov|Dec)( [1-3][0-9]| [1-9])?((( - )|-|-|( - ))(19(14|15|16|17|18|19|20|21|22|23) )?([1-3][0-9] |[1-9] )?(Jan|Feb|Mar|Apr|May|June|Jun|July|Jul|Aug|Sept|Sep|Oct|Nov|Dec)( [1-3][0-9]| [1-9])?)?$")
+date: regex("^19(14|15|16|17|18|19|20|21|22|23)( (Jan|Feb|Mar|Apr|May|June|July|Aug|Sept|Oct|Nov|Dec)( ([1-3][0-9]|[1-9]))?)?(-19(14|15|16|17|18|19|20|21|22|23)( (Jan|Feb|Mar|Apr|May|June|July|Aug|Sept|Oct|Nov|Dec)( ([1-3][0-9]|[1-9]))?)?)?$")
   //dates according to The National Archives' cataloguing standards, expected to be a range for this project, but may be relaxed
 file_uuid: uuid4 unique
   //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.												  
