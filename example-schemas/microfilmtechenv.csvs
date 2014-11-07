@@ -1,0 +1,23 @@
+version 1.0											//this is the version of the schema language
+//												  not the version of this particular schema file
+/****************************************************************************************************************************************************************************
+*This schema is for the validation of technical environment metadata csv files according to the specification given for Lot 2 of the Scanning and Transcription Framework   *
+*Invitation To Tender document, Appendix D, in particular implementing the restrictions and consistency checks given on page 255.                                           *
+*The data in this file is a fairly general description of (software) tools used to process images, so in fact there are few hard and fast restrictions:                     *
+*Most fields are allowed to be any length and may contain any combination of numerals, word characters, whitespace, hyphens, commas and full stops, any exception are noted *
+*below.  However, as the schema stands, each field must contain some value, it cannot be empty.                                                                                                                                                                      *
+*This schema was used to validate test results supplied by potential suppliers                                                                                              *
+****************************************************************************************************************************************************************************/
+@totalColumns 9										//each line of the csv file being tested must contain 8 columns (fields)
+batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")					//1st condition, must be between 1 and 16 characters long,
+//											  and (implicitly multiple conditions are joined by a logical AND
+//											  unless another boolean is provided)
+//											  2nd condition restricts to alphanumeric characters as specified in ITT p256
+company_name: regex("[-/0-9\w\s,.]+")
+image_deskew_software: regex("[-/0-9\w\s,.]+")
+image_split_software: regex("[-/0-9\w\s,.]+")
+image_crop_software: regex("[-/0-9\w\s,.]+")
+jp2_creation_software: regex("[-/0-9\w\s,.]+")
+uuid_software: regex("[-/0-9\w\s,.]+")
+embed_software: regex("[-/0-9\w\s,.]+")
+image_inversion_software: regex("[-/0-9\w\s,.]+")
