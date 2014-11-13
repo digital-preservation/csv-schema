@@ -1,11 +1,10 @@
 version 1.0	
 @totalColumns 41										
-//each line of the csv file being tested must contain 38 columns (fields)
-/****************************************************************************************************************************************************************************
-*This schema is for the validation of technical acquisition metadata csv files according to the specification given for Lot 2 of the Scanning and Transcription Framework   *
-*Invitation To Tender document, Appendix D, in particular implementing the restrictions and consistency checks given on pages 256-262.                                      *
-*This schema was used to validate test results supplied by potential suppliers                                                                                              *
-****************************************************************************************************************************************************************************/
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical acquisition metadata csv files according to the specification given for Lot 2 of the Scanning and Transcription Framework   |
+|Invitation To Tender document, Appendix D, in particular implementing the restrictions and consistency checks given on pages 256-262.                                      |
+|This schema was used to validate test results supplied by potential suppliers                                                                                              |
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")						//1st condition, must be between 1 and 16 characters long,
 //												  and (implicitly multiple conditions are joined by a logical AND
 //												  unless another boolean is provided)
