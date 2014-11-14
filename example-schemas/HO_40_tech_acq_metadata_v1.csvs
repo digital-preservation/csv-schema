@@ -1,0 +1,97 @@
+version 1.0
+@totalColumns 27
+/*--------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical acquisition metadata                                           |
+|csv files according to the specification given for digitised surrogates in                                    |
+|http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf |
+|This version is generic, for a given digitisation project, specific values/ranges for department, division,   |
+|series, sub_series, sub_sub_series, piece and item would be given, along with a specific format for batch_code|
+|(usually reflecting department and series)                                                                    |
+--------------------------------------------------------------------------------------------------------------*/
+/*The header of the schema file, ie the statements version 1.0 and @totalColumns 27, indicates that this schema 
+  is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
+  and that there are 27 columns in total in the file.*/
+batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")
+  //1st part, batch_code must be between 1 and 16 characters long, and (implicitly multiple conditions are joined  
+  //by a logical AND unless another boolean is provided). 2nd part restricts to alphanumeric characters as 
+  //specified in digitisation standards p 31. Would usually comprise project identifier (eg department and series),
+  //plus running count of batch number within that.
+department: is("HO") and (in($file_path) and in($resource_uri))
+  //Parentheses control evaluation order of booleans as might be expected
+  //The regex statement says that this field must consist of between 1 and 4 upper case alphabetic characters. 
+  //The grouped "in" statements say that the value found in this field must also be found as part of the fields 
+  //"file_path" and "resource_uri"
+division: positiveInteger or is("")
+  //this field must either be a positive integer or be blank (defined per project)
+series: positiveInteger and (in($file_path) and in($resource_uri)) and is("40")
+  //in general we expect this field will be a positive (non-zero) integer.  For a particular project, a specific
+  //value will normally be given. The value must also be part of the fields "file_path" and "resource_uri"
+sub_series: positiveInteger or is("")
+  //this field must either be a positive integer or be blank (defined per project)
+sub_sub_series: positiveInteger or is("")
+  //this field must either be a positive integer or be blank (defined per project)
+piece: positiveInteger and (in($file_path) and in($resource_uri))
+  //Generally this value will be a positive integer, rarely the piece reference may take a more complicated form
+  //which would be defined on a per project basis.
+  //Often the range of values for piece would be known, and so a statement such as range(1,578) might be used.
+  //The value must also be part of the fields "file_path" and "resource_uri"
+ordinal: positiveInteger unique($department,$series,$piece,$ordinal)
+  //running number within piece for each image file, combination of cataloguing information with ordinal must be unique
+file_uuid: uuid4 unique
+  //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.												  
+file_path: fileExists uri starts("file:///HO/40/")
+  //fileExists checks that there is actually a file of the given name at the specified location on the file system.
+  //In practice, the validator will normally be run with the --path switch 
+  //(see http://digital-preservation.github.io/csv-validator/)
+  //We also require that the path is a valid uri, and begins file:/// plus department and series
+  //(Conditions specified on earlier columns say that the values of those columns must also appear as part of the 
+  //content of this field)
+file_checksum: checksum(file($file_path),"SHA-256")
+  //Compare the value given in this field to the checksum calculated for the file found at the location given in 
+  //the "file_path" field (again path substitution may well be applied as described for the "file_path" field itself).
+  //Use the specified checksum algorithm (must use lowercase hex characters).
+resource_uri: uri starts("http://datagov.nationalarchives.gov.uk/66/HO/40")
+  //Must be a valid uri which starts with the specified string
+  //(Conditions specified on earlier columns say that the values of those columns must also appear as part of the 
+  //content of this field)
+scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
+  //12 alphanumeric characters representing the identity of the scanning operator (the ability to decode this is
+  //restricted to the scanning company to avoid personally identifying data being held in the file
+scan_id: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
+  //Like "scan_operator", but this code represents the actually scanner or camera used
+scan_location: regex("[-\w\s,.]+")
+  //Address or other description of the location where scanning physically occurred. The regex allows any number
+  //of characters, allows general word and whitespace characters plus hyphen, comma and full stop
+image_resolution: positiveInteger is("300")
+  //Always a positive (non-zero) integer, and in general explicitly 300. Occasionally a higher resolution used.
+  //Depending how this is populated (whether nominal or actual resolution), it might be better to use a range
+  //eg range(298,302) to capture slight variances in resolution.
+image_width: positiveInteger
+  //Must be a positive (non-zero) integer.  If the size of the material being digitised is well understood could use
+  //a range check to ensure values are within a "sensible" range eg range(2400,2600) for A4 material - just over
+  //8" wide (portrait), plus border, and assuming 300 ppi
+image_height: positiveInteger
+  //Must be a positive (non-zero) integer.  If the size of the material being digitised is well understood could use
+  //a range check to ensure values are within a "sensible" range eg range(3450,3650) for A4 material - just over
+  //11.5" high (portrait), plus border, and assuming 300 ppi
+image_tonal_resolution: is("24-bit colour")
+  //must be string: 24-bit colour (precisely - case as shown).  Occasionally a different value might be specified.
+image_format: is("x-fmt/392")
+  //must be string: x-fmt/392 (precisely) - ie a jp2 file as understood by PRONOM
+  //(http://www.nationalarchives.gov.uk/PRONOM/x-fmt/392)
+image_compression: positiveInteger is("6")
+  //Always a positive (non-zero) integer, generally 6 to represent 6-fold compression with the lossy algorithm 
+  //available in the JPEG2000 specification
+image_colour_space: is("sRGB")
+  //must be string: sRGB (precisely - case as shown). Other colour spaces might be used for specific projects
+image_split: is("yes") or is("no")
+  //must be string: yes; or string: no (precisely - case as shown).  Used if eg an image of complete double page
+  //subsequently split into two separate images of each page individually
+image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))
+  //if "image_split" field is yes, must be a uuid4, else must be blank  (in certain circumstances it would be  
+  //possible that this could be a list of uuids, in which case the conditions would have to be reworked)												  
+image_crop: is("auto") or is("manual") or is("none")
+  //must be string: auto; or string: manual or string: none (precisely - case as shown)
+image_deskew: is("yes") or is("no")
+  //must be string: yes; or string: no (precisely - case as shown)
+comments: regex("[\w\s,.]+") @optional
