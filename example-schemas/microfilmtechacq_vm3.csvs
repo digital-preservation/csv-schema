@@ -19,7 +19,7 @@ series: positiveInteger is("31") and (in($file_path) and in($resource_uri))			//
 sub_series: is("")										//this field must be blank
 piece: positiveInteger (range(47621,47876) or range(47938,48243) or range(48351,48652)) and (in($file_path) and in($resource_uri))					
 //												  the value must be part of the fields "file_path" and "resource_uri" and within one of the ranges indicate
-item: positiveInteger or is("")				//A few pieces may be subdivided into items, and so should have numeric value, otherwise this must be blank
+item: (positiveInteger and in($file_path)) or is("")				//A few pieces may be subdivided into items, and so should have numeric value, otherwise this must be blank
 first_date: ukDate(16/08/1871,04/10/1977)
 last_date: ukDate(31/12/1983,31/12/1983) or ukDate(31/12/1982,31/12/1982) or ukDate(31/12/1981,31/12/1981)
 description: regex("^Company No: [1-9][0-9]{4,6}; ([.\w\s,&\(\)\"]){1,50}\. Incorporated in 1[89]([0-9]){2}\. Dissolved in 198[1-3]$")

@@ -19,7 +19,7 @@ series: positiveInteger is("116") and (in($file_path) and in($resource_uri))			/
 sub_series: is("")										//this field must be blank
 piece: positiveInteger range(372,379) and (in($file_path) and in($resource_uri))	
 //												  the value must be part of the fields "file_path" and "resource_uri" and within range indicated 
-item: positiveInteger or is("")					//Some pieces are subdivided into items, and so should have numeric value, otherwise this must be blank
+item: (positiveInteger and in($file_path)) or is("")					//Some pieces are subdivided into items, and so should have numeric value, otherwise this must be blank
 fiche_reference: regex("^CSM\/8[0-7]\/([1-9]|10|11|12|13)\/[1-3][0-9]+(A|DA|H|P|ST|TP|V|WR)$") or regex("CSM\/MINS\/83\/([6-9]|10|11)$")
 ordinal: positiveInteger						//this field indicates the ordering of images within a piece or item starting from 1 for each
 file_uuid: uuid4 unique										//must be a version 4 uuid, and the value must be unique within the file
