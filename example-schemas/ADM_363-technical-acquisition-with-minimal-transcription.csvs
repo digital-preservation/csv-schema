@@ -12,9 +12,10 @@ version 1.0
 |          1.1 update as some official numbers only single digit                |
 |          1.2 allow M as official number prefix too                            |
 |          1.3 further additions to prefixes, L, S, SS, SSX                     |
-|          1.4 allow for * and ? in official number                             |
+|          1.4 allow for asterisk and ? in official number                      |
 |          1.5 further prefixes MX, KX, JX, and longer volume number            |
 |          1.6 add explicit check that checksum is not that for a 0 byte file   |
+|          1.7 Fix errors eg use correct not(), rather than isNot()             |
 -------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM36[23]B([0-9]{3})$")
 department: (is("ADM") if($file_path/notEmpty,in($file_path) and in($resource_uri)))
@@ -24,7 +25,7 @@ item: ((positiveInteger unique($piece,$item,$ordinal)) or empty) if($file_path/n
 ordinal: if($item/empty,empty,unique($item,$ordinal))
 file_uuid: if($ordinal/empty,empty,uuid4 unique)
 file_path: uri if($ordinal/empty,empty,unique fileExists regex("^file:\/\/\/ADM_363\/[0-9]{1,5}\/[0-9]{1,5}\/[0-9]{1,4}_.+\.jp2$"))
-file_checksum: if($ordinal/empty,empty,isNot("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
+file_checksum: if($ordinal/empty,empty,not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
 resource_uri: if($ordinal/notEmpty,uri starts("http://datagov.nationalarchives.gov.uk/66/"))
 scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
 scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z_]{1,12}$"))
