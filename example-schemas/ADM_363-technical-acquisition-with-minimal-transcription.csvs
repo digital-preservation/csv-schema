@@ -53,9 +53,9 @@ image_deskew: if($ordinal/empty,empty,is("yes") or is("no"))
 image_deskew_operator: if($ordinal/empty,empty,if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"),is("")))
 image_deskew_timestamp: if($ordinal/empty,empty,if($image_deskew/is("yes"),xDateTime,is("")))
 QA-code: regex("^[0-9/,]{1,2}$") @optional
-comments: regex("[\w\s,\.]+") @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional
 transcribed_volume_number: if($item/empty,regex("[0-9A-Z\-\s]{1,19}"),is(""))
 transcribed_birth_date_day:  if(($ordinal/empty and $item/notEmpty),regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$"),is("")) 
 transcribed_birth_date_month: if(($ordinal/empty and $item/notEmpty),is("*") or is("?") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December"), is(""))
-transcribed_birth_date_year: if(($ordinal/empty and $item/notEmpty),regex("^1[7-9][0-9\?]{2}|\*$"),is(""))
-transcribed_official_number: if(($ordinal/empty and $item/notEmpty),regex("^([FJKLMS]|MX|JX|KX|SS|SSX)[/*/?0-9]{1,6}$"),is(""))
+transcribed_birth_date_year: if(($ordinal/empty and $item/notEmpty),if(positiveInteger,range(1850,1914),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$")),is(""))
+transcribed_official_number: if(($ordinal/empty and $item/notEmpty),regex("^(([FJKLMS]|MX|JX|KX|SS|SSX)[/?0-9]{1,6}|[/?1-9][/?0-9]{5}|\*)$"),is(""))
