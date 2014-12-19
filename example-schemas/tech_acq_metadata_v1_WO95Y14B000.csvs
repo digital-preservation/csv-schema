@@ -7,12 +7,13 @@ version 1.0
 |This version is for WO 95 digitisation in the period 2014-15                                                   |
 |  20140818   Version 1.0   DHU   First release version for this project                                        |
 |  20140910   Version 1.1   DHU   Updated date regex to fix issues, allowed items up to 14, disallow fullstops  |
-|at end of description as this causes search issues in Discovery.						|
-|  20141016 version 1.2 NW Updated regex to allow 20 items, 500 ordinals & addition of legal_status		| 
-|and held_by fields, changed date column to covering_date							|
-|  20141110 version 1.3 NW fixed sub_sub_series rule								|
-|from sub_sub_series: range(1,7) or is("115") or if($piece/is("5500"),is("")) 					|
-|to sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))				        |    
+|                                 at end of description as this causes search issues in Discovery.				|
+|  20141016   version 1.2   NW    Updated regex to allow 20 items, 500 ordinals & addition of legal_status		| 
+|                                 and held_by fields, changed date column to covering_date						|
+|  20141110   version 1.3   NW    fixed sub_sub_series rule								                        |
+|                                 from sub_sub_series: range(1,7) or is("115") or if($piece/is("5500"),is("")) 	|
+|                                 to sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))		|
+|  20141219   version 1.4   DHU   Altered comments regex to allow brackets, colon, hypen, quotes, apostrophe    |    
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -116,4 +117,4 @@ image_crop: is("auto") or is("manual") or is("none")
   //must be string: auto; or string: manual or string: none (precisely - case as shown)
 image_deskew: is("yes") or is("no")
   //must be string: yes; or string: no (precisely - case as shown)
-comments: regex("[\w\s,.]+") @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional

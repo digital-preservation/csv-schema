@@ -16,6 +16,8 @@ version 1.0
 |          1.5 further prefixes MX, KX, JX, and longer volume number            |
 |          1.6 add explicit check that checksum is not that for a 0 byte file   |
 |          1.7 Fix errors eg use correct not(), rather than isNot()             |
+|          1.8 Allow brackets etc in comments, range checking for birth year    |
+|              ???? for birth year                                              |
 -------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM36[23]B([0-9]{3})$")
 department: (is("ADM") if($file_path/notEmpty,in($file_path) and in($resource_uri)))
