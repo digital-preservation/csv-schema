@@ -1,0 +1,18 @@
+version 1.0
+@totalColumns 10
+/*
+This schema was contributed by Joe Wicentowski
+for the purpose of finding issues with and validating
+CSV files released by the TEI project for Early English
+Texts: https://raw.githubusercontent.com/textcreationpartnership/Texts/master/TCP.csv
+*/
+TCP: regex("[A-Z][\d\.]+")
+EEBO: positiveInteger or empty
+VID: regex("[-\d]+") or empty
+STC: regex("[-A-Za-z\d:;.,_+\s\[\]\(\)\{\}/*]+") or empty
+Status: is("Free") or is("Restricted")
+Author:
+Date: regex("\d+[-u]*?\??") or regex("\d+[-u]*?\??-\d+[u-]*?\??")
+Title: notEmpty 
+Terms:
+Pages: positiveInteger
