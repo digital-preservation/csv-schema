@@ -5,12 +5,14 @@ version 1.0
 |This version is for WO 95 digitisation in the period 2014-15.  Field definitions should be essentially the same|
 |as in the schema tech_acq_metadata_v1_WO95Y14B000.csvs but as file_path and resource_uri are not known at the  |
 |stage the scanning list is created, and so are not included in this schema, cross references are removed       |
-|  20140909   Version 1.0   DHU   First release version for this project					|
+|  20140909   Version 1.0   DHU   First release version for this project                                        |
 |  20141017   Version 1.1   NW    Added legal_status & held_by columns, increased item range to 20, date to     |
-|covering_date 													|
-|20141110 version 1.3 NW fixed sub_sub_series rule								|
-|from sub_sub_series: range(1,7) or is("115") or if($piece/is("5500"),is("")) 					|
-|to sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))                  									|	
+|                                 covering_date                                                                 | 
+|  20141110   version 1.3   NW    fixed sub_sub_series rule                                                     |
+|                                 from sub_sub_series: range(1,7) or is("115") or if($piece/is("5500"),is(""))  |
+|                                 to sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))     |
+|  20141219   version 1.4   DHU   Altered comments regex to allow brackets, colon, hypen, quotes, apostrophe    |
+|  20150114   version 1.5   DHU   Changed description and covering_date tests to warnings only                  |	
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 9, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 

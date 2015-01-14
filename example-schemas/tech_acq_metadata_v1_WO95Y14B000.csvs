@@ -13,7 +13,8 @@ version 1.0
 |  20141110   version 1.3   NW    fixed sub_sub_series rule								                        |
 |                                 from sub_sub_series: range(1,7) or is("115") or if($piece/is("5500"),is("")) 	|
 |                                 to sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))		|
-|  20141219   version 1.4   DHU   Altered comments regex to allow brackets, colon, hypen, quotes, apostrophe    |    
+|  20141219   version 1.4   DHU   Altered comments regex to allow brackets, colon, hypen, quotes, apostrophe    |
+|  20150114   version 1.5   DHU   Changed description and covering_date tests to warnings only                  |
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
