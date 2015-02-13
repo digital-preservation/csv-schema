@@ -16,6 +16,7 @@ version 1.0
 |  20141219   version 1.4   DHU   Altered comments regex to allow brackets, colon, hypen, quotes, apostrophe    |
 |  20150114   version 1.5   DHU   Changed description and covering_date tests to warnings only                  |
 |  20150213   version 1.6   DHU   Tightened resource_uri constraint using regex which matches XSL Schema        |
+|                                 Piece 5500 is in no subseries as well no subsubseries                         |
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -34,7 +35,7 @@ division: is("13")
 series: is("95") and (in($file_path) and in($resource_uri))
   //Fixed value of 95 for this project
   //The value must also be part of the fields "file_path" and "resource_uri"
-sub_series: is("1")
+sub_series: if($piece/is("5500"),is(""),is("1"))
   //For the 2014-15 project all material to be digitised is in sub_series 1 (France and Flanders)
 sub_sub_series: if($piece/is("5500"),is(""),(range(1,7) or is("115")))
   //As described in Appendix E of the ITT, the 1914-15 project is scanning material in sub_sub_series 1-7 and 115,
