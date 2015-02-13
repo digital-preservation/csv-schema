@@ -18,17 +18,21 @@ version 1.0
 |          1.7 Fix errors eg use correct not(), rather than isNot()             |
 |          1.8 Allow brackets etc in comments, range checking for birth year    |
 |              ???? for birth year                                              |
--------------------------------------------------------------------------------*/
+|          1.9 Add piece check in ordinal: unique($piece,$item,$ordinal)        |
+|              Remove  and in($resource_uri) from item:                         |
+|              resource_uri, change starts(...) to                              |
+|              regex("...")                                                     |
+|-------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM362B([0-9]{3})$")
 department: (is("ADM") if($file_path/notEmpty,in($file_path) and in($resource_uri)))
 series: is("362") and if($file_path/notEmpty,in($file_path) and in($resource_uri))
 piece: range(1,69720) if($file_path/notEmpty,in($file_path) and in($resource_uri))
-item: ((positiveInteger unique($piece,$item,$ordinal)) or empty) if($file_path/notEmpty,in($file_path) and in($resource_uri))
-ordinal: if($item/empty,empty,unique($item,$ordinal))
+item: ((positiveInteger unique($piece,$item,$ordinal)) or empty) if($file_path/notEmpty,in($file_path))
+ordinal: if($item/empty,empty,unique($piece,$item,$ordinal))
 file_uuid: if($ordinal/empty,empty,uuid4 unique)
-file_path: uri if($ordinal/empty,empty,unique fileExists regex("^file:\/\/\/ADM_362\/[0-9]{1,5}\/[0-9]{1,5}\/[0-9]{1,4}_.+\.jp2$"))
+file_path: uri if($ordinal/empty,empty,unique fileExists regex("^file:\/\/\/ADM_362\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$"))
 file_checksum: if($ordinal/empty,empty,not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
-resource_uri: if($ordinal/notEmpty,uri starts("http://datagov.nationalarchives.gov.uk/66/"))
+resource_uri: if($ordinal/notEmpty,uri and regex("^http://datagov.nationalarchives.gov.uk/66/ADM/362/[1-9][0-9]*/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"))
 scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
 scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z_]{1,12}$"))
 scan_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
