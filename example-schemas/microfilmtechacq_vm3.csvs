@@ -4,6 +4,7 @@ version 1.0
 |This schema is for the validation of technical acquisition metadata csv files according to the specification given for Lot 2 of the Scanning and Transcription Framework   |
 |Invitation To Tender document, Appendix D, in particular implementing the restrictions and consistency checks given on pages 256-262.                                      |
 |This schema was used for microfilm digitisation in 2014-15                                                                                                                 |
+|Various updates to regex to constrain batch_code and resource_uri more tightly               DU      16/02/2015                                                            |																																				                            |
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 batch_code: length(1,16) regex("^BT31Y14(S|B)[0-9]{3}")						//1st condition, must be between 1 and 16 characters long,
 //												  and (implicitly multiple conditions are joined by a logical AND
@@ -27,7 +28,8 @@ description: regex("^Company No: [1-9][0-9]{3,7}; ([-'.\w\s,&\(\)\"]){1,100}\. I
 ordinal: positiveInteger						//this field indicates the ordering of images within a piece or item starting from 1 for each
 file_uuid: uuid4 unique in($resource_uri)		//must be a version 4 uuid, and the value must be unique within the file
 //												  uuids must be lower case.
-file_path: fileExists uri starts("file:///BT_31/content/")							//fileExists checks that there is actually a file of the given name at the 
+file_path: fileExists uri regex("^file:\/\/\/BT_31\/content\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$")
+//                                                fileExists checks that there is actually a file of the given name at the 
 //												  specified location on the file system.  In practice, the validator will
 //												  normally be run with the --path switch which allows substitution of strings
 //												  within file paths to allow for the fact that drive letters or mount points
@@ -35,7 +37,7 @@ file_path: fileExists uri starts("file:///BT_31/content/")							//fileExists ch
 //												  file:///D:/WO/1/1 but we have the external drive on E: instead, so would run
 //												  validate --path "file:///D:/WO/1/1" "file:///E:/WO/1/1" filename.csv schema
 //												  or for unix systems drop drive letter altogether and give the mount point.
-//												  We also require that the path is a valid uri, and begins file:///
+//												  We also require that the path is a valid uri, and matches given regex
 //												  (Conditions specified on earlier columns say that the values of those columns
 //												  must also appear as part of the content of this field)
 file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value given in this field to the checksum calculated for the file
@@ -43,7 +45,8 @@ file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value giv
 //												  may well be applied as described for the "file_path" field itself).
 //												  Use the specified checksum algorithm.
 //												  (must use lowercase hex characters)
-resource_uri: uri starts("http://datagov.nationalarchives.gov.uk/66/BT/31/")				//Must be a valid uri which starts with the specified string
+resource_uri: uri regex("^http://datagov.nationalarchives.gov.uk/66/BT/31/[1-9][0-9]*/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$")
+//												  Must be a valid uri which matches the specified regex
 //												  (Conditions specified on earlier columns say that the values of those columns
 //												  must also appear as part of the content of this field)
 scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")					//Similar to conditions to "batch_code" but only 12 alphanumeric characters

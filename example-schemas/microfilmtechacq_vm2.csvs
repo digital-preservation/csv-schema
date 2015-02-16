@@ -3,28 +3,32 @@ version 1.0
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 |This schema is for the validation of technical acquisition metadata csv files according to the specification given for Lot 2 of the Scanning and Transcription Framework   |
 |Invitation To Tender document, Appendix D, in particular implementing the restrictions and consistency checks given on pages 256-262.                                      |
-|This schema was used for microfilm digitisation of the BN 116 series in 2014-15                                                                                            |
+|This schema was used for microfilm digitisation of the BN 116 series in 2014-15   																							|
+|'division' acceptable value changes from ("") to division: is("7")      DU/ IH, 13/02/2015																					|	
+|'fiche_reference' amendment to regex parameters and syntax to reflect correct value format   DU/ IH, 13/02/2015															|  	
+|Various updates to regex to constrain batch_code and resource_uri more tightly               DU      16/02/2015                                                            |																																				                            |
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")						//1st condition, must be between 1 and 16 characters long,
+batch_code: length(1,16) regex("^BN116(S|B)[0-9]{3}")						//1st condition, must be between 1 and 16 characters long,
 //												  and (implicitly multiple conditions are joined by a logical AND
 //												  unless another boolean is provided)
-//												  2nd condition restricts to alphanumeric characters as specified in ITT p256
+//												  2nd condition restricts format specified in ITT for this project
 department: is("BN") and (in($file_path) and in($resource_uri))	//Parentheses control evaluation order of booleans as might be expected
 //												  The first set of grouped "is" statements simply defines expected values
 //												  The grouped "in" statements say that the value found in this field must also
 //												  be found as part of the fields "file_path" and "resource_uri"
-division: is("")									//this field must be blank 
+division: is("7")									//this field must be blank 
 series: positiveInteger is("116") and (in($file_path) and in($resource_uri))			//in general we expect this field will be a positive (non-zero) integer
 //												  the value must also be part of the fields "file_path" and "resource_uri"
 sub_series: is("")										//this field must be blank
 piece: positiveInteger range(372,379) and (in($file_path) and in($resource_uri))	
 //												  the value must be part of the fields "file_path" and "resource_uri" and within range indicated 
 item: (positiveInteger and in($file_path)) or is("")					//Some pieces are subdivided into items, and so should have numeric value, otherwise this must be blank
-fiche_reference: regex("^CSM\/8[0-7]\/([1-9]|10|11|12|13)\/[1-3][0-9]+(A|DA|H|P|ST|TP|V|WR)$") or regex("CSM\/MINS\/83\/([6-9]|10|11)$")
+fiche_reference: regex("^CSM\/8[0-7]\/([1-9]|10|11|12|13)\/[1-9][0-9]*(A|DA|H|P|ST|TP|V|WR)$") or regex("CSM\/MINS\/83\/([6-9]|10|11)$")
 ordinal: positiveInteger						//this field indicates the ordering of images within a piece or item starting from 1 for each
 file_uuid: uuid4 unique										//must be a version 4 uuid, and the value must be unique within the file
 //												  uuids must be lower case.
-file_path: fileExists uri starts("file:///BN_116/content/")	//fileExists checks that there is actually a file of the given name at the 
+file_path: fileExists uri regex("^file:\/\/\/BN_116\/content\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$")
+//                                                fileExists checks that there is actually a file of the given name at the 
 //												  specified location on the file system.  In practice, the validator will
 //												  normally be run with the --path switch which allows substitution of strings
 //												  within file paths to allow for the fact that drive letters or mount points
@@ -32,7 +36,7 @@ file_path: fileExists uri starts("file:///BN_116/content/")	//fileExists checks 
 //												  file:///D:/WO/1/1 but we have the external drive on E: instead, so would run
 //												  validate --path "file:///D:/WO/1/1" "file:///E:/WO/1/1" filename.csv schema
 //												  or for unix systems drop drive letter altogether and give the mount point.
-//												  We also require that the path is a valid uri, and begins file:///
+//												  We also require that the path is a valid uri, and matches specified regex
 //												  (Conditions specified on earlier columns say that the values of those columns
 //												  must also appear as part of the content of this field)
 file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value given in this field to the checksum calculated for the file
@@ -40,7 +44,8 @@ file_checksum: checksum(file($file_path),"SHA-256")						//Compare the value giv
 //												  may well be applied as described for the "file_path" field itself).
 //												  Use the specified checksum algorithm.
 //												  (must use lowercase hex characters)
-resource_uri: uri starts("http://datagov.nationalarchives.gov.uk/66/")				//Must be a valid uri which starts with the specified string
+resource_uri: uri regex("^http://datagov.nationalarchives.gov.uk/66/BN/116/[1-9][0-9]*/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$")
+//                                                Must be a valid uri which matches the specified regex
 //												  (Conditions specified on earlier columns say that the values of those columns
 //												  must also appear as part of the content of this field)
 scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")					//Similar to conditions to "batch_code" but only 12 alphanumeric characters
