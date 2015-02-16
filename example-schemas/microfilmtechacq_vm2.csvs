@@ -27,7 +27,7 @@ fiche_reference: regex("^CSM\/8[0-7]\/([1-9]|10|11|12|13)\/[1-9][0-9]*(A|DA|H|P|
 ordinal: positiveInteger						//this field indicates the ordering of images within a piece or item starting from 1 for each
 file_uuid: uuid4 unique										//must be a version 4 uuid, and the value must be unique within the file
 //												  uuids must be lower case.
-file_path: fileExists uri regex("^file:\/\/\/BN_116\/content\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$")
+file_path: fileExists uri regex("^file:\/\/\/BN_116\/content\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$")
 //                                                fileExists checks that there is actually a file of the given name at the 
 //												  specified location on the file system.  In practice, the validator will
 //												  normally be run with the --path switch which allows substitution of strings

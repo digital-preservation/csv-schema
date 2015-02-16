@@ -62,7 +62,7 @@ legal_status: is("Public Record")
 held_by: is("The National Archives, Kew")
 file_uuid: uuid4 unique
   //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.
-file_path: uri regex("^file:\/\/\/WO_95\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$") unique fileExists 
+file_path: uri regex("^file:\/\/\/WO_95\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$") unique fileExists 
   //fileExists checks that there is actually a file of the given name at the specified location on the file system.
   //In practice, the validator will normally be run with the --path switch 
   //(see http://digital-preservation.github.io/csv-validator/)
