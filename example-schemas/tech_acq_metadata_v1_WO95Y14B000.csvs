@@ -17,6 +17,9 @@ version 1.0
 |  20150114   version 1.5   DHU   Changed description and covering_date tests to warnings only                  |
 |  20150213   version 1.6   DHU   Tightened resource_uri constraint using regex which matches XSL Schema        |
 |                                 Piece 5500 is in no subseries as well no subsubseries                         |
+|  20150225   version 1.7   DHU   Batch 11 had composite images comprising 12 tiles, rather than 9. Adjusted    |
+|                                 range statement on image_split_ordinal and regex on image_split_other_uuid to |
+|                                 allow for this.
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -108,11 +111,11 @@ image_colour_space: is("sRGB")
 image_split: is("yes") or is("no") or is("composite")
   //must be string: yes; or string: no or string: composite (precisely - case as shown).  Used if eg an image of complete double page
   //subsequently split into two separate images of each page individually, or if an oversize document is imaged as a composite of several images
-image_split_ordinal: if($image_split/is("composite"),range(1,9),is(""))
+image_split_ordinal: if($image_split/is("composite"),range(1,12),is(""))
   //describes the ordering of the individual "tiles" when an oversize documents has to be imaged in sections as a composite.
   //9 is expected to be sufficient, but will be reviewed if required
   //if image_split is not composite it must be blank
-image_split_other_uuid: if($image_split/is("no"),is(""),regex("^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}(,[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}){0,8}$"))
+image_split_other_uuid: if($image_split/is("no"),is(""),regex("^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}(,[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}){0,11}$"))
   //if "image_split" field is no, must be blank
   //else it must be a uuid4 or comma separated list of up to 9 uuid4s
   //due to the requirement to allow a comma separated list regex has had to be used, rather than the built in uuid4 datatype
