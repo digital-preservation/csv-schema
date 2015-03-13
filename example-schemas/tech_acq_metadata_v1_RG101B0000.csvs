@@ -1,20 +1,24 @@
 version 1.0
 @totalColumns 41
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------
-|version 1.0 DU: 1st schema for 1939 registers project													  |
-|version 1.1 NW: 																	  |
-|changed piece from range to up to 5 numbers with letter appended, also changed piece regex to match in $filepath, added item level folder to $filepath   |
-|removed rule for item to be unique within a piece as there maybe more than 1 image per item								  |
-|changed volume_number to transcribed_volume_number allowing for combinations of number,letters, hyphens and brackets - see comment specific to rule	  |
-|added photocopy column 			     													  |
-|changed rule for title_page_exists - must be 'no'against item 1 if photocopy is 'yes' as photocopies don't have title pages				  |
-|changed following_blank_pages to following_blank_or_missing_pages											  |
-|added fileExists rule to $filepath		     													  |			
+|version 1.0 DU: 1st schema for 1939 registers project                                                                                                    |
+|version 1.1 NW: changed piece from range to up to 5 numbers with letter appended, also changed piece regex to match in $filepath, added item level folder|
+|                to $filepath removed rule for item to be unique within a piece as there maybe more than 1 image per item changed volume_number           |
+|                to transcribed_volume_number allowing for combinations of number,letters, hyphens and brackets - see comment specific to rule            |
+|                added photocopy column                                                                                                                   |
+|                changed rule for title_page_exists - must be 'no' against item 1 if photocopy is 'yes' as photocopies don't have title pages             |
+|                changed following_blank_pages to following_blank_or_missing_pages                                                                        |
+|                added fileExists rule to $filepath                                                                                                       |
+|version 1.2 DU: Changed piece reference to 1-5 digits with trailing A-Z character due to problems with pre-allocation                                    |
+|                Amended file_path to reflect piece change                                                                                                |
+|                Introduced regex for resource_uri (taken from the XML schema)                                                                            |
+|                check that file_checksum is not that for a 0-byte string (ie empty file), and that it is unique                                          |
+|                change comments regex to bring in line with experience on WO 95                                                                          |
 ---------------------------------------------------------------------------------------------------------------------------------------------------------*/
-batch_code: length(10) regex("^RG101B([0-9]{4})$")		
-department: (is("RG") (in($file_path) and in($resource_uri)))			
-series: is("101") and (in($file_path) and in($resource_uri))			
-piece: regex("^[0-9]{1,5}[A-Z]$") and (in($file_path) and in($resource_uri))				
+batch_code: length(10) regex("^RG101B([0-9]{4})$")
+department: (is("RG") (in($file_path) and in($resource_uri)))
+series: is("101") and (in($file_path) and in($resource_uri))
+piece: regex("^[0-9]{1,5}[A-Z]$") and (in($file_path) and in($resource_uri))
 item: range(1,500)//manual check, if item is greater than 24, photocopy should be 'yes'
 transcribed_volume_code: regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}\s\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2}\)$")
 //we allow AXJZ - GHTY or KPHE - ZIA or AB (CA) or 12345 AB (CK - CP) or 12345 AB (CK-CP)
@@ -22,34 +26,34 @@ page_number: range(1,23) or is("missing") or is("")
 title_page_exists: if($item/is("1"), regex("yes|no"), (if($photocopy/is("yes"), regex("no"), is("")))) 
 photocopy: if($item/is("1"), regex("yes|no"), is("")) 
 following_blank_or_missing_pages: regex("^[0-9/-]{1,}$") or is("")
-file_uuid: uuid4 unique									
+file_uuid: uuid4 unique
 file_path: uri regex("^file:\/\/\/RG_101\/[0-9]{1,5}[A-Z]\/[0-9]{1,3}\/[0-9]{1,5}[A-Z]_[0-9]{1,3}_[0-9]{1,4}.+\.jp2$") unique fileExists 
-file_checksum: checksum(file($file_path),"SHA-256")
-resource_uri: uri starts("http://datagov.nationalarchives.gov.uk/66/")		
+file_checksum: checksum(file($file_path),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" unique
+resource_uri: uri regex("^http://datagov.nationalarchives.gov.uk/66/RG/101/[0-9]{1,5}[A-Z]/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$") unique
 scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
-scan_id: length(1,12) regex("^[0-9a-zA-Z_]{1,12}$")				
-scan_location: regex("[-\w\s,]+")							
-scan_native_format: regex("[0-9\w\s,.:]+")						
-scan_timestamp: xDateTime									 
-image_resolution: is("300")						
-image_width: positiveInteger								
-image_height: positiveInteger								
-image_tonal_resolution: is("24-bit colour")						
-image_format: is("x-fmt/392")								
-image_colour_space: is("sRGB")								
-process_location: regex("[-\w\s,]+")							
-jp2_creation_timestamp: xDateTime							
-uuid_timestamp: xDateTime								
-embed_timestamp: xDateTime								
-image_split: is("yes") or is("no")							
-image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))				
+scan_id: length(1,12) regex("^[0-9a-zA-Z_]{1,12}$")
+scan_location: regex("[-\w\s,]+")
+scan_native_format: regex("[0-9\w\s,.:]+")
+scan_timestamp: xDateTime
+image_resolution: is("300")
+image_width: positiveInteger
+image_height: positiveInteger
+image_tonal_resolution: is("24-bit colour")
+image_format: is("x-fmt/392")
+image_colour_space: is("sRGB")
+process_location: regex("[-\w\s,]+")
+jp2_creation_timestamp: xDateTime
+uuid_timestamp: xDateTime
+embed_timestamp: xDateTime
+image_split: is("yes") or is("no")
+image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))
 image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
-image_split_timestamp: if($image_split/is("yes"),xDateTime,is(""))				
-image_crop: is("auto") or is("manual") or is("none")						
+image_split_timestamp: if($image_split/is("yes"),xDateTime,is(""))
+image_crop: is("auto") or is("manual") or is("none")
 image_crop_operator: if($image_crop/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
-image_crop_timestamp: if($image_crop/is("none"),is(""),xDateTime)				
-image_deskew: is("yes") or is("no")								
-image_deskew_operator: if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"), is(""))
-image_deskew_timestamp: if($image_deskew/is("yes"),xDateTime,is(""))				
-QA_code: regex("^[[0-9]+[/,[0-9]]*]+$") or is("") @optional    
-comments: regex("[\w\s,\.]+") @optional									
+image_crop_timestamp: if($image_crop/is("none"),is(""),xDateTime)
+image_deskew: is("yes") or is("no")
+image_deskew_operator: if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"),is(""))
+image_deskew_timestamp: if($image_deskew/is("yes"),xDateTime,is(""))
+QA_code: regex("^[[0-9]+[/,[0-9]]*]+$") or is("") @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional

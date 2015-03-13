@@ -3,7 +3,7 @@ version 1.0
 batch_code: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), length(10) regex("^RG101B([0-9]{4})$"), is(""))				
 department: if($metadata_type/is("PIECE"), is("RG"), is(""))
 series: if($metadata_type/is("PIECE"), is("101"), is(""))
-piece: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), range(1,69720), is("")) if($metadata_type/starts("ITEM_"), in($file_path))	
+piece: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), regex("^[0-9]{1,5}[A-Z]$"), is("")) if($metadata_type/starts("ITEM_"), in($file_path))	
 item: if($metadata_type/isNot("PIECE"), range(1,24) if($metadata_type/starts("ITEM_"), unique($piece)), is(""))    @warning
 sub_item: if($metadata_type/starts("SUBITEM_"), range(1,44) unique($piece, $item), is("")) @warning
 metadata_type: is("PIECE") or is("ITEM") or is("ITEM_TITLEPAGE") or is("ITEM_MAINPAGE") or is("ITEM_CONPAGE") or is("SUBITEM_NAME") or is("SUBITEM_CONNAME") or is("SUBITEM_VACANT") or is("SUBITEM_BLANK") or is ("SUBITEM_REMOVED") or is ("SUBITEM_QADDRESS")
