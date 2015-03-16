@@ -42,5 +42,5 @@ occupation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_Q
 refers_to: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional //range(1,200) replaced by the regex to allow refs to pages in other registers
 sensitive_annotation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("Adopted"), is("")) @optional
 legal_status: is("Public Record")
-held_by: is("The National Archives")
+held_by: is("The National Archives, Kew")
 comments:
