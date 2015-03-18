@@ -1,0 +1,114 @@
+version 1.0
+@totalColumns 33
+/*---------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical acquisition metadata                                            |
+|csv files according to the specification given for digitised surrogates in                                     |
+|http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf  |
+|This version is for WO 95 digitisation in the period 2015-16                                                   |
+|  20150318   Version 1.0   DHU   First release version for this project phase, based on v1.7 of WO95Y14B000    |
+|                                 with alterations for piece ranges etc involved in this phase                  |
+---------------------------------------------------------------------------------------------------------------*/
+/*The header of the schema file, ie the statements version 1.0 and @totalColumns 31, indicates that this schema 
+  is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
+  and that there are 31 columns in total in the file.*/
+batch_code: length(1,11) regex("^WO95Y15B([0-9]{3}|smp)$")
+  //1st part, batch_code must be between 1 and 11 characters long, and (implicitly multiple conditions are joined  
+  //by a logical AND unless another boolean is provided). 2nd part restricts to form similar to WO95Y14B000 (last
+  //three digits are running number for batches throughout the project phase.
+department: is("WO") and (in($file_path) and in($resource_uri))
+  //Parentheses control evaluation order of booleans as might be expected
+  //Department is fixed value of WO for this project. 
+  //The grouped "in" statements say that the value found in this field must also be found as part of the fields 
+  //"file_path" and "resource_uri"
+division: is("13")
+  //this field must be precisely 13
+series: is("95") and (in($file_path) and in($resource_uri))
+  //Fixed value of 95 for this project
+  //The value must also be part of the fields "file_path" and "resource_uri"
+sub_series: if($piece/range(572,1095),is("1"),is("6"))
+  //For the 2015-16 project  material to be digitised is in sub_series 1 (France and Flanders) or 6 (Mesopotamia, Iraq and North Persia)
+sub_sub_series: if($sub_series/is("1"),is("8") or range(10,14) or range(16,33),range(1,24))
+  //As described in Appendix E of the ITT, the 1915-16 project is scanning material in sub_sub_series 8-33 (some numbers not used) for sub_series 1,
+  //and sub_sub_series 1-24 for sub_series 6
+piece: range(572,1095) or range(4965,5288) //if($sub_series/is("1"),if($sub_sub_series/is("8"),range(572,587),if($sub_sub_series/is("10"),range(588,628),if($sub_sub_series/is("11"),range(629,667),if($sub_sub_series/is("12"),range(668,705),if($sub_sub_series/is("13"),range(706,742),if($sub_sub_series/is("14"),range(743,766),if($sub_sub_series/is("16"),range(767,803),if($sub_sub_series/is("17"),range(804,819),if($sub_sub_series/is("18"),range(820,834),if($sub_sub_series/is("19"),range(835,849),if($sub_sub_series/is("20"),range(850,879),if($sub_sub_series/is("21"),range(880,893),if($sub_sub_series/is("22"),is("894"),if($sub_sub_series/is("23"),range(895,909),if($sub_sub_series/is("24"),range(910,920),if($sub_sub_series/is("25"),range(921,933),if($sub_sub_series/is("26"),range(934,950),if($sub_sub_series/is("27"),range(951,958),if($sub_sub_series/is("28"),range(959,973),if($sub_sub_series/is("29"),range(974,979),if($sub_sub_series/is("30"),range(980,1031),if($sub_sub_series/is("31"),range(1032,1044),if($sub_sub_series/is("32"),range(1045,1087),range(1088,1095)))))))))))))))))))))))),if($sub_sub_series/is("1"),range(4965,5008),if($sub_sub_series/is("2"),range(5009,5010),if($sub_sub_series/is("3"),range(5011,5012),if($sub_sub_series/is("4"),range(5013,5026),if($sub_sub_series/is("5"),range(5027,5031),if($sub_sub_series/is("6"),range(5032,5041),if($sub_sub_series/is("7"),range(5042,5044),if($sub_sub_series/is("8"),range(5045,5047),if($sub_sub_series/is("9"),range(5048,5051),if($sub_sub_series/is("10"),range(5052,5060),if($sub_sub_series/is("11"),range(5061,5081),if($sub_sub_series/is("12"),range(5082,5083),if($sub_sub_series/is("13"),range(5084,5093),if($sub_sub_series/is("14"),range(5094,5111),if($sub_sub_series/is("15"),range(5112,5126),if($sub_sub_series/is("16"),range(5127,5141),if($sub_sub_series/is("17"),range(5142,5146),if($sub_sub_series/is("18"),range(5147,5162),if($sub_sub_series/is("19"),range(5163,5181),if($sub_sub_series/is("20"),range(5182,5199),if($sub_sub_series/is("21"),range(5200,5214),if($sub_sub_series/is("22"),range(5215,5230),if($sub_sub_series/is("23"),range(5231,5284),range(5285,5288))))))))))))))))))))))))) and (in($file_path) and in($resource_uri))
+  //For this project there is a defined relationship between piece ranges as listed in Appendix E
+  //This is encapsulated in this rather complex if,then,else statement - this unfortunately seems to be causing the validator to hang, so has been replaced with a simpler, but less
+  //comprehensive check for now.
+  //The value must also be part of the fields "file_path" and "resource_uri"
+item: (range(1,20) and in($file_path)) or is("")
+  //Most pieces are subdivided into items, there are not expected to be more than 10 per piece
+  //The value must also be part of the fields "file_path" and "resource_uri"
+  //In many cases the item level is not used, so this would be left blank.
+  //as the sorting/cataloguing process advances this condition may be tightened
+ordinal: range(1,500) and in($file_path) unique($department,$division,$series,$sub_series,$sub_sub_series,$piece,$item,$ordinal)
+  //the ordinal is a simple running count of the images within an item (or piece if not itemised).
+  //No single item (or piece if not itemised) should contain more than 150 pages but rule changed to 500 to allow for exceptions
+  //This (with leading zeroes) also forms the final part of the filepath, immediately before the .jp2 extension
+  //the combination of fields indicated should be unique within the file
+description: not("") and regex("^.*[^\.\s]$") and not("Unknown") @warning @ignoreCase
+  //description is a fairly free-form field, but must not be empty, and for system reasons must not have a terminal full stop, and should not be Unknown
+covering_date: regex("^19(14|15|16|17|18|19|20|21|22|23)( (Jan|Feb|Mar|Apr|May|June|July|Aug|Sept|Oct|Nov|Dec)( ([1-3][0-9]|[1-9]))?)?(-19(14|15|16|17|18|19|20|21|22|23)( (Jan|Feb|Mar|Apr|May|June|July|Aug|Sept|Oct|Nov|Dec)( ([1-3][0-9]|[1-9]))?)?)?$") @warning
+  //dates according to The National Archives' cataloguing standards, expected to be a range for this project, but may be relaxed
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")
+file_uuid: uuid4 unique
+  //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.
+file_path: uri regex("^file:\/\/\/WO_95\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$") unique fileExists 
+  //fileExists checks that there is actually a file of the given name at the specified location on the file system.
+  //In practice, the validator will normally be run with the --path switch 
+  //(see http://digital-preservation.github.io/csv-validator/)
+  //We also require that the path is a valid uri, and matches the regex supplied 
+  //(Conditions specified on earlier columns say that the values of those columns must also appear as part of the 
+  //content of this field)
+  //must be unique within the file
+file_checksum: unique checksum(file($file_path),"SHA-256")
+  //Compare the value given in this field to the checksum calculated for the file found at the location given in 
+  //the "file_path" field (again path substitution may well be applied as described for the "file_path" field itself).
+  //Use the specified checksum algorithm (must use lowercase hex characters).
+  //unique within the file - an identical checksum would imply identical images
+resource_uri: uri regex("^http://datagov.nationalarchives.gov.uk/66/WO/95/[1-9][0-9]*/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$") unique
+  //Must be a valid uri which starts with the specified string, the uri is constructed such that it must be unique in the file
+  //(Conditions specified on earlier columns say that the values of those columns must also appear as part of the 
+  //content of this field)
+scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
+  //12 alphanumeric characters representing the identity of the scanning operator (the ability to decode this is
+  //restricted to the scanning company to avoid personally identifying data being held in the file
+scan_id: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
+  //Like "scan_operator", but this code represents the actual scanner or camera used
+scan_location: regex("[-\w\s,.]+")
+  //Address or other description of the location where scanning physically occurred. The regex allows any number
+  //of characters, allows general word and whitespace characters plus hyphen, comma and full stop
+image_resolution: positiveInteger (is("300") or is("600"))
+  //Always a positive (non-zero) integer, and in general explicitly 300. Occasionally a higher resolution used.
+  //Depending how this is populated (whether nominal or actual resolution), it might be better to use a range
+  //eg range(298,302) to capture slight variances in resolution.
+image_width: positiveInteger
+  //Must be a positive (non-zero) integer. The material in this series is very varied in size, so no checking is attempted beyond this
+image_height: positiveInteger
+  //Must be a positive (non-zero) integer. The material in this series is very varied in size, so no checking is attempted beyond this
+image_tonal_resolution: is("24-bit colour")
+  //must be string: 24-bit colour (precisely - case as shown).  Occasionally a different value might be specified.
+image_format: is("x-fmt/392")
+  //must be string: x-fmt/392 (precisely) - ie a jp2 file as understood by PRONOM
+  //(http://www.nationalarchives.gov.uk/PRONOM/x-fmt/392)
+image_compression: positiveInteger is("6")
+  //Always a positive (non-zero) integer, generally 6 to represent 6-fold compression with the lossy algorithm 
+  //available in the JPEG2000 specification
+image_colour_space: is("sRGB")
+  //must be string: sRGB (precisely - case as shown)
+image_split: is("yes") or is("no") or is("composite")
+  //must be string: yes; or string: no or string: composite (precisely - case as shown).  Used if eg an image of complete double page
+  //subsequently split into two separate images of each page individually, or if an oversize document is imaged as a composite of several images
+image_split_ordinal: if($image_split/is("composite"),range(1,12),is(""))
+  //describes the ordering of the individual "tiles" when an oversize documents has to be imaged in sections as a composite.
+  //9 is expected to be sufficient, but will be reviewed if required
+  //if image_split is not composite it must be blank
+image_split_other_uuid: if($image_split/is("no"),is(""),regex("^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}(,[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-?[a-f0-9]{12}){0,11}$"))
+  //if "image_split" field is no, must be blank
+  //else it must be a uuid4 or comma separated list of up to 9 uuid4s
+  //due to the requirement to allow a comma separated list regex has had to be used, rather than the built in uuid4 datatype
+image_crop: is("auto") or is("manual") or is("none")
+  //must be string: auto; or string: manual or string: none (precisely - case as shown)
+image_deskew: is("yes") or is("no")
+  //must be string: yes; or string: no (precisely - case as shown)
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional
