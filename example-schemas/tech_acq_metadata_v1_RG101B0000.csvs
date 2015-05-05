@@ -20,7 +20,7 @@ department: (is("RG") (in($file_path) and in($resource_uri)))
 series: is("101") and (in($file_path) and in($resource_uri))
 piece: regex("^[0-9]{1,5}[A-Z]$") and (in($file_path) and in($resource_uri))
 item: range(1,500)//manual check, if item is greater than 24, photocopy should be 'yes'
-transcribed_volume_code: regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}\s\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2}\)$")
+transcribed_volume_code: regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}(\s){0,1}\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2}\)$")
 //we allow AXJZ - GHTY or KPHE - ZIA or AB (CA) or 12345 AB (CK - CP) or 12345 AB (CK-CP)
 page_number: range(1,23) or is("missing") or is("")
 title_page_exists: if($item/is("1"), regex("yes|no"), (if($photocopy/is("yes"), regex("no"), is("")))) 
@@ -28,7 +28,7 @@ photocopy: if($item/is("1"), regex("yes|no"), is(""))
 following_blank_or_missing_pages: regex("^[0-9/-]{1,}$") or is("")
 file_uuid: uuid4 unique
 file_path: uri regex("^file:\/\/\/RG_101\/[0-9]{1,5}[A-Z]\/[0-9]{1,3}\/[0-9]{1,5}[A-Z]_[0-9]{1,3}_[0-9]{1,4}.+\.jp2$") unique fileExists 
-file_checksum: checksum(file($file_path),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" unique
+file_checksum: checksum(file($file_path),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") unique
 resource_uri: uri regex("^http://datagov.nationalarchives.gov.uk/66/RG/101/[0-9]{1,5}[A-Z]/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$") unique
 scan_operator: length(1,12) regex("^[0-9a-zA-Z]{1,12}$")
 scan_id: length(1,12) regex("^[0-9a-zA-Z_]{1,12}$")
