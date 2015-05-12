@@ -35,7 +35,7 @@ piece: range(572,1095) or range(4965,5288) //if($sub_series/is("1"),if($sub_sub_
   //This is encapsulated in this rather complex if,then,else statement - this unfortunately seems to be causing the validator to hang, so has been replaced with a simpler, but less
   //comprehensive check for now.
   //The value must also be part of the fields "file_path" and "resource_uri"
-item: (range(1,20) and in($file_path)) or is("")
+item: (range(1,21) and in($file_path)) or is("")
   //Most pieces are subdivided into items, there are not expected to be more than 10 per piece
   //The value must also be part of the fields "file_path" and "resource_uri"
   //In many cases the item level is not used, so this would be left blank.
