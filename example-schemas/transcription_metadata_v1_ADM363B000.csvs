@@ -19,11 +19,12 @@ file_uuid: uuid4 unique
 legal_status: is("Public Record")
 held_by: is("The National Archives")
 official_number: regex("^(([FJKLMS]|MX|JX|KX|SS|SSX) [/?0-9]{1,6}|[/?1-9][/?0-9]{5}|\*)$")
-surname:regex("^(([dD][\?aeiu']|[Vv][\?ao]n)[ ]?)|(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{1,15}([- ](([dD][\?aeiu']|[Vv][\?ao]n)[ ]?)|(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{1,15}){0,5}$") or is("???") or is("*") @warning
+surname: regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning
 //May need amending for accented characters
-surname_other:regex("^(([dD][\?aeiu']|[Vv][\?ao]n)[ ]?)|(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{1,15}([- ](([dD][\?aeiu']|[Vv][\?ao]n)[ ]?)|(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{1,15}){0,5}$") or is("???") or is("*") @warning @optional
+surname_other: regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning @optional
 //May need amending for accented characters
-forename:regex("^(Rev\: )?[\?A-Z][\?a-z]{0,15}([- ]+([\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") @optional @warning 
+forenames:regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
+forenames_other:regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
 place_of_birth:regex("^([\?A-Z][\?a-z]{1,15}|\*)([- \?A-Z][A-Za-z]{1,15}|\*)*((, )([\?A-Z][\?a-z]{1,15}|\*))$")
 birth_date_day:  regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$")
 birth_date_month: is("*") or is("???") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December")
