@@ -4,8 +4,9 @@ version 1.0
 |This schema is for the validation of technical acquisition metadata                                            |
 |csv files according to the specification given for digitised surrogates in                                     |
 |http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf  |
-|This version is for ADM 158 digitisation                                                   |
+|This version is for ADM 158 digitisation                                                                       |
 |  20150212   Version 1.0   II    First release version for this project                                        |
+|  20150220   Version 1.1   DHU   Amend item range value to allow for actaul values found in scanning           |
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 26 , indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -24,9 +25,9 @@ division: is("21")
 series: is("158") and (in($file_path) and in($resource_uri))
   //Fixed value of 158 for this project
   //The value must also be part of the fields "file_path" and "resource_uri"
-piece: range(1,299)
+piece: range(1,299) and (in($file_path)and in($resource_uri))
  //The value must also be part of the fields "file_path" and "resource_uri"
-item: (range(1,70) and in($file_path)) or is("")
+item: (range(1,295) and in($file_path)) or is("")
   //Most pieces are subdivided into items, there are not expected to be more than 10 per piece
   //The value must also be part of the fields "file_path" and "resource_uri"
   //In many cases the item level is not used, so this would be left blank.
