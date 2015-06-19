@@ -6,7 +6,9 @@ version 1.0
 |http://www.nationalarchives.gov.uk/documents/information-management/digitisation-at-the-national-archives.pdf  |
 |This version is for ADM 158 digitisation                                                                       |
 |  20150212   Version 1.0   II    First release version for this project                                        |
-|  20150220   Version 1.1   DHU   Amend item range value to allow for actaul values found in scanning           |
+|  20150220   Version 1.1   DHU   Amend item range value to allow for actual values found in scanning           |
+|  20150617   Version 1.2   DHU   Only three digits in file number                                              |
+|  20150618   Version 1.3   DHU   Content folder in file_path
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 26 , indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
@@ -39,7 +41,7 @@ ordinal: range(1,15) and in($file_path) unique($department,$division,$series,$pi
   //the combination of fields indicated should be unique within the file
 file_uuid: uuid4 unique
   //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.
-file_path: uri regex("^file:\/\/\/ADM_158\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$") unique fileExists 
+file_path: uri regex("^file:\/\/\/ADM_158\/content\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[1-9][0-9]{0,4}_[0-9]{1,3}\.jp2$") unique fileExists 
   //fileExists checks that there is actually a file of the given name at the specified location on the file system.
   //In practice, the validator will normally be run with the --path switch 
   //(see http://digital-preservation.github.io/csv-validator/)

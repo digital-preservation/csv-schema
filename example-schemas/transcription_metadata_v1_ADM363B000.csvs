@@ -1,32 +1,37 @@
 version 1.0
-@totalColumns 21
+@totalColumns 22
 /*-------------------------------------------------------------------------------
 |Schema:   transcription_metadata_v1_ADM363B000.csvs                            |
 |Authors:  David Underdown                                                      |
 |Purpose:  Validation of transcription metadata for ADM363                      |
 |Revision: 1.0 first release                                                    |
+|          1.1 amendments to allow full stops in ON and some edge case          |
+|              birthplaces                                                      |
 |------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM363B([0-9]{3})$")
-department: (is("ADM") in($file_path))
+department: is("ADM") and in($file_path)
 division: is("25")
 series: is("363") and in($file_path)
-piece: range(1,69720) in($file_path)
-item: positiveInteger unique($piece,$item,$ordinal) in($file_path)
+piece: range(1,512) and in($file_path)
+item: (positiveInteger unique($piece,$item,$ordinal) in($file_path))
 ordinal: positiveInteger
-covering_dates: is("[01 Jan 1925 - 31 Dec 1929]")
-file_path: uri regex("^file:\/\/\/ADM_363\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$") //fileExists
-file_uuid: uuid4 unique
+covering_dates: is("[01 Jan 1925 - 31 Dec 1939]")
+file_path: uri and regex("^file:\/\/\/ADM_363\/[0-9]{1,5}\/[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$")
+file_uuid: uuid4 and unique
 legal_status: is("Public Record")
 held_by: is("The National Archives")
-official_number: regex("^(([FJKLMS]|MX|JX|KX|SS|SSX) [/?0-9]{1,6}|[/?1-9][/?0-9]{5}|\*)$")
-surname: regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning
+//official_number: regex("^((([CDEGP]|(SB)(\.)?\/)( )?)?(((([FJKLMS][\:\/\.]?)|(F(\.)?( )?X(\.)?)|(L(\.)?( )?X(\.)?)|(M(\.)?( )?X(\.)?)|(J(\.)?( )?J(\.)?)|(J(\.)?( )?X(\.)?)|(K(\.)?( )?X(\.)?)|(S(\.)?( )?S(\.)?)|(S(\.)?( )?S(\.)?( )?X(\.)?))(\/)? [/?0-9]{1,6})|([/?1-9][/?0-9]{5}))|\*)$")
+official_number: regex("^((([CDEGP]|(SB))(\.)?\/( )?)?((([FJKLMS]|S(\.)?( )?S|J(\.)?J)([\.\:\/])?( )?(( )?X(\.)?)?) [/?0-9]{1,6}|[/?1-9][/?0-9]{5})|\*)$")
+surname: regex("^((((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning
 //May need amending for accented characters
-surname_other: regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning @optional
+surname_other: regex("^((((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|(I\')|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*") @warning @optional
 //May need amending for accented characters
-forenames:regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
-forenames_other:regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
-place_of_birth:regex("^([\?A-Z][\?a-z]{1,15}|\*)([- \?A-Z][A-Za-z]{1,15}|\*)*((, )([\?A-Z][\?a-z]{1,15}|\*))$")
+forenames: regex("^(Rev\: )?((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{0,15}([- ](((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @warning 
+forenames_other: regex("^(Rev\: )?((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{0,15}([- ](((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
+place_of_birth: regex("^([\?A-Z][\?a-z]{1,20}('s)?|\*)([- \?A-Z][A-Za-z]{1,20}('s)?|\*)*((, )((([\?A-Z][\?a-z]{1,20})('s)?|([\?A-Z][\?A-Z]))((, |[- \?A-Z])[A-Za-z]{1,20}('s)?)*|\*|USA|Isle [Oo]f Wight|Isle [Oo]f Man))$") //may need to allow for elements like (No 3) appearing in names, with or without brackets around
 birth_date_day:  regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$")
 birth_date_month: is("*") or is("???") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December")
-birth_date_year: if(positiveInteger,range(1895,1914),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$"))
+birth_date_year: if(positiveInteger,range(1867,1914),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$"))
 comments: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+//alt_description: if($item\empty,starts("Continuous Service Record Cards: Numbers ") and ends(". (Described at item level)"),empty)
+

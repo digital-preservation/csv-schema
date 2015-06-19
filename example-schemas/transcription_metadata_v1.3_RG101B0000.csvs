@@ -1,6 +1,6 @@
 version 1.0
 @totalColumns 44
-batch_code: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), length(10) regex("^RG101B([0-9]{4})$"), is(""))				
+batch_code: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), length(10) regex("^RG101B([0-9]{4})$"), is(""))
 department: if($metadata_type/is("PIECE"), is("RG"), is(""))
 series: if($metadata_type/is("PIECE"), is("101"), is(""))
 piece: if($metadata_type/starts("ITEM_"),regex("^[0-9]{1,5}[A-Z]$") in($file_path),regex("^[0-9]{1,5}[A-Z]$"))	
@@ -23,7 +23,7 @@ ed_letter_code: if($metadata_type/is("PIECE"), regex("^[A-Z]{4,5}$"), is(""))
 borough: if($metadata_type/is("PIECE"), regex("^[a-zA-Z \.]{3,}$"), is(""))
 registration_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
 sub_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
-house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-]{1,5}$"), $house_name/not("")), is(""))
+house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-\(\)]{1,5}$"), $house_name/not("")), is(""))
 house_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(not(""), length(2, *), $house_number/not("")), is(""))
 street_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), regex("^[0-9a-zA-Z, \?']{3,}$"), is("")) @optional
 schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), range(1,613), is("")) 
@@ -39,7 +39,7 @@ birth_date_month: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUB
 birth_date_year: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), regex("^1[7-9][0-9\?]{2}|\*$"), is(""))
 marital_status: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("?") or is("single") or is("married") or is("widowed") or is("divorced"), is(""))
 occupation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or length(3,*), is(""))
-refers_to: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional //range(1,200) replaced by the regex to allow refs to pages in other registers
+instructions: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or length(3,*) or is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional //range(1,200) replaced by the regex to allow refs to pages in other registers
 sensitive_annotation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("Adopted"), is("")) @optional
 legal_status: is("Public Record")
 held_by: is("The National Archives, Kew")
