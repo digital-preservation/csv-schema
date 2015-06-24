@@ -1,5 +1,5 @@
 version 1.0
-@totalColumns 22
+@totalColumns 23
 /*-------------------------------------------------------------------------------
 |Schema:   transcription_metadata_v1_ADM363B000.csvs                            |
 |Authors:  David Underdown                                                      |
@@ -7,6 +7,7 @@ version 1.0
 |Revision: 1.0 first release                                                    |
 |          1.1 amendments to allow full stops in ON and some edge case          |
 |              birthplaces                                                      |
+|          1.2 add alt_description for non-personal material                    |
 |------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^ADM363B([0-9]{3})$")
 department: is("ADM") and in($file_path)
@@ -28,10 +29,9 @@ surname_other: regex("^((((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([-
 //May need amending for accented characters
 forenames: regex("^(Rev\: )?((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{0,15}([- ](((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @warning 
 forenames_other: regex("^(Rev\: )?((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{0,15}([- ](((([dDL][\?aeiu]([- ]?))|(I\')|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
-place_of_birth: regex("^([\?A-Z][\?a-z]{1,20}('s)?|\*)([- \?A-Z][A-Za-z]{1,20}('s)?|\*)*((, )((([\?A-Z][\?a-z]{1,20})('s)?|([\?A-Z][\?A-Z]))((, |[- \?A-Z])[A-Za-z]{1,20}('s)?)*|\*|USA|Isle [Oo]f Wight|Isle [Oo]f Man))$") //may need to allow for elements like (No 3) appearing in names, with or without brackets around
+place_of_birth: regex("^([\?A-Z][\?a-z]{1,20}('s)?|\*)([- \?A-Z][A-Za-z]{1,20}('s)?|\*)*((, )((([\?A-Z][\?a-z]{1,20})('s)?|([\?A-Z][\?A-Z]))((, |[- \?A-Z])[A-Za-z]{1,20}('s)?)*|\*|USA|Isle [Oo]f Wight|Isle [Oo]f Man))$") or is("[unspecified]") //may need to allow for elements like (No 3) appearing in names, with or without brackets around
 birth_date_day:  regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$")
 birth_date_month: is("*") or is("???") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December")
 birth_date_year: if(positiveInteger,range(1867,1914),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$"))
 comments: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
-//alt_description: if($item\empty,starts("Continuous Service Record Cards: Numbers ") and ends(". (Described at item level)"),empty)
-
+alt_description: 
