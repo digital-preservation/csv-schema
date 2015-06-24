@@ -1,0 +1,59 @@
+version 1.0
+@totalColumns 47
+/*-------------------------------------------------------------------------------
+|Schema:   tech_acq_metadata_v1_ADM363Y15B000.csvs                               |
+|Authors:  Nicki Welch                                                           |
+|          David Underdown                                                       |
+|Purpose:  To capture metadata about the digitisation of the ADM 363 series      |
+|          Primarily technical metadata, but with a minimal amount of            |
+|          transcription to verify that the records may be publicly released     |
+|          after receipt by The National Archives                                |
+|Revision: 1.0  first release based on earlier ADM 363 project                   |
+-------------------------------------------------------------------------------*/
+batch_code: regex("^ADM363Y15B([0-9]{3})$")
+department: (is("ADM") if($file_path/notEmpty,in($file_path) and in($resource_uri)))
+series: is("363") and if($file_path/notEmpty,in($file_path) and in($resource_uri))
+piece: range(1,69720) if($file_path/notEmpty,in($file_path) and in($resource_uri))
+item: ((positiveInteger unique($piece,$item,$ordinal)) or empty) if($file_path/notEmpty,in($file_path))
+ordinal: if($item/empty,empty,unique($piece,$item,$ordinal))
+file_uuid: if($ordinal/empty,empty,uuid4 unique)
+file_path: uri if($ordinal/empty,empty,unique fileExists regex("^file:\/\/\/ADM_363\/[0-9]{1,5}\/[0-9]{1,5}\/[1-9][0-9]{0,4}_[0-9]{1,4}\.jp2$"))
+file_checksum: if($ordinal/empty,empty,not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
+resource_uri: if($ordinal/notEmpty,uri and regex("^http://datagov.nationalarchives.gov.uk/66/ADM/363/[1-9][0-9]*/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"))
+scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
+scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z_]{1,12}$"))
+scan_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+scan_native_format: if($ordinal/empty,empty,regex("[0-9\w\s,.:]+"))
+scan_timestamp: if($ordinal/empty,empty,xDateTime)
+image_resolution: if($ordinal/empty,empty,is("300"))
+image_width: if($ordinal/empty,empty,positiveInteger)
+image_height: if($ordinal/empty,empty,positiveInteger)
+image_tonal_resolution: if($ordinal/empty,empty,is("24-bit colour"))
+image_format: if($ordinal/empty,empty,is("x-fmt/392"))
+image_colour_space: if($ordinal/empty,empty,is("sRGB"))
+process_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+jp2_creation_timestamp: if($ordinal/empty,empty,xDateTime)
+uuid_timestamp: if($ordinal/empty,empty,xDateTime)
+embed_timestamp: if($ordinal/empty,empty,xDateTime)
+image_split: if($ordinal/empty,empty,is("yes") or is("no"))
+image_split_other_uuid: if($ordinal/empty,empty,if($image_split/is("yes"),uuid4,is("")))
+image_split_operator: if($ordinal/empty,empty,if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+image_split_timestamp: if($ordinal/empty,empty,if($image_split/is("yes"),xDateTime,is("")))
+image_crop: if($ordinal/empty,empty,is("auto") or is("manual") or is("none"))
+image_crop_operator: if($ordinal/empty,empty,if($image_split/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+image_crop_timestamp: if($ordinal/empty,empty,if($image_crop/is("none"),empty,xDateTime))
+image_deskew: if($ordinal/empty,empty,is("yes") or is("no"))
+image_deskew_operator: if($ordinal/empty,empty,if($image_deskew/is("yes"),regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+image_deskew_timestamp: if($ordinal/empty,empty,if($image_deskew/is("yes"),xDateTime,is("")))
+QA-code: regex("^[0-9/,]{1,2}$") @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional
+transcribed_volume_number: if($item/empty,regex("[0-9A-Z\-\s]{1,19}"),is(""))
+transcribed_birth_date_day:  if(($ordinal/empty and $item/notEmpty),regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$"),is("")) 
+transcribed_birth_date_month: if(($ordinal/empty and $item/notEmpty),is("*") or is("?") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December"), is(""))
+transcribed_birth_date_year: if(($ordinal/empty and $item/notEmpty),if(positiveInteger,range(1850,1914),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$")),is(""))
+transcribed_official_number: if(($ordinal/empty and $item/notEmpty),regex("^(([CDP]\/)?([FJKLMS]|LX|MX|JX|KX|SS|SSX) [/?0-9]{1,6}|[/?1-9][/?0-9]{5}|\*)$"),is(""))
+transcribed_surname: if(($ordinal/empty and $item/notEmpty),regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*"),empty) @warning
+transcribed_surname_other: if(($ordinal/empty and $item/notEmpty),regex("^((((([dDL][\?aeiu]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiu]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") or is("???") or is("*"),empty) @warning @optional
+transcribed_forenames: if(($ordinal/empty and $item/notEmpty),regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*"),empty) @warning
+transcribed_forenames_other: if(($ordinal/empty and $item/notEmpty),regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*"),empty) @optional @warning 
+transcribed_place_of_birth: if(($ordinal/empty and $item/notEmpty),regex("^((St(\.)? )?[\?A-Z][\?a-z]{2,15}|\*)(([- ]?((([Uu]p)?[Oo]n|le|in|near|cum)[- ])?)?[\?A-Z][\?a-z]{1,15}|\*){0,3}((, )(([\?A-Z][\?a-z]{1,15})(( | [Oo]f )[\?A-Z][\?a-z]{1,15})?|USA|\*))$"),empty)
