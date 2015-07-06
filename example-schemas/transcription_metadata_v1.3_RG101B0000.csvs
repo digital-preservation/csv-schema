@@ -1,5 +1,7 @@
 version 1.0
 @totalColumns 44
+//Schema updates: brackets, hyphen in street name, extend house number to allow eg 112-111, question marks in house number
+//for continuations - by definition schedule/subsched should alreaady have appeared.
 batch_code: if($metadata_type/regex("(PIECE)|(ITEM_((TITLE)|(MAIN)|(CON))PAGE)"), length(10) regex("^RG101B([0-9]{4})$"), is(""))
 department: if($metadata_type/is("PIECE"), is("RG"), is(""))
 series: if($metadata_type/is("PIECE"), is("101"), is(""))
@@ -23,11 +25,11 @@ ed_letter_code: if($metadata_type/is("PIECE"), regex("^[A-Z]{4,5}$"), is(""))
 borough: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z \.]{3,}$"), is(""))
 registration_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
 sub_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
-house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-\(\)]{1,5}$"), $house_name/not("")), is(""))
+house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-\(\)\?]{1,7}$"), $house_name/not("")), is(""))
 house_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(not(""), length(2, *), $house_number/not("")), is(""))
-street_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), regex("^[0-9a-zA-Z, \?']{3,}$"), is("")) @optional
+street_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), regex("^[0-9A-Za-z, \-\(\)\?']{3,}$"), is("")) @optional
 schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), range(1,613), is("")) 
-sub_schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), range(1,613) and unique($piece,$schedule_no,$sub_schedule_no), is(""))
+sub_schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_QADDRESS)"), range(1,613) and unique($piece,$schedule_no,$sub_schedule_no), if($metadata_type/is("SUBITEM_CONNAME"),range(1,613),is("")))
 surname: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is(""))	
 surname_other: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is("")) @optional
 forenames: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is(""))
