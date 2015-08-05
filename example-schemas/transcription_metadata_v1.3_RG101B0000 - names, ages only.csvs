@@ -1,0 +1,46 @@
+version 1.0
+@totalColumns 44
+batch_code: 
+department: 
+series: 
+piece: 
+item: 
+sub_item: 
+metadata_type: 
+file_path: 
+page_number: 
+volume_number: 
+file_uuid: 
+file_uuid_other: 
+first_date_day: 
+first_date_month: 
+first_date_year: 
+last_date_day: 
+last_date_month: 
+last_date_year: 
+county: 
+ed_letter_code: 
+borough: 
+registration_district: 
+sub_district: 
+house_number: 
+house_name: 
+street_name: 
+schedule_no: 
+sub_schedule_no: 
+surname: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiou]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional
+surname_other: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([-, ](((([dDL][\?aeiou]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,3})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional
+forenames: regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
+forenames_other: regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([-, ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
+ovspi: 
+gender: 
+birth_date_day: 
+birth_date_month: 
+birth_date_year: if(positiveInteger,if($marital_status/is("*") or $marital_status/is("?") or $marital_status/is("single"),range(1845,1939),if($marital_status/is("married") or $marital_status/is("divorced") or $marital_status/is("widowed"),range(1845,1923)))) 
+marital_status: 
+occupation: 
+instructions: 
+sensitive_annotation: 
+legal_status: 
+held_by: 
+comments:
