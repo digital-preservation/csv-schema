@@ -31,7 +31,7 @@ sub_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
 house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-\(\)\?]{1,7}$"), $house_name/not("")), is(""))
 house_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(not(""), length(2, *), $house_number/not("")), is(""))
 street_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), regex("^[0-9A-Za-z, \-\(\)\?'\.\\]{3,}$"), is("")) @optional
-schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(positiveInteger,range(1,613),regex("^[1-9][0-9]{0,2}(([a-fA-F])|(DUP[0-9]{1,2}))$")),is("")) 
+schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(positiveInteger,range(1,619),regex("^[1-9][0-9]{0,2}(([a-fA-F])|(DUP[0-9]{1,2}))$")),is("")) 
 sub_schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_QADDRESS)"), range(1,613) and unique($piece,$schedule_no,$sub_schedule_no), if($metadata_type/is("SUBITEM_CONNAME"),range(1,613),is("")))
 surname: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is(""))
 surname_other: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is("")) @optional
