@@ -1,0 +1,45 @@
+version 1.0
+@totalColumns 43
+identifier: uri fileExists unique if($folder/is("folder"),ends("/"))
+file_name: length(1,*)
+folder: is("folder") or is("file")
+last_modified_date: xDateTime
+checksum: if($folder/is("file"),checksum( file($identifier),"SHA-256"),is("")) 
+description: empty
+session: if($folder/is("file"),is("am") or is("pm") or is("judgment") or is("opening") or is("costs") or is("swearing in")) /*if opening,swearing in or costs there will be no case id*/
+session_date: if($folder/is("file"), xDate) //yyyy-mm-dd 
+case_id_1: if($folder/is("file"), if($session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,regex("^UKSC[\s]20[0-9]{2}\/[0-9]{4}$")),empty) //no case_id if opening,costs or swearing in
+case_name_1: if($folder/is("file"),if($case_id_1/is(""),length(1,*)))
+case_summary_1: if($folder/is("file"),if($case_name_1/is(""),length(1,*)))
+hearing_start_date_1: if($folder/is("file"),if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31))) /* yyyy-mm-dd date the hearing commenced, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers */
+hearing_end_date_1: if($folder/is("file"),if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31))) /* yyyy-mm-dd date the hearing ended, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers*/
+case_id_2: regex("^UKSC[\s]20[0-9]{2}\/[0-9]{4}$") @optional /*Case _id_1 must always be present unless session is opening, costs or swearing in, all following cases up to 4 for hearings and 5 for judgments are optional as it depends how many are on the recording, but there will always be a minimum of 1 case. @optional directive is used so the data in the column is considered valid if the Column Rule evaluates to true, or if the column is empty*/
+case_name_2: if($case_id_2/notEmpty,length(1,255)) 
+case_summary_2: if($case_id_2/notEmpty,length(1,*),empty)
+hearing_start_date_2: if($case_id_2/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) /* yyyy-mm-dd date the hearing commenced, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers*/
+hearing_end_date_2: if($case_id_2/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) // yyyy-mm-dd date the hearing ended, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers
+case_id_3:  regex("^UKSC[\s]20[0-9]{2}\/[0-9]{4}$") @optional
+case_name_3: if($case_id_3/notEmpty,length(1,255),empty) 
+case_summary_3:   if($case_id_3/notEmpty,length(1,*),empty) 
+hearing_start_date_3: if($case_id_3/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) /* yyyy-mm-dd date the hearing commenced, hearings only. Does not apply to judgments, opening, costs or swearing in*/
+hearing_end_date_3: if($case_id_3/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) // yyyy-mm-dd date the hearing ended, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers
+case_id_4: regex("^UKSC[\s]20[0-9]{2}\/[0-9]{4}$") @optional
+case_name_4:  if($case_id_4/notEmpty,length(1,255),empty)
+case_summary_4: if($case_id_4/notEmpty,length(1,*),empty) 
+hearing_start_date_4: if($case_id_4/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) /* yyyy-mm-dd date the hearing commenced, hearings only. Does not apply to judgments, opening, costs or swearing in*/
+hearing_end_date_4: if($case_id_4/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) // yyyy-mm-dd date the hearing ended, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers
+case_id_5: regex("^UKSC[\s]20[0-9]{2}\/[0-9]{4}$") @optional
+case_name_5: if($case_id_5/notEmpty,length(1,255),empty)
+case_summary_5: if($case_id_5/notEmpty,length(1,*),empty) 
+hearing_start_date_5: if($case_id_5/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) /* yyyy-mm-dd date the hearing commenced, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers*/
+hearing_end_date_5: if($case_id_5/notEmpty, if($session/is("judgment") or $session/is("opening") or $session/is("costs") or $session/is("swearing in"),empty,xDate(2009-01-01,2009-12-31)),empty) // yyyy-mm-dd date the hearing ended, hearings only. Does not apply to judgments, opening, costs or swearing in. This date range is 2009 only, would need to be changed for future transfers
+closure_start_date: if($closure_type/is("open_on_transfer"),empty,xDateTime)
+closure_period: if($closure_type/is("open_on_transfer"),is("0"), range(1,100))
+foi_exemption_code: if($closure_type/is("open_on_transfer"),is("open"),regex("(?:2[34689]|27\([12]\)|30\([12]\)|3[1-4689]|35\(1\)\([abcd]\)|37\(1\)\((?:(?:a|ac|ad|b)\)|a\) old)|40\([12]\)|43\(2\)|4[1-4])(?:,\s?(?:2[34689]|27\([12]\)|30\([12]\)|3[1-4689]|35\(1\)\([abcd]\)|37\(1\)\((?:(?:a|ac|ad|b)\)|a\) old)|40\([12]\)|4[1-4]))*"))
+foi_exemption_asserted: if($closure_type/is("open_on_transfer"),empty, xDateTime) //regex("^$|(?:(?:(200[5-9]))|(?:([2-9]0[1-9][0-9]))|(?:([2-9][1-9][0-9]{2})))")
+description_public: is("this") or is("folder") or is("true") or is("false") or is("TRUE") or is("FALSE")
+description_alternate: @optional
+closure_type: is("closed_review") or is("retained_until") or is("closed_for") or is("normal_closure_before_foi") or is("retained_under_3.4") or is("temporarily_retained") or is("closed_until") or is("closed_access_reviewed") or is("reclosed_in") or is("open_on_transfer")
+rights_copyright: is("Crown Copyright")
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")
