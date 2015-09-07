@@ -1,0 +1,18 @@
+version 1.0 
+@totalColumns 16 //including the closure fields 
+identifier: uri fileExists unique if($folder/is("folder"),ends("/")) starts("file:///BT_95/")
+file_name: length(1,*) in($identifier)
+description:
+folder: is("folder") or is("file")
+date_last_modified: xDateTime
+checksum: if($folder/is("file"),checksum(file($identifier)"),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),is(""))
+rights_copyright: is("Crown copyright")
+closure_period: is("0")
+closure_start_date: empty
+foi_exemption_code: is("open")
+foi_exemption_asserted: empty
+description_public: is("TRUE")
+description_alternate: empty
+closure_type: is("open_on_transfer")
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")

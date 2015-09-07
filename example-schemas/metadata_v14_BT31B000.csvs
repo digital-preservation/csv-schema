@@ -1,0 +1,18 @@
+version 1.0
+@totalColumns 16
+identifier: uri starts("file:///BT_31/") fileExists unique if($folder/is("folder"),ends("/"))
+filename: if($folder/is("file"),ends(".tif") and in($identifier),if($folder/is("folder"),in($identifier),empty))
+description: //regex("^(Company No: )(((SC|NI)[0-9]{6})|([0-9]{8}))(, Company Name: ([-0-9A-Z\(\)])+\. Incorporated in )(19[89][0-9])(\. Dissolved in 1995\.) .*") regex("^((((0[1-9])|([12][0-9])|(3[01])\/((0[1-9])|(1[0-2]))\/([09][0-9])) ((ANNUAL RETURN SHUTTLE)|(ANNUAL ACCTS)))|(CHANGE OF DIRS\/SEC)|(MEMBERS RFWUM)|(PARS RE MORTAGE)|(DEC OF SOLV)|(RESOLUTION TO CHANGE NAME)|(UPDATED MEM AND ARTS)|(LIQUIDATIONS RESOLUTION)|(APPOINTMENT OF LIQUIDATOR)|(DISSOLVED)|(BONA VACANTIA DISCLAIMER)|(APPOINTMENT RECEIVER\/MANAGER))(: Company No: )((NI[0-9]{6})|([0-9]{8}))( ([-0-9A-Z\(\)])+\. Incorporated in )(19[89][0-9])(\. Dissolved in 1994\.)$")
+folder: is("folder") or is("file")
+date_last_modified: xDateTime
+checksum: if($folder/is("file"),checksum(file($identifier),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),is(""))
+rights_copyright: is("Crown copyright")
+closure_period: is("0")
+closure_start_date: empty
+foi_exemption_code: is("open")
+foi_exemption_asserted: empty
+description_public: is("TRUE")
+description_alternate: empty
+closure_type: is("open_on_transfer")
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")
