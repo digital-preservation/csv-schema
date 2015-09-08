@@ -14,15 +14,21 @@ version 1.0
 |                Introduced regex for resource_uri (taken from the XML schema)                                                                            |
 |                check that file_checksum is not that for a 0-byte string (ie empty file), and that it is unique                                          |
 |                change comments regex to bring in line with experience on WO 95                                                                          |
+|version 1.3 DU: Allowed page numbers up to 100, this primarily affects photocopied volumes, where numbering runs longer                                  |
+|                Added a couple of extra variants to the volume labelling regex for things found in practice                                              |
+|                Added dimension checking - cover pages are not redacted, so may be wider, but are also more prone to damage, so also narrower, the       |
+|                critical case is trying to find register pages that are wider than expected, current value may prove to be too tight, but it is better   |
+|                that false positives are decided by human review.                                                                                        |
+|                Some extra tall ones also appear to be improperly cropped, with excess black border
 ---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 batch_code: length(10) regex("^RG101B([0-9]{4})$")
 department: (is("RG") (in($file_path) and in($resource_uri)))
 series: is("101") and (in($file_path) and in($resource_uri))
 piece: regex("^[0-9]{1,5}[A-Z]$") and (in($file_path) and in($resource_uri))
 item: range(1,500)//manual check, if item is greater than 24, photocopy should be 'yes'
-transcribed_volume_code: regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}(\s){0,1}\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2}\)$")
-//we allow AXJZ - GHTY or KPHE - ZIA or AB (CA) or 12345 AB (CK - CP) or 12345 AB (CK-CP)
-page_number: range(1,23) or is("missing") or is("")
+transcribed_volume_code: regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}(\s){0,1}\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2,3}\)$") or regex("^[0-9]{0,5}(\s)?[A-Z]{2}\([A-Z]{2}\)(\s)?\-(\s)?[A-Z]{2}\([A-Z]{2}\)$")
+//we allow (in each case with or without spaces separating elements AXJZ - GHTY or KPHE - ZIA or AB (CA) or 12345 AB (CK - CP) or 12345 AB (CK-CPA) or 12345 KA(CG)-KB(AF) or
+page_number: range(1,100) or is("missing") or is("")
 title_page_exists: if($item/is("1"), regex("yes|no"), (if($photocopy/is("yes"), regex("no"), is("")))) 
 photocopy: if($item/is("1"), regex("yes|no"), is("")) 
 following_blank_or_missing_pages: regex("^[0-9/-]{1,}$") or is("")
@@ -36,8 +42,8 @@ scan_location: regex("[-\w\s,]+")
 scan_native_format: regex("[0-9\w\s,.:]+")
 scan_timestamp: xDateTime
 image_resolution: is("300")
-image_width: positiveInteger
-image_height: positiveInteger
+image_width: if($title_page_exists/is("yes"),range(3250,6450),range(2525,3900))
+image_height: positiveInteger range(4430,4875)
 image_tonal_resolution: is("24-bit colour")
 image_format: is("x-fmt/392")
 image_colour_space: is("sRGB")
