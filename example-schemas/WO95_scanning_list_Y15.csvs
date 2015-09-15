@@ -6,6 +6,7 @@ version 1.0
 |as in the schema tech_acq_metadata_v1_WO95Y15B000.csvs but as file_path and resource_uri are not known at the  |
 |stage the scanning list is created, and so are not included in this schema, cross references are removed       |
 |  20140909   Version 1.0   DHU   First release version for 2015-16 project phase                               |
+|  20150915   Version 1.1   DHU   Added in tests related to the 100 extra pieces now included                   |
 ---------------------------------------------------------------------------------------------------------------*/
 /*The header of the schema file, ie the statements version 1.0 and @totalColumns 9, indicates that this schema 
   is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
