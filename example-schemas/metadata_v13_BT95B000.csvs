@@ -1,10 +1,9 @@
 version 1.0 
-@totalColumns 18 //including the closure fields 
+@totalColumns 17 //including the closure fields 
 identifier: uri unique if($folder/is("folder"),ends("/"),fileExists) starts("file:///BT_95/")
 file_name: length(1,*) in($identifier)
 description:
 folder: is("folder") or is("file")
-date_last_modified: xDateTime
 covering_date_from: if($folder/is("file"),xDateTime,empty)
 covering_date_to: if($folder/is("file"),xDateTime,empty)
 checksum: if($folder/is("file"),checksum(file($identifier)"),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),is(""))
