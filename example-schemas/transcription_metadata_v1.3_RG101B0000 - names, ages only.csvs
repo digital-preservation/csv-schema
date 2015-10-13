@@ -19,7 +19,7 @@ last_date_day:
 last_date_month: 
 last_date_year: 
 county: 
-ed_letter_code: 
+ED_letter_code: 
 borough: 
 registration_district: 
 sub_district: 
@@ -29,19 +29,20 @@ street_name:
 schedule_no: 
 sub_schedule_no: 
 surname: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([- ](((([dDL][\?aeiou]([- ])?)|([dDAL]\')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,1})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional
-surname_other: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([-, ](((([dDL][\?aeiou]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,3})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional
+//ORIGINAL CODE surname_other: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([-, ](((([dDL][\?aeiou]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,3})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional
+surname_other: (regex("^((((([dDL][\?aeiou]([- ]?))|([dDAL](e?)\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e( ?))))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15})([-, ,\,](((([dDL][\?aeiou]([- ])?)|([dDAL]')|([dD]e([- ])?[lL]a([- ])?)|(St(e?[- ]?))|([Vv][\?ao]n( )?([Dd]e( ?))))|((M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?a-z]{2,15}))){0,3})$") and regex("^(.)*\S$")) or is("???") or is("*") @warning @optional //added acceptance of , between surnames : [-, ,\,]
 //The regex used for both surname fields is identical, both are set as optional, so the check only applies if something is in the field, the other schema checks that the field is only filled when it should be
 //The surname is divided into an optional prefix, eg Mc, Mac, De, De La, with varied capitalisation, with or without space or hyphen to separate it from the mandatory part of the name which must begin with a capital letter, and then be lowercase only, then we allow for a single additional "barrel" (with identical formatting rules), separated by a space or hyphen.  Names with more barrells are sufficiently uncommon that it's probably worth double checking that one aprt isn't actually a middle name, or an amendment that's not been properly captured
 forenames: regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([- ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
 forenames_other: regex("^(Rev\: )?(M[\?a]?[\?c]|M\'|O\')?[\?A-Z][\?a-z]{0,15}([-, ]((M[\?a]?[\?c]|M\'|O\')?[\?A-Zdv][\?a-z]{0,15}))*( M\.A\.| B\.A\.)?$") or is("???") or is("*") @optional @warning 
-ovspi: 
+OVSPI: 
 gender: 
 birth_date_day: 
 birth_date_month: 
-birth_date_year: if(positiveInteger,if($marital_status/is("*") or $marital_status/is("?") or $marital_status/is("single"),range(1845,1939),if($marital_status/is("married") or $marital_status/is("divorced") or $marital_status/is("widowed"),range(1845,1923)))) 
+birth_date_year: if(positiveInteger,if($marital_status/is("*") or $marital_status/is("?") or $marital_status/is("single"),range(1845,1939),if($marital_status/is("married") or $marital_status/is("divorced") or $marital_status/is("widowed"),range(1840,1923)))) //changed from range(1845,1923) 
 marital_status: 
 occupation: 
-instructions: 
+refers_to: 
 sensitive_annotation: 
 legal_status: 
 held_by: 

@@ -25,7 +25,7 @@ sub_item: if($metadata_type/starts("SUBITEM_"), range(1,44) unique($piece, $item
 metadata_type: is("PIECE") or is("ITEM") or is("ITEM_TITLEPAGE") or is("ITEM_MAINPAGE") or is("ITEM_CONPAGE") or is("SUBITEM_NAME") or is("SUBITEM_CONNAME") or is("SUBITEM_VACANT") or is("SUBITEM_BLANK") or is("SUBITEM_REMOVED") or is("SUBITEM_QADDRESS")
 //This check prescribes the acceptable values for metadata_type (this value is then used by most of the rest of the checks to define acceptable values for that type of metadata row
 file_path: if($metadata_type/starts("ITEM_"), uri and regex("^file:\/\/\/RG_101\/[0-9]{1,5}[A-Z]\/[0-9]{1,3}\/[0-9]{1,5}[A-Z]_[0-9]{1,3}_[0-9]{1,4}.+\.jp2$") and unique fileExists, is(""))
-//For item rows we expect to have the JP2 image, this should be given in the form of a URI, which is of the form file:///RG_101/{piece}/{item}/{piece}_{item}_0001.jp2 (values in {} are those for the appropriate field of the same name), the file_path must also be unique, and we check that the file actually exists (so a path substitution will be required)
+//For item rows we expect to have the JP2 image, this should be given in the form of a URI, which is of the form file:///RG_101/{piece}/{item}/{piece}_{item}_0001.jp2 (values in {} are those for the appropriate field of the same name), the file_path must also be unique
 page_number: if($metadata_type/regex("(ITEM_MAINPAGE)|(ITEM_CONPAGE)"), regex("^([0-9a-zA-Z]{1,4})$") or is("missing"), is(""))
 //For actual register pages with entries on them (as opposed to cover pages), we should a have a page_number, transcribed from the top right hand corner of the page (lost in redaction), 1-4 alphanumeric characters are allowed (as often additional pages were added in later and so on), or the value 2missing" if the page number was not present for some reason
 volume_number: if($metadata_type/is("PIECE"), regex("^[A-Z]{4}\s\-\s[A-Z]{4}$") or regex("^[A-Z]{4}\s\-\s[A-Z]{3}$") or regex("^[A-Z]{2}\s\([A-Z]{2}\)$") or regex("^[0-9]{0,5}(\s){0,1}[A-Z]{2}(\s){0,1}\([A-Z]{2}(\s){0,1}\-(\s){0,1}[A-Z]{2,3}\)$") or regex("^[0-9]{0,5}(\s)?[A-Z]{2}\([A-Z]{2}\)(\s)?\-(\s)?[A-Z]{2}\([A-Z]{2}\)$"), is(""))
@@ -43,7 +43,7 @@ last_date_year: if($metadata_type/is("PIECE"), is("1939"), is(""))
 //The various date fields allow us to construct a covering date for this information - we are suing just the date on which the original register was compiled, and not making any attempt to capture when the data was subsequently updated when the register was in use
 county: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z ]{3,}$"), is(""))
 //County is data derived by DCTFH based on the enumeration district.  We are merely checking that there are at least 3 alphanumeric characters here, we are not attempting to introduce a controlled vocab
-ed_letter_code: if($metadata_type/is("PIECE"), regex("^[A-Z]{4,5}$"), is(""))
+ED_letter_code: if($metadata_type/is("PIECE"), regex("^[A-Z]{4,5}$"), is(""))
 //each enumeration district (ed) was assigned a four or five letter code
 borough: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z \.]{3,}$"), is(""))
 //The borough should be recorded at the start of each register booklet (PIECE), and for search purposes is then copied down into the SUBITEMs
@@ -56,11 +56,11 @@ house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_
 house_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(not(""), length(2, *), $house_number/not("")), is(""))
 //Like house_number, for sub_item rows other than SUBITEM_BLANK, at least one of house_number and house_name must be populated (having both is permitted).  The only real restriction on a name is that it must have at least two characters
 street_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), regex("^[0-9A-Za-z, \-\(\)\?'\.\\]{3,}$"), is("")) @optional
-//Again for sub_items other than SUBITEM_BLANK this field must have at least three chracters of any sort (though in fact it's optional, as not everywhere has named streets, so only a field with only 1 or 2 characters would actually produce an error!)
+//Again for sub_items other than SUBITEM_BLANK this field must have at least three characters of any sort (though in fact it's optional, as not everywhere has named streets, so only a field with only 1 or 2 characters would actually produce an error!)
 schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(positiveInteger,range(1,619),regex("^[1-9][0-9]{0,2}(([a-fA-F])|(DUP[0-9]{1,2}))$")),is("")) 
 //Within each enumeration district the enumerator numbered the schedules issued to each individual household beginning at 1.  Occasionally duplicate schedule numbers were accidentally created, these were corrected at the time by adding an alphabetic suffix, or some have only just been found where we distinguish by adding DUPnn (where nn is a numeric with 1 or 2 digits)
 sub_schedule_no: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_QADDRESS)"), range(1,613) and unique($piece,$schedule_no,$sub_schedule_no), if($metadata_type/is("SUBITEM_CONNAME"),range(1,613),is("")))
-//Within each individual household, each individual person was given a sub_schedule_no - this only applied to SUBITEM types where individuals actaully lived there, so if the property was vacant etc, this field will be blank.  Normally we expect that the combination of piece, schedule_no and sub_schedule_no should be unique, but if it's a continuation sub_item then by definition that combination exists elsewhere
+//Within each individual household, each individual person was given a sub_schedule_no - this only applied to SUBITEM types where individuals actually lived there, so if the property was vacant etc, this field will be blank.  Normally we expect that the combination of piece, schedule_no and sub_schedule_no should be unique, but if it's a continuation sub_item then by definition that combination exists elsewhere
 surname: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is(""))
 //Here we just check that something is filled in for surname for relevant SUBITEM types - see separate schema for some more detailed checking 
 surname_other: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is("")) @optional
@@ -69,7 +69,7 @@ forenames: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QA
 //Here we just check that something is filled in for forenames for relevant SUBITEM types - see separate schema for some more detailed checking 
 forenames_other: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or is("???") or length(1,*), is("")) @optional
 //Here if forenames have been amended at some point this field should be populated
-ovspi: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("Officer") or is("Visitor") or is("Servant") or is("Patient") or is("Inmate") or is("?") or is("*"), is(""))
+OVSPI: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("Officer") or is("Visitor") or is("Servant") or is("Patient") or is("Inmate") or is("?") or is("*"), is(""))
 //Records the data recorded in one of the original form columns, expanded from the single character originally used according to the detailed instructions to enumerators, again only required for appropriate surname types
 gender: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("male") or is("female") or is("*"))
 birth_date_day: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$"), is("")) //validator will fail if you open csv template as expecting single digit days to have a leading 0 and Excel removes it
@@ -80,10 +80,12 @@ marital_status: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBIT
 //Like OVSPI, expanded from the single character used in the original register to the full word the character represents
 occupation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or length(3,*), is(""))
 //a fairly freeform field as no sort of controlled vocab was used in the register
-instructions: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or length(3,*) or is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional
+refers_to: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional 
+//range(1,200) replaced by the regex to allow refs to pages in other registers, this field also records membership of Home Guard, Auxiliary Fire Service, ARP etc - added by AG 8th Oct 2015
+//code for instructions: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("*") or length(3,*) or is("continuation") or regex("^([0-9a-zA-Z]{1,4})$") , is("")) @optional
 //range(1,200) replaced by the regex to allow refs to pages in other registers, this field also records membership of Home Guard, Auxiliary Fire Service, ARP etc
 sensitive_annotation: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_CONNAME)|(SUBITEM_QADDRESS)"), is("Adopted"), is("")) @optional
-//It was believed that there was potential for some records to show that a person had been adopted, if this does happen, it should be recorded in this field and the relevant line redacted in perpertuity
+//It was believed that there was potential for some records to show that a person had been adopted, if this does happen, it should be recorded in this field and the relevant line redacted in perpetuity
 legal_status: is("Public Record")
 //Fixed value
 held_by: is("The National Archives, Kew")
