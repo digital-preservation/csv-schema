@@ -6,7 +6,7 @@ description:
 folder: is("folder") or is("file")
 covering_date_from: if($folder/is("file"),xDateTime,empty)
 covering_date_to: if($folder/is("file"),xDateTime,empty)
-checksum: if($folder/is("file"),checksum(file($identifier)"),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),is(""))
+checksum: if($folder/is("file"),checksum(file($identifier),"SHA-256") not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),is(""))
 rights_copyright: is("Crown copyright")
 closure_period: is("0")
 closure_start_date: empty
