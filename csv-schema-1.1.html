@@ -177,7 +177,8 @@
       This document represents the specification of the CSV Schema Language 1.1
       as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
-      such as the <a href="http://w3.org">W3C</a>.
+      such as the <a href="http://w3.org">W3C</a>.  
+	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -303,9 +304,9 @@ simon,57,male
 	<section id="new-in-1.1" class="informative">
 		<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
 		<p>
-		The last 18 months with CSV Schema being in regular use at The National Archives has highlighted a few additional 
-		<a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, simplify schema writing, or make schemas more readable.  
-		In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
+		The last 18 months with <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> being in regular use at The National Archives 
+		has highlighted a few additional <a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, 
+		simplify schema writing, or make schemas more readable.  In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
 		to produce a final string input to expressions from some set of other <a title="String Provider">String Providers</a>, and also a function to allow removal of a Windows file
 		extension to make certain comparisons more straightforward and robust.
 		</p>
@@ -723,7 +724,7 @@ simon,57,male
 								<td class="ebnf-num">[23]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
-								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
+								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a></td>
 								<td class="ebnf-note">/* <a>xgc:unordered</a> */</td>
 							</tr>
 						</table>
@@ -829,7 +830,7 @@ simon,57,male
 		then <code>Mr</code> would be regarded as invalid (strictly speaking that would also require the use of an <a>Explicit Context Expression</a> to refer to the other column, 
 		but that is a subexpression of the Non Conditional Expression class).
 		</p>
-    	<p><strong>NOTE</strong> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
+    	<p><strong>NOTE</strong> To increase control over expression applicability and to avoid creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
     	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
@@ -1194,8 +1195,11 @@ simon,57,male
 						<h4>XSD Date Time Expressions</h4>
 						<p>
 						An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-							You can also provide an OPTIONAL <em>from</em> and <em>to</em> date-times
+						You can also provide an OPTIONAL <em>from</em> and <em>to</em> date-times
 						(inclusive) to ensure that the value in the column falls within an expected date-time range.
+						</p>
+						<p>
+						As the XSD Date Time Expression uses the <a>XSD Date Time Literal</a> the final, timezone, part of the [[!ISO8601]] definition is OPTIONAL.
 						</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1425,7 +1429,7 @@ simon,57,male
 								<p>
 								Consider a file that is expected to contain data relating to one particular batch of a process, 
 								and should also be the data relating to one particular day.  Over time we will receive many such files, 
-								so we don't want to amend the schema each day to say what the valid date for the file is, or what the appropriate batch_code is.
+								so we do not want to amend the schema each day to say what the valid date for the file is, or what the appropriate batch_code is.
 								Instead we give a generic rule for the field content: it's an <a>xDate Expression</a> in the case of batch_date; 
 								or that the batch_code will comprise three to five uppercase letters, followed by an uppercase B, followed by three digits;
 								and for each row in the file every date must be identical and every batch_code must be identical.
@@ -1560,7 +1564,7 @@ simon,57,male
 					<p>
 					Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
 					as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a>, a <a>String Literal</a>, <a>Concatenation Expression</a>
-					or a <a>No Extension Expression</a>.
+					or a <a>No Extension Argument Provider</a>.
 					</p>
 					<p>
 					A <dfn>Column Reference</dfn> comprises a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, 
@@ -1689,6 +1693,13 @@ simon,57,male
 			</section>
 			<section>
 				<h2>Column Expression examples</h2>
+				<p>
+				Example usage for a range of <a title="Column Expression">Column Expressions</a> is given below.  
+				A greater range of example and other schemas actually used by The National Archives 
+				<a href="https://github.com/digital-preservation/csv-schema/tree/master/example-schemas">can be found on GitHub</a>.  
+				Most of these are extensively commented in order to explain usage.  There is a also a set of example files to be downloaded which allow 
+				<a title="File Exists Expression">File Exists Expressions</a> and <a title="Checksum Expression">Checksum Expressions and path substitutions to be more easily understood.
+				</p>
 				<pre class="example" data-lt="Column Expression Syntax">
 	piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
 	                                                                   the value must also be part of the value of the columns "file_path" and "resource_uri"
@@ -1697,11 +1708,11 @@ simon,57,male
 	                                                                   the combination of piece and item must be unique within the file.
 	file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be 
 	                                                                   lower case). Here an implicit And Expression is used*/
-	file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the 
+	file_path: fileExists uri starts(concat("file:///",$piece,"/",$item))     /*fileExists checks that there is actually a file of the given name at the 
 	                                                                   specified location on the file system which is assumed to be the value held in "file_path".  
 	                                                                   We know the location should be in the form of a URI so a URI expression is used, 
 	                                                                   and in particular this should be a file url, so we further specify that the data 
-	                                                                   in the column must start "file:///" */
+	                                                                   in the column must start "file:///", then (a folder named for) the piece id, then a /, then the item id */
 	file_checksum: checksum(file($file_path),"SHA-256")                /* Compare the value given in this field to the checksum calculated for the file
 	                                                                   found at the location given in the "file_path" field.
 	                                                                   Use the specified checksum algorithm (SHA-256)
@@ -1716,7 +1727,8 @@ simon,57,male
 	                                                                   /*If "image_split" field is string: yes (precisely)
 	                                                                   then timestamp for image split, compliant with XSD DateTime data type
 	                                                                   and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December, 
-	                                                                   to last second of 4 March), else it must be blank (ie "image_split" is no).
+	                                                                   to last second of 4 March), and in the UTC (Greenwich Meantime) timezone, 
+																	   else it must be blank (ie "image_split" is no).
 				</pre>
 			</section>
     	</section>
@@ -1966,11 +1978,11 @@ simon,57,male
 		<h1>Errors and Warnings</h1>
 		<p>
 		An implementation MUST first check that the provided CSV Schema(s) are syntactically correct. If not, a <a>Schema Error</a> is produced, 
-		and no further validation SHOULD of the CSV Schema(s) or provided CSV files(s) should be undertaken. If the schema check is successful then an implementation
+		and no further validation of the CSV Schema(s) or provided CSV files(s) SHOULD be undertaken. If the schema check is successful then an implementation
 		MAY continue with further CSV Schema(s) and CSV file validation.</p>
 		<p>If an implementation performs validation of a CSV file against a CSV Schema, a report SHOULD be produced for each <a>Column Validation Expression</a> 
-		that fails validation;  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used reduce the severity of an error within a specific  
-		<a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
+		that fails validation;  This is generally considered a <a>Validation Error</a>, 
+		unless the <a>Warning Directive</a> has been used to reduce the severity of an error within a specific  <a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
 		</p>
 		<section>
 			<h2>Schema Errors</h2>

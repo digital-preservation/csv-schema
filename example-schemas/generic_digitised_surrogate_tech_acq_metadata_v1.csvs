@@ -16,7 +16,7 @@ batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")
   //by a logical AND unless another boolean is provided). 2nd part restricts to alphanumeric characters as 
   //specified in digitisation standards p 31. Would usually comprise project identifier (eg department and series),
   //plus running count of batch number within that.
-department: regex("[A-Z]{1-4}") and (in($file_path) and in($resource_uri))
+department: regex("[A-Z]{1,4}") and (in($file_path) and in($resource_uri))
   //Parentheses control evaluation order of booleans as might be expected
   //The regex statement says that this field must consist of between 1 and 4 upper case alphabetic characters. 
   //The grouped "in" statements say that the value found in this field must also be found as part of the fields 
