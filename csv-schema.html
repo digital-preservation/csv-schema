@@ -177,7 +177,8 @@
       This document represents the specification of the CSV Schema Language 1.1
       as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
-      such as the <a href="http://w3.org">W3C</a>.
+      such as the <a href="http://w3.org">W3C</a>.  
+	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -303,9 +304,9 @@ simon,57,male
 	<section id="new-in-1.1" class="informative">
 		<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
 		<p>
-		The last 18 months with CSV Schema being in regular use at The National Archives has highlighted a few additional 
-		<a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, simplify schema writing, or make schemas more readable.  
-		In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
+		The last 18 months with <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> being in regular use at The National Archives 
+		has highlighted a few additional <a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, 
+		simplify schema writing, or make schemas more readable.  In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
 		to produce a final string input to expressions from some set of other <a title="String Provider">String Providers</a>, and also a function to allow removal of a Windows file
 		extension to make certain comparisons more straightforward and robust.
 		</p>
@@ -328,7 +329,7 @@ simon,57,male
 		In addition the <a>Range Expression</a> has been extended to allow the creation of ranges that have only an upper or lower bound using similar syntax to that employed by
 		the <a>Length Expression</a>. This also required the addition of <a>Numeric Or Any</a> type (to allow ranges to have negative values as bounds), or the <a>Wildcard Literal</a>. 
 		In the <a>Length Expression</a> we used only <a>Positive Integer Or Any</a> since a negative value has no sensible meaning for the length of a field.
-		There is also one new <a>Global Directive</a>, the <a>Permit Empty Directive</a>.  This allows a file with no data rows to be treated as valid.
+		There is also one new <a title="Global Directives">Global Directive</a>, the <a>Permit Empty Directive</a>.  This allows a file with no data rows to be treated as valid.
 		</p>
 	</section>
     <section>
@@ -661,8 +662,8 @@ simon,57,male
 					</p>
 					<p>
 					The <a>Quoted Column Identifier</a> allows a greater range of characters to be used in naming the column than can be supported by an <a>Ident</a>, 
-					but the identifier must be wrapped in <code>quotation marks (")</code>, 
-					i.e. the [[UTF-8]] character code <code>0x22</code>.
+					but the identifier MUST be wrapped in <code>quotation marks (")</code>, 
+					i.e. the [[UTF-8]] character code <code>0x22</code> (this is implicit in its definition as a <a>String Literal</a>).
 					</p>
 					<p>
 					Identifiers MUST be unique within a single Schema.
@@ -681,6 +682,13 @@ simon,57,male
 							<td class="ebnf-right"><a>StringLiteral</a></td> 
 						</tr>
 					</table>
+					<section>
+						<h5>Usage</h5>
+						<pre class="example" data-lt="Column Identifier and Quoted Column Identifier Syntax">
+	a_column_identifier
+	"a quoted column identifier"
+						</pre>
+					</section>
 				</section>
 				<section>
 					<h4>Column Rules</h4>
@@ -723,7 +731,7 @@ simon,57,male
 								<td class="ebnf-num">[23]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
-								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?&#160;&#160;&#160;&#160;/* <a>xgc:unordered</a> */</td>
+								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a></td>
 								<td class="ebnf-note">/* <a>xgc:unordered</a> */</td>
 							</tr>
 						</table>
@@ -829,7 +837,7 @@ simon,57,male
 		then <code>Mr</code> would be regarded as invalid (strictly speaking that would also require the use of an <a>Explicit Context Expression</a> to refer to the other column, 
 		but that is a subexpression of the Non Conditional Expression class).
 		</p>
-    	<p><strong>NOTE</strong> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
+    	<p><strong>NOTE</strong> To increase control over expression applicability and to avoid creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
     	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
@@ -958,7 +966,14 @@ simon,57,male
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
 						</tr>
-						</table>	
+						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Explicit Context Expression Syntax">
+	a_column: is("some string") and $another_column/startsWith("some string") //here two tests are combined on a single line, the second test here looks to the second column 
+	another_column:                                                           //to check it's value starts with "some string"
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Is Expressions</h4>
@@ -973,6 +988,13 @@ simon,57,male
 								<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Is Expression Syntax">
+	a_column: is("some string")    //the contents of a_column must be the string "some string"
+	another_column: is($a_column)  //the contents of another_column must be the value held in a_column, treated as a string
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Any Expressions</h4>
@@ -992,6 +1014,13 @@ simon,57,male
 								<td class="ebnf-right">"any(" <a>StringProvider</a> ("," <a>StringProvider</a>)* ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Any Expression Syntax">
+	a_column: is("some string")
+	another_column: any("some other string",$a_column,"another string") //any of the string values given here are valid, including referencing the string held in a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Not Expressions</h4>
@@ -1006,6 +1035,13 @@ simon,57,male
 								<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Not Expression Syntax">
+	a_column: not("some string")     //the value of a_column must not be the string "some string"
+	another_column: not($a_column)   //the value of another_column must not be the value held in a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>In Expressions</h4>
@@ -1021,6 +1057,13 @@ simon,57,male
 								<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="In Expression Syntax">
+	a_column: in("some string")   //the value of a_column must be a substring of "some string" eg "some" or "string" or "me st" etc
+	another_column: in($a_column) //the value of another_column must be a substring of the contents of a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Starts With Expressions</h4>
@@ -1035,6 +1078,13 @@ simon,57,male
 								<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Starts With Expression Syntax">
+	a_column: startsWith("some string")   //the value of a_column must start with the string "some string" eg "some strings" or "some string is here that's really long"
+	another_column: startsWith($a_column) //the value of another_column must start with the contents of a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Ends With Expressions</h4>
@@ -1049,6 +1099,13 @@ simon,57,male
 								<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Ends With Expression Syntax">
+	a_column: endsWith("some string")   //the value of a_column must end with the string "some string" eg "here is some string" or "this really long string ends with some string"
+	another_column: endsWith($a_column) //the value of another_column must end with the contents of a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Regular Expression Expressions</h4>
@@ -1068,6 +1125,11 @@ simon,57,male
 								<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Regular Expression Expression Syntax">
+	a_column: regex("[bcm]at")   //the value of a_column must match the regular expression [bcm]at ie a string containing "bat", "cat" or "mat"
+	another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] ie a string containing only the digits only 0-5.
 					</section>
 					<section>
 						<h4>Range Expressions</h4>
@@ -1078,7 +1140,7 @@ simon,57,male
 						A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.  
 						One or other bounding value MAY be left unrestricted (by using the <a>Wildcard Literal</a>), 
 						so that the expression can also be used to check that a column is at least some value, or at most some value. 
-						One bounding value is defined as a <a>Numeric Or Any</a> expression which accepts a <a>Numeric Literal</a> (a Real Number expressed as a decimal), 
+						One bounding value is defined as a <dfn>Numeric Or Any</dfn> expression which accepts a <a>Numeric Literal</a> (a Real Number expressed as a decimal), 
 						or the <a>Wildcard Literal</a>, while the other is a <a>Numeric Literal</a> only. 
 						Therefore at least one of the bounding values MUST be a <a>Numeric Literal</a> rather than a <a>Wildcard Literal</a>, 
 						so valid Range Expressions SHALL define ranges of:
@@ -1144,6 +1206,12 @@ simon,57,male
 								<td class="ebnf-right">"empty"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Empty Expression Syntax">
+	a_column: empty //there must be no value in a_column
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Not Empty Expression</h4>
@@ -1158,6 +1226,12 @@ simon,57,male
 								<td class="ebnf-right">"notEmpty"</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Not Empty Expression Syntax">
+	a_column: notEmpty   //there must be some value in a_column, but it can be absolutely anything
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Unique Expressions</h4>
@@ -1176,10 +1250,17 @@ simon,57,male
 							</tr>
 						</table>	
 					</section>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Unique Expression Syntax">
+	a_column: unique                                  //a_column must hold a unique value in each row of the CSV file
+	another_column: unique($a_column,$another_column) //the combination of values in the two columns must be unique looking across each row of the CSV file
+							</pre>
+						</section>
 					<section>
 						<h4>URI Expressions</h4>
 					<p>
-					A <dfn>URI Expression</dfn> checks that the value in the column is a valid URI as defined in [[!RFC3986]].
+					A <dfn>URI Expression</dfn> means that the value in the column MSUT be a valid URI as defined in [[!RFC3986]].
 					</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1188,14 +1269,23 @@ simon,57,male
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"uri"</td> 
 							</tr>
-						</table>	
+						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="URI Expression Syntax">
+	a_column: uri   //the value of a_column must be a valid URI
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>XSD Date Time Expressions</h4>
 						<p>
 						An <dfn>XSD Date Time Expression</dfn> checks that the data in the column is expressed as a valid XML Schema dateTime data type (see [[!XMLSCHEMA-2]] and [[!ISO8601]]). 
-							You can also provide an OPTIONAL <em>from</em> and <em>to</em> date-times
+						You can also provide an OPTIONAL <em>from</em> and <em>to</em> date-times
 						(inclusive) to ensure that the value in the column falls within an expected date-time range.
+						</p>
+						<p>
+						As the XSD Date Time Expression uses the <a>XSD Date Time Literal</a> the final, timezone, part of the [[!ISO8601]] definition is OPTIONAL.
 						</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1205,6 +1295,14 @@ simon,57,male
 								<td class="ebnf-right">"xDateTime" ("(" <a>XsdDateTimeLiteral</a> "," <a>XsdDateTimeLiteral</a> ")")?</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Date Time Expression Syntax">
+	a_column: xDateTime                                                 //the value of a_column must be a valid xDateTime
+	another_column: xDateTime(2014-10-04T00:00:01Z,2015-12-03T23:59:59) //the value of another_column must be a valid xDateTime and between the two xDateTimes shown (inclusive)
+	                                                                    //as shown, the xDateTime values may, or may not, have a component indicating a specific timezone, here Z (Zulu) for UTC (Greenwich Mean Time)
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>XSD Date Time With Time Zone Expressions</h4>
@@ -1223,6 +1321,14 @@ simon,57,male
 								<td class="ebnf-right">"xDateTimeTz" ("(" <a>XsdDateTimeWithTimeZoneLiteral</a> "," <a>XsdDateTimeWithTimeZoneLiteral</a> ")")?</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Date Time With Time Zone Expression Syntax">
+	a_column: xDateTime                                                            //the value of a_column must be a valid xDateTime
+	another_column: xDateTime(2014-10-04T00:00:01+02:00,2015-12-03T23:59:59+02:00) //the value of another_column must be a valid xDateTime and between the two xDateTimes shown (inclusive)
+	                                                                               //now the time zone component (+02:00) must be included
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>XSD Date Expressions</h4>
@@ -1239,6 +1345,13 @@ simon,57,male
 								<td class="ebnf-right">"xDate" ("(" <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a> ")")?</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Date Zone Expression Syntax">
+	a_column: xDate                                  //the value of a_column must be a valid xDate
+	another_column: xDateTime(2014-10-04,2015-12-03) //the value of another_column must be a valid xDate and between the two xDates shown (inclusive)
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>XSD Time Expressions</h4>
@@ -1255,6 +1368,14 @@ simon,57,male
 								<td class="ebnf-right">"xTime" ("(" <a>XsdTimeLiteral</a> "," <a>XsdTimeLiteral</a> ")")?</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Time Expression Syntax">
+	a_column: xTime                                                 //the value of a_column must be a valid xTime
+	another_column: xTime(00:00:01+02:00,2015-12-03T23:59:59+02:00) //the value of another_column must be a valid xTime and between the two xTimes shown (inclusive)
+	                                                                //the time zone component (+02:00) is optional
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>UK Date Expressions</h4>
@@ -1271,13 +1392,20 @@ simon,57,male
 								<td class="ebnf-right">"ukDate" ("(" <a>UkDateLiteral</a> "," <a>UkDateLiteral</a> ")")?</td> 
 							</tr>
 						</table>	
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="UK Date Expression Syntax">
+	a_column: ukDate                              //the value of a_column must be a valid ukDate
+	another_column: ukDate(04/10/2014,03/12/2015) //the value of another_column must be a valid ukDate and between the two ukDates shown (inclusive)
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Date Expression</h4>
 						<p>
 						A <dfn>Date Expression</dfn> allows a full date to be constructed from several columns, or strings. The expression takes five arguments:
 						you MUST supply three strings or <a title="Column Reference">Column References</a> representing Year, Month and Day 
-						(although supplied as strings, these values must in fact be integers); 
+						(although supplied as strings, these values must in fact be integers); <!--is this true, can we use month spelled out in full: January, February etc?-->
 						and there are two OPTIONAL parameters to ensure the date falls in a range specified by <em>from</em> <a>XSD Date Expression</a> and <em>to</em> <a>XSD Date Expression</a>.
 						</p>
 						<table class="ebnf-table">
@@ -1288,6 +1416,15 @@ simon,57,male
 								<td class="ebnf-right">"date(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ("," <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a>)? ")"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Date Time With Time Zone Expression Syntax">
+	year_column: date($year_column,$month_column,$day_column)                      /*the full date to be checked is made up from the values from the three columns indicated, 
+	                                                                                 as shown, the columns can appear in CSV file in any order, but must appear in the date expression in the order year, month, day*/
+	day_column: date($year_column,$month_column,$day_column,2014-10-04,2015-12-03) //this second example shows that you can also supply from and to dates as xDates, both dates are inclusive
+	month_column:
+							</pre><!--can month column be a textual representation>-->
+						</section>
 					</section>
 					<section>
 						<h4>Partial UK Date Expression</h4>
@@ -1306,6 +1443,12 @@ simon,57,male
 								<td class="ebnf-right">"partUkDate"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="UK Date Expression Syntax">
+	a_column: partUkDate //the value of a_column must be a valid ukDate, but may also include characters ? and * to represent illegible or missing characters
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Partial Date Expression</h4>
@@ -1322,6 +1465,14 @@ simon,57,male
 								<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="XSD Date Time With Time Zone Expression Syntax">
+	year_column: date($year_column,$month_column,$day_column)                      //the full date to be checked is made up from the values from the three columns indicated, 
+	day_column:                                                                    //as shown, the columns can appear in CSV file in any order, but must appear in the date expression in the order year, month, day
+	month_column:                                                                  //the date may also include characters ? and * to represent illegible or missing characters
+							</pre><!--can month column be a textual representation>-->
+						</section>
 					</section>
 					<section>
 						<h4>UUID4 Expression</h4>
@@ -1338,6 +1489,12 @@ simon,57,male
 								<td class="ebnf-right">"uuid4"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="UUID4 Expression Syntax">
+	a_column: uuid //the value of a_column must be a valid version 4 UUID
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Positive Integer Expression</h4>
@@ -1352,6 +1509,12 @@ simon,57,male
 								<td class="ebnf-right">"positiveInteger"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Positive Integer Expression Syntax">
+	a_column: positiveInteger //the value of a_column must be a positive integer (including zero)
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Upper Case Expression</h4>
@@ -1375,6 +1538,12 @@ simon,57,male
 								<td class="ebnf-right">"upperCase"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Upper Case Expression Syntax">
+	a_column: upperCase //the contents of a_column must be all be upper case characters (Unicode aware), or uncased
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Lower Case Expression</h4>
@@ -1388,7 +1557,7 @@ simon,57,male
 						</p>
 						<p>
 						In Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
-						"^[\\p{Lu}\\p{N}\\p{P}\\s]*$".
+						"^[\\p{Ll}\\p{N}\\p{P}\\s]*$".
 						</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1398,6 +1567,12 @@ simon,57,male
 								<td class="ebnf-right">"lowerCase"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Lower Case Expression Syntax">
+	a_column: lowerCase //the contents of a_column must be all be lower case characters (Unicode aware), or uncased
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Identical Expressions</h4>
@@ -1417,16 +1592,16 @@ simon,57,male
 							</tr>
 						</table>
 							<section>
-								<h5>Identical Expressions example</h5>
-								<pre class="example" data-lt="Column Definition Syntax">
+								<h5>Usage</h5>
+								<pre class="example" data-lt="Identical Expression Syntax">
 	batch_date:	identical xDate
 	batch_code:	identical regex("^[A-Z]{3,5}B[0-9]{3}$")
 								</pre>
 								<p>
 								Consider a file that is expected to contain data relating to one particular batch of a process, 
 								and should also be the data relating to one particular day.  Over time we will receive many such files, 
-								so we don't want to amend the schema each day to say what the valid date for the file is, or what the appropriate batch_code is.
-								Instead we give a generic rule for the field content: it's an <a>xDate Expression</a> in the case of batch_date; 
+								so we do not want to amend the schema each day to say what the valid date for the file is, or what the appropriate batch_code is.
+								Instead we give a generic rule for the field content: it's an <a>XSD Date Expression</a> in the case of batch_date; 
 								or that the batch_code will comprise three to five uppercase letters, followed by an uppercase B, followed by three digits;
 								and for each row in the file every date must be identical and every batch_code must be identical.
 								</p>
@@ -1469,6 +1644,13 @@ simon,57,male
 								<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Lower Case Expression Syntax">
+	a_column: fileExists                      //the validator should check the filesystem location indicated by the contents of a_column for the existence of such a file
+	another_column: fileExists("file:///C:/") //here the string "file:///C:/" is prepended to the contents of another_column before the existence check is made
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Integrity Check Expressions</h4>
@@ -1500,6 +1682,17 @@ simon,57,male
 								<td class="ebnf-right">"integrityCheck" "(" (<a>StringProvider</a> ",")? (<a>StringProvider</a> ",")? ("\"includeFolder\"" | "\"excludeFolder\"") ")"</td>
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Integrity Check Expression Syntax">
+	a_column: integrityCheck("includeFolder")                     /*the validator should check all file system folders for files that are not referenced in the CSV file
+	                                                                the "includeFolder" parameter indicates that there are explicit references to all file folders in the CSV file
+																    as the second parameter has not been supplied it defaults to the value "content" meanig that all sub folders must
+																	sit within a folder with that name*/
+	another_column: integrityCheck("file:///C:/","excludeFolder") //here the string "file:///C:/" is prepended to the contents of another_column before the integrity check is made
+	third_column: integrityCheck("","excludeFolder")              //here as an empty string is included, we indicate that there is no content folder
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>Checksum Expressions</h4>
@@ -1521,6 +1714,17 @@ simon,57,male
 								<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="Checksum Expression Syntax">
+	file_path: uri                                                           //a full filepath for a file
+	file_name:                                                               //a filename only for a file
+	a_column: checksum(file($file_path),"SHA-256")                           /*a_column contains the SHA-256 checksum value supplied for the file, the validator
+                                                                               then computes the checksum for the file at file_path and reports an error if they do not match*/
+	another_column: checksum(file("file:///C:/my_folder/",$file_name),"MD5") /*here the string "file:///C:/my_folder" is prepended to the contents of file_name before the 
+	                                                                           checksum verification is performed, another_column has an MD5 checksum value in it
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>File Count Expressions</h4>
@@ -1536,6 +1740,13 @@ simon,57,male
 								<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<pre class="example" data-lt="File Count Expression Syntax">
+	file_path: uri                                      //a full filepath for a folder
+	another_column: integer fileCount(file($file_path)) //another_column contains an integer value, this is checked against the number of files in the file system folder at file_path
+							</pre>
+						</section>
 					</section>
 					<section>
 						<h4>File related sub-expressions</h4>
@@ -1553,6 +1764,19 @@ simon,57,male
 								<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? <a>StringProvider</a> ")"</td> 
 							</tr>
 						</table>
+						<section>
+							<h5>Usage</h5>
+							<p>The File Expression is always used as an input parameter to one of the other file expressions, several examples are given above.  Here are explained the
+							two parameters that this expression itself takes.
+							</p>
+							<pre class="example" data-lt="File Expression Syntax">
+	file("file:///a/string/for/a/URI/representing/the/location/of/a/file")           /*in the simplest case a single parameter is supplied that's a string representing the full URI of a
+	                                                                                   file. Since it's a URI, characters such as space must be escaped (a space becomes %20)
+																			           you can either use a string literal as here, or pass a reference to a column using $column_name*/
+	file("file:///a/string/to/prepend/to/a/filename/to/make/a/full/path","filename") /*Here you provide a string (or reference to a string) that is the base path to prepend to "filename"
+	                                                                                   to get the full path to your file*/
+							</pre>
+						</section>
 					</section>
 				</section>
 				<section>
@@ -1560,7 +1784,7 @@ simon,57,male
 					<p>
 					Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
 					as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a>, a <a>String Literal</a>, <a>Concatenation Expression</a>
-					or a <a>No Extension Expression</a>.
+					or a <a>No Extension Argument Provider</a>.
 					</p>
 					<p>
 					A <dfn>Column Reference</dfn> comprises a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, 
@@ -1573,7 +1797,8 @@ simon,57,male
 					The final two string providers are recursive, themselves taking one or more <a title="String Provider">String Providers</a> as arguments, 
 					and returning a new <a>String Provider</a>.
 					The <dfn>Concatenation Expression</dfn> takes two or more <a title="String Provider">String Providers</a>, 
-					returning a new string that is the concatenation of all those supplied. The <dfn>No Extension Argument Provider</dfn> removes anything that appears to be a Windows 
+					returning a new string that is the concatenation of all those supplied.  You MUST provide at least two parameters. 
+					The <dfn>No Extension Argument Provider</dfn> removes anything that appears to be a Windows 
 					file extension from the end of a supplied <a>String Provider</a>, and returns a new string.  
 					A string that does not contain a <code>full stop (.)</code>, i.e. the [[UTF-8]] character codes <code>0x2D</code> will be returned unchanged.
 					</p>
@@ -1597,6 +1822,18 @@ simon,57,male
 							<td class="ebnf-right">"noExt(" <a>StringProvider</a> ")"</td> 
 						</tr>
 					</table>
+					<section>
+						<h4>Usage</h4>
+						<pre class="example" data-lt="Concatenation Expression Syntax">
+	a_column: is("no file")                                     
+	another_column: any("file:///","http://")
+	third_column: any("C:","example.com")
+	fourth_column: ends(".html")
+	fifth_column: is($a_column) or is(concat($another_column,$third_column,"/",noExt(fourth_column),".pdf")
+	/*in this rather artificial example, fifth_column must be either "no file" (the value of a_column) or a PDF file with the same basic name as the HTML file named in fourth_column,
+	  located at either file:///C:/ or http://example.com/ (in fact as written you could have file:///example.com/ or http://C:/ as well)*/
+						</pre>
+					</section>
 	 			</section>
 				<section>
 					<h3>Parenthesized Expressions</h3>
@@ -1630,7 +1867,7 @@ simon,57,male
 						<td class="ebnf-num">[75]</td>
 						<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right"><a>IfExpr</a></td> 
+						<td class="ebnf-right"><a>IfExpr</a> | <a>SwitchExpr</a></td> 
 					</tr>
 				</table>
 				<section>
@@ -1649,6 +1886,18 @@ simon,57,male
 							<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
 						</tr>
 					</table>
+					<section>
+						<h4>Usage</h4>
+						<pre class="example" data-lt="If Expression Syntax">
+	a_column: any("true","false")
+	another_column: any("yes","no")
+	third_column: if($a_column\is("true"),is("some string"),is("some other string")) /*here we look to the value of a_column, if it is "true", third_column must be "some string"
+	                                                                                   otherwise third_column must be "some other string"*/
+	fourth_column: if(($a_column\is("true") and $another_column\is("yes")),is("some string"),is("some other string"))
+	//in fourth_column we use a more complicated combinatorial expression as the initial test, if both a_column is "true" and another_column is "yes", 
+	//then fourth_column is "some string", otherwise fourth_column is "some other string".  All column expressions could be used for the test etc, only is is used for simpilcity
+						</pre>
+					</section>
 				</section>
 				<section>
 					<h3>Switch Expressions</h3>
@@ -1685,10 +1934,34 @@ simon,57,male
 							<td class="ebnf-right">"("( <a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ")"</td>
 						</tr>
 					</table>
+					<section>
+						<h4>Usage</h4>
+						<pre class="example" data-lt="If Expression Syntax">
+	a_column: any("true","false","unknown")
+	another_column: if($a_column\is("true"),is("some string"),if($a_column\is("false"),is("some other string"),is("some third string")))
+	/*here we look to the value of a_column, if it is "true", another_column must be "some string" otherwise, check if a another_column is "false), 
+	if so another_column must be "some other string", otherwise another_column is "some third string".  Nesting if statments like this can quickly get 
+	very difficult to read, so instead we can use the switch statement*/
+	third_column: switch(($a_column\is("true"),is("some string")),($a_column\is("false"),is("some other string")),is("some third string"))
+	//this switch statement for third_column is functionally identical to the nested if statement demonstrated on another_column, and is much easier to extend
+	//is there were additional options available for a_column, each bracketed pair such of test and column validation expression, 
+	//such as ($a_column\is("true"),is("some string")), is called a Switch Case Expression, as many as required are then followed by a final column validation expression,
+	//used if none of the Switch Case Expressions evaluate to true.
+						</pre>
+					</section>
 				</section>
 			</section>
 			<section>
 				<h2>Column Expression examples</h2>
+				<p>
+				Additional examples for a range of <a title="Column Validation Expression">Column Expressions</a> is given below.  
+				A greater range of example and other schemas actually used by The National Archives 
+				<a href="https://github.com/digital-preservation/csv-schema/tree/master/example-schemas">can be found on GitHub</a>.  
+				Most of these are extensively commented in order to explain usage.  There is a also a set of example files to be downloaded which allow 
+				<a title="File Exists Expression">File Exists Expressions</a> and <a title="Checksum Expression">Checksum Expressions</a> 
+				and path substitutions to be more easily understood, these are designed to be used with the generic_digitised_surrogate_tech_acq_metadata_v1.1.csvs and 
+				generic_digitised_surrogate_tech_acq_metadata_v1.0.csvs schemas, which also helps demonstrate the additional checking that CSV Schema Language 1.1 enables.
+				</p>
 				<pre class="example" data-lt="Column Expression Syntax">
 	piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
 	                                                                   the value must also be part of the value of the columns "file_path" and "resource_uri"
@@ -1697,11 +1970,11 @@ simon,57,male
 	                                                                   the combination of piece and item must be unique within the file.
 	file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be 
 	                                                                   lower case). Here an implicit And Expression is used*/
-	file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the 
+	file_path: fileExists uri starts(concat("file:///",$piece,"/",$item))     /*fileExists checks that there is actually a file of the given name at the 
 	                                                                   specified location on the file system which is assumed to be the value held in "file_path".  
 	                                                                   We know the location should be in the form of a URI so a URI expression is used, 
 	                                                                   and in particular this should be a file url, so we further specify that the data 
-	                                                                   in the column must start "file:///" */
+	                                                                   in the column must start "file:///", then (a folder named for) the piece id, then a /, then the item id */
 	file_checksum: checksum(file($file_path),"SHA-256")                /* Compare the value given in this field to the checksum calculated for the file
 	                                                                   found at the location given in the "file_path" field.
 	                                                                   Use the specified checksum algorithm (SHA-256)
@@ -1716,7 +1989,11 @@ simon,57,male
 	                                                                   /*If "image_split" field is string: yes (precisely)
 	                                                                   then timestamp for image split, compliant with XSD DateTime data type
 	                                                                   and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December, 
-	                                                                   to last second of 4 March), else it must be blank (ie "image_split" is no).
+	                                                                   to last second of 4 March), in the UTC (Greenwich Meantime) timezone, 
+																	   else it must be blank (ie "image_split" is no).
+                                                                       As xDateTime, rather than xDateTimeTz, is specified, 
+                                                                       the use of the timezone component within the supplied date time is optional, eg both:
+                                                                       2013-12-05T12:34:00+00:00 and 2013-12-05T12:34:00 would be acceptable in the metadata/*
 				</pre>
 			</section>
     	</section>
@@ -1727,7 +2004,7 @@ simon,57,male
 		Most <a title="Column Validation Expression">Column Validation Expressions</a> rely on a small number of underlying data types. Some of these are defined by means of a 
 		regular expression embedded in the EBNF as indicated by <a>xgc:regular-expression</a>.
 		There are 11 data types, <a>XSD Date Time Literal</a>, <a>XSD Date Literal</a>, <a>XSD Time Literal</a>, <a>UK Date Literal</a>, 
-		<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>StringLiteral</a>, <a>Character Literal</a>, 
+		<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>String Literal</a>, <a>Character Literal</a>, 
 		<a>Wildcard Literal</a> and <a>Identifier</a>.
 		</p>
 		<section>
@@ -1966,11 +2243,11 @@ simon,57,male
 		<h1>Errors and Warnings</h1>
 		<p>
 		An implementation MUST first check that the provided CSV Schema(s) are syntactically correct. If not, a <a>Schema Error</a> is produced, 
-		and no further validation SHOULD of the CSV Schema(s) or provided CSV files(s) should be undertaken. If the schema check is successful then an implementation
+		and no further validation of the CSV Schema(s) or provided CSV files(s) SHOULD be undertaken. If the schema check is successful then an implementation
 		MAY continue with further CSV Schema(s) and CSV file validation.</p>
 		<p>If an implementation performs validation of a CSV file against a CSV Schema, a report SHOULD be produced for each <a>Column Validation Expression</a> 
-		that fails validation;  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used reduce the severity of an error within a specific  
-		<a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
+		that fails validation;  This is generally considered a <a>Validation Error</a>, 
+		unless the <a>Warning Directive</a> has been used to reduce the severity of an error within a specific  <a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
 		</p>
 		<section>
 			<h2>Schema Errors</h2>
@@ -2548,7 +2825,7 @@ simon,57,male
 					<td class="ebnf-num"></td>
 					<td class="ebnf-left"><a><dfn title="ebnf-conditional-expr">ConditionalExpr</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-if-expr">IfExpr</a></td>
+					<td class="ebnf-right"><a title="ebnf-if-expr">IfExpr</a> | <a>SwitchExpr</a></td>
 					<td class="ebnf-note"></td>
 				</tr>
 				<tr>
