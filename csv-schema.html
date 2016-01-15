@@ -1687,7 +1687,7 @@ simon,57,male
 							<pre class="example" data-lt="Integrity Check Expression Syntax">
 	a_column: integrityCheck("includeFolder")                     /*the validator should check all file system folders for files that are not referenced in the CSV file
 	                                                                the "includeFolder" parameter indicates that there are explicit references to all file folders in the CSV file
-																    as the second parameter has not been supplied it defaults to the value "content" meanig that all sub folders must
+																    as the second parameter has not been supplied it defaults to the value "content" meaning that all sub folders must
 																	sit within a folder with that name*/
 	another_column: integrityCheck("file:///C:/","excludeFolder") //here the string "file:///C:/" is prepended to the contents of another_column before the integrity check is made
 	third_column: integrityCheck("","excludeFolder")              //here as an empty string is included, we indicate that there is no content folder
