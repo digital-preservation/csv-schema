@@ -1432,8 +1432,9 @@ simon,57,male
 						A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>, 
 						but allows for difficulties in transcribing from original archival material by accepting a <code>question mark (?)</code>, 
 						i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>, 
-						i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  As dates may not be complete, 
-						it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
+						i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value.  The names of months may also be supplied as the full name in English, i.e.:
+						January, February, March, April, May, June, July, September, October, November, December.  
+						As dates may not be complete, it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
 						</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1446,7 +1447,7 @@ simon,57,male
 						<section>
 							<h5>Usage</h5>
 							<pre class="example" data-lt="UK Date Expression Syntax">
-	a_column: partUkDate //the value of a_column must be a valid ukDate, but may also include characters ? and * to represent illegible or missing characters
+	a_column: partUkDate //the value of a_column must be a valid ukDate, but may also include characters ? and * to represent illegible or missing characters, and month names in full
 							</pre>
 						</section>
 					</section>
