@@ -42,7 +42,7 @@ item: (positiveInteger and (in($file_path) and in($resource_uri))) or is("")
   //In many cases the item level is not used, so this would be left blank.
 file_uuid: uuid4 unique
   //must be a version 4 uuid, and the value must be unique within the file.  uuids must be lower case.												  
-file_path: fileExists uri starts(concat("file:///",$department,"_",$series,"/",$piece,"/",$item,"/",$piece,"_",$item,"_")) regex(".*[12]_[12]_((00[1-9])|(010)).xml$") integrityCheck("","","excludeFolder")
+file_path: fileExists uri starts(concat("file:///",$department,"_",$series,"/",$piece,"/",$item,"/",$piece,"_",$item,"_")) regex(".*[12]_[12]_((00[1-9])|(010)).xml$") //integrityCheck("","","excludeFolder")
   //fileExists checks that there is actually a file of the given name at the specified location on the file system.
   //In practice, the validator will normally be run with the --path switch 
   //(see http://digital-preservation.github.io/csv-validator/)
@@ -70,11 +70,11 @@ image_resolution: positiveInteger is("300")
   //Always a positive (non-zero) integer, and in general explicitly 300. Occasionally a higher resolution used.
   //Depending how this is populated (whether nominal or actual resolution), it might be better to use a range
   //eg range(298,302) to capture slight variances in resolution.
-image_width: positiveInteger
+image_width: positiveInteger range(2000,*)
   //Must be a positive (non-zero) integer.  If the size of the material being digitised is well understood could use
   //a range check to ensure values are within a "sensible" range eg range(2400,2600) for A4 material - just over
   //8" wide (portrait), plus border, and assuming 300 ppi
-image_height: positiveInteger
+image_height: positiveInteger range(3000,*)
   //Must be a positive (non-zero) integer.  If the size of the material being digitised is well understood could use
   //a range check to ensure values are within a "sensible" range eg range(3450,3650) for A4 material - just over
   //11.5" high (portrait), plus border, and assuming 300 ppi
