@@ -18,7 +18,7 @@
           subtitle   :  "A Language for Defining and Validating CSV Data",
 
           // if you wish the publication date to be other than today, set this
-          // publishDate:  "2014-08-23",
+          publishDate:  "2016-01-25",
 
           // if the specification's copyright date is a range of years, specify
           // the start date here:
@@ -178,7 +178,7 @@
       as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
       such as the <a href="http://w3.org">W3C</a>.  
-	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> published on 28 August 2014.
+	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -1130,6 +1130,7 @@ simon,57,male
 							<pre class="example" data-lt="Regular Expression Expression Syntax">
 	a_column: regex("[bcm]at")   //the value of a_column must match the regular expression [bcm]at ie a string containing "bat", "cat" or "mat"
 	another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] ie a string containing only the digits only 0-5.
+						</section>
 					</section>
 					<section>
 						<h4>Range Expressions</h4>
@@ -1667,6 +1668,8 @@ simon,57,male
 						The default value for this string is an empty string.
 						The second parameter allows a string provider to be given to point to an explicit subdirectory relative to the location of the base path.
 						By default this subdirectory is expected to be called "content".
+						If only a single OPTIONAL parameter is supplied, it will be assumed to be the first, so if you wish to set only the second OPTIONAL parameter,
+						you MUST also explicitly supply the first as an empty string ("")
 						The final expression MUST be supplied.  This indicates whether references to subfolders are explicitly included in the CSV file, 
 						if the CSV file has a row for each subfolder the exact string "includeFolder" should be given, 
 						if the subfolders do not have explicit references, the exact string "excludeFolder" should be given.
@@ -1691,7 +1694,7 @@ simon,57,male
 																    as the second parameter has not been supplied it defaults to the value "content" meaning that all sub folders must
 																	sit within a folder with that name*/
 	another_column: integrityCheck("file:///C:/","excludeFolder") //here the string "file:///C:/" is prepended to the contents of another_column before the integrity check is made
-	third_column: integrityCheck("","excludeFolder")              //here as an empty string is included, we indicate that there is no content folder
+	third_column: integrityCheck("","","excludeFolder")           //here as an strings are passed for both optional parameters, we indicate that there is no content folder
 							</pre>
 						</section>
 					</section>
