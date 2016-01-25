@@ -8,8 +8,8 @@ version 1.1
 |series, sub_series, sub_sub_series, piece and item would be given, along with a specific format for batch_code|
 |(usually reflecting department and series)                                                                    |
 --------------------------------------------------------------------------------------------------------------*/
-/*The header of the schema file, ie the statements version 1.0 and @totalColumns 27, indicates that this schema 
-  is using version 1.0 of the schema language (NB, not that that it is version 1.0 of this particular schema), 
+/*The header of the schema file, ie the statements version 1.1 and @totalColumns 27, indicates that this schema 
+  is using version 1.1 of the schema language (NB, not that that it is version 1.1 of this particular schema), 
   and that there are 27 columns in total in the file.*/
 batch_code: length(1,16) regex("^[0-9a-zA-Z]{1,16}$")
   //1st part, batch_code must be between 1 and 16 characters long, and (implicitly multiple conditions are joined  
