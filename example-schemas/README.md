@@ -25,16 +25,20 @@ Various regex have been reused between different schemas at TNA, for ready refer
 Surname checking (this comes with a health warning, it will show that a string looks something like a "British/European" surname, 
 it does not attempt to claim it will correct validate all names, especially those from non-European cultures.  It has limited Unicode awareness to cater for accented characters
 
-^((((\[dDL\]\[\?aeiou\](\[- \]?))|(\[dDAL\](e)?\')|(\[dD\]e(\[- \]?)\[lL\]a(\[- \]?))|(St(e?\[- \]?))|(\[Vv\]\[\?ao\]n( ?)(\[Dd\]e\[rn\]?( ?))?))|(M\[\?a\]?\[\?c\]|M\'|O\'))?\[\?A-Z\]\[\?\p{Ll}\]{2,15})((\[- \])(((\[dDL\]\[\?aeiou\](\[- \]?))|(\[dDAL\](e)?\')|(\[dD\]e(\[- \]?)\[lL\]a(\[- \]?))|(St(e?\[- \]?))|(\[Vv\]\[\?ao\]n( ?)(\[Dd\]e\[rn\]?( ?))?))|(M\[\?a\]?\[\?c\]|M\'|O\'))?\[\?A-Z\]\[\?\p{Ll}\]{2,15})?$
+```
+^(((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})(([- ])((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})?$
+```
 
 Forename checking
 
-^((St(e?\[- \]?))|(M\[\?a\]?\[\?c\]|M\'))?\[\?A-Z\]\[\?\p{Ll}\]{2,15}(\[- \]((((\[dDL\]\[\?aeiou\](\[- \]?))|(\[dDAL\](e)?\')|(\[dD\]e(\[- \]?)\[lL\]a(\[- \]?))|(St(e?\[- \]?))|(\[Vv\]\[\?ao\]n( ?)(\[Dd\]e\[rn\]?( ?))?))|(M\[\?a\]?\[\?c\]|M\'|O\'))?\[\?A-Z\]\[\?\p{Ll}\]{0,15}))*$
+```
+^((St(e?[- ]?))|(M[\?a]?[\?c]|M\'))?[\?A-Z][\?\p{Ll}]{2,15}([- ](((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{0,15}))*$
+```
 
 While these look complex they break down into a few simpler blocks:
-(((\[dDL\]\[\?aeiou\](\[- \]?))|(\[dDAL\](e)?\')|(\[dD\]e(\[- \]?)\[lL\]a(\[- \]?))|(St(e?\[- \]?))|(\[Vv\]\[\?ao\]n( ?)(\[Dd\]e\[rn\]?( ?))?))|(M\[\?a\]?\[\?c\]|M\'|O\'))? defines "particles" that may appear
+```((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?``` defines "particles" that may appear
 at the start of names and might cause a name to begin with a lower case letter which would otherwise be unexpected, this is things like de, de la, St, Mac etc, then
-\[\?A-Z\]\[\?\p{Ll}\]{2,15} says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters (\p{Ll} is unicode aware to allow 
+```[\?A-Z][\?\p{Ll}]{2,15}``` says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters (\p{Ll} is unicode aware to allow 
 accented characters.  We then allow repeats of these basic building blocks, separated by either hyphen or space to allow for multiple forenames, or multi-barrelled surnames.
 The version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in
 total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.
@@ -44,4 +48,6 @@ Titles/postnominals
 Again this is not complete, and does not currently recognise every postnominal that might occur in the British honours system, and certainly does not attempt to enforce the correct order of precedence
 It was first used in a project where both "titles" and postnominals were actually transcribed after the intials given for a record subject
 
-((((The )?Rev)|Sir|MA|BA|DD|BD|MB|Bart|VC|\[GK\]?CB|\[GK\]?CMG|\[GK\]?CVO|DSO|DSC|MC|DSM|DCM|\[OM\]BE|BEM|ADC|Mrs|Miss|Capt|Major|CDR|RM)( (((The )?Rev)|Sir|MA|BA|DD|BD|MB|Bart|VC|\[GK\]?CB|\[GK\]?CMG|\[GK\]?CVO|DSO|DSC|MC|DSM|DCM|\[OM\]BE|BEM|ADC|Mrs|Miss|Capt|Major|CDR|RM))*
+```
+((((The )?Rev)|Sir|MA|BA|DD|BD|MB|Bart|VC|[GK]?CB|[GK]?CMG|[GK]?CVO|DSO|DSC|MC|DSM|DCM|[OM]BE|BEM|ADC|Mrs|Miss|Capt|Major|CDR|RM)( (((The )?Rev)|Sir|MA|BA|DD|BD|MB|Bart|VC|[GK]?CB|[GK]?CMG|[GK]?CVO|DSO|DSC|MC|DSM|DCM|[OM]BE|BEM|ADC|Mrs|Miss|Capt|Major|CDR|RM))*
+```
