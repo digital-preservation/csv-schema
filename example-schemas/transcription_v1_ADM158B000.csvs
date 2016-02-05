@@ -1,0 +1,37 @@
+version 1.0
+@columns 27
+/*Cataloguing fields*/
+sub_item: range(1,40)
+division: is("Chatham") or is("Plymouth") or is("Portsmouth") or is("Woolwich") @optional
+forenames: regex("^((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15}([- ](((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{0,15}))*$") or is("???") or is("*") @optional
+surname: regex("^(((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})(([- ])((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})?$") or is("???") or is("*") @optional
+/*This regex attempts to check that something "name like" is in the fields.  It cannot detect typos etc.  While it looks complex it breaks down into a few simpler blocks:
+((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))? defines "particles" that may appear
+at the start of names and might cause a name to begin with a lower case letter which would otherwise be unexpected, this is things like de, de la, St, Mac etc, then
+[\?A-Z][\?\p{Ll}]{2,15} says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters (\p{Ll} is unicode aware to allow 
+accented characters.  We then allow repeats of these basic building blocks, separated by either hyphen or space to allow for multiple forenames, or multi-barrelled surnames.
+The version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in
+total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.*/
+age_years: if(positiveInteger,if($year_of_enrolment/range(1750,1900),range(7,50), if($year_of_enrolment/range(1901,1940),range(14,50)))) @optional
+age_months: range(1,12) @optional
+height_feet: range(4,6) @optional
+height_inches: range(0,11) regex("(\.(125)|(25)|(375)|(5)|(625)|(75)|(875))$") @optional //heights are recorded to 1/8th of an inch, the regex ensures that only decimal expressions for eighths are allowed
+pob_parish: regex("^(St )?[\?A-Z][\?a-z]{1,20}('s)?$") @optional
+pob_town: regex("^(St )?[\?A-Z][\?a-z]{1,20}('s)?(((-(up)?on-)| |(-in-)|(-under-)|( cum )|( St ))?[\?A-Z][\?a-z]{1,20}('s)?)$") @optional
+pob_county: (County )?[\?A-Z])[A-Za-z]{1,20} @optional
+pob_country: [\?A-Z])[A-Za-z]{1,20}([ \?A-Z][A-Za-z]{1,20})? @optional
+eyes_colour: is("Blue") or is("Grey") or is("Brown") or is("Green") or is("Black") or is("Dark") or is("Hazel") or is("Slate") @optional
+hair_colour: is("Light") or is("Dark") or is("Brown") or is("Black") or is("Fair") or is("Auburn") or is("White") or is("Grey")or is("Blonde")or is("Red")or is("Bald") @optional
+complexion: is("Fair") or is("Ruddy") or is("Dark") or is("Swarthy") or is("Black") or is("Person of Colour") or is("Spotty") or is("Pockmarked")or is("Scarred") @optional
+former_trade: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+place_of_enrolment: regex("^(Borough of )?(St )?[\?A-Z][\?a-z]{1,20}('s)?(((-(up)?on-)| |(-in-)|(-under-)|( cum )|( St ))?[\?A-Z][\?a-z]{1,20}('s)?)$") @optional
+enrolled_by_rank: is("Corporal") or is("Serjeant") or is("Serjeant Major") or is("Lieutenant") or is("Captain") or is("Major") or is("Head Quarters") @optional
+enrolled_by_surname: regex("^(((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})(([- ])((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})?$") or is("???") or is("*") @optional
+day_of_enrolment: regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$") @optional
+month_of_enrolment: is("*") or is("???") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December") @optional
+year_of_enrolment: if(positiveInteger,range(1750,1940),regex("^1[7-9][0-9\?]{2}|\*|\?{4}$")) @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+former_service: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+remarks_observations: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+reason_for_discharge: is("Discharged Dead") or is("Shore") or is("Invalided") or is("Run") @optional
+comments: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
