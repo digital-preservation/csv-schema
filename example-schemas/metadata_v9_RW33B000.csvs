@@ -1,0 +1,18 @@
+version 1.0
+@totalColumns 16
+identifier: uri fileExists unique if($folder/is("folder"),ends("/"))
+file_name: length(1,*)
+description: 
+folder: is("folder") or is("file")
+date_last_modified: xDateTime
+checksum: if($folder/is("file"),checksum(file($identifier),"SHA-256"),is(""))  
+rights_copyright: is("Crown Copyright")
+closure_period: if($closure_type/is("open_on_transfer"),is("0"), range(1,100))
+closure_start_date: if($closure_type/is("open_on_transfer"),empty,xDateTime)
+foi_exemption_code: if($closure_type/is("open_on_transfer"),is("open"),regex("(?:2[34689]|27\([12]\)|30\([12]\)|3[1-4689]|35\(1\)\([abcd]\)|37\(1\)\((?:(?:a|ac|ad|b)\)|a\) old)|40\(2\)|43\(2\)|4[1-4])(?:,\s?(?:2[34689]|27\([12]\)|30\([12]\)|3[1-4689]|35\(1\)\([abcd]\)|37\(1\)\((?:(?:a|ac|ad|b)\)|a\) old)|40\(2\)|4[1-4]))*"))
+foi_exemption_asserted: if($closure_type/is("open_on_transfer"),empty, xDateTime) //regex("^$|(?:(?:(200[5-9]))|(?:([2-9]0[1-9][0-9]))|(?:([2-9][1-9][0-9]{2})))")
+description_public: is("this") or is("folder") or is("true") or is("false") or is("TRUE") or is("FALSE")
+description_alternate: @optional
+closure_type: is("closed_review") or is("retained_until") or is("closed_for") or is("normal_closure_before_foi") or is("retained_under_3.4") or is("temporarily_retained") or is("closed_until") or is("closed_access_reviewed") or is("reclosed_in") or is("open_on_transfer")
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")

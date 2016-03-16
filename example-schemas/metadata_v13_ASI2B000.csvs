@@ -1,0 +1,12 @@
+version 1.1
+@totalColumns 10
+identifier: uri fileExists unique if($folder/is("folder"),ends("/")) integrityCheck ("includeFolder")
+file_name: length(1,255)
+description:  if($folder/is("file"),length(1,255))
+folder: is("folder") or is("file")
+start_date: xDateTime
+end_date: xDateTime
+checksum: if($folder/is("file"),checksum( file($identifier),"SHA-256"),is(""))  
+rights_copyright: is("Crown copyright")
+legal_status: is("Public Record")
+held_by: is("The National Archives, Kew")

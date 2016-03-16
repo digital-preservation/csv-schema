@@ -1,0 +1,17 @@
+version 1.0
+@totalColumns 15 //removed closure fields and end_date
+identifier: uri fileExists unique if($folder/is("folder"),ends("/"))
+file_name: length(1,*)
+file_name_language: is("Welsh") or is("English") //additional
+file_name_translation: 
+file_name_translation_language: is("Welsh") or is("English") or is("") //additional
+description: 
+folder: is("folder") or is("file")
+date_last_modified: xDateTime
+checksum: if($folder/is("file"),checksum(file($identifier),"SHA-256"),is(""))  
+rights_copyright: is("Crown Copyright")
+related_material: 
+language: if($folder/is("file"),is("Welsh") or is("English") or is("English and Welsh")) //the accessioning of WA 11, 12 and 13 changed the cataloguing rule of blank meaning English because the existence of the filename in both  //languages made the language of the document content unclear
+start_date: if($folder/is("folder"),empty,xDateTime) @optional
+legal_status: is("Welsh Public Record")
+held_by: is("The National Archives, Kew")
