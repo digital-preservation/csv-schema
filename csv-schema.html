@@ -353,9 +353,10 @@ simon,57,male
 				<h3>Version Declaration</h3>
 				<p>
 				The <dfn>Version Declaration</dfn> declares explicitly which version of the CSV Schema language is in use. 
-				This MUST be either <code>version 1.0</code> or <code>version 1.1</code>. 
+				This MUST be either <code>version 1.0</code>, <code>version 1.1</code>, or <code>version 1.2</code>. 
 				If the version is not valid this is considered a <a>Schema Error</a>. 
-				If the version is declared as 1.0 but the CSV Schema attempts to use features of 1.1 this is also considered a <a>Schema Error</a>.
+				If the version is declared as 1.0 but the CSV Schema attempts to use features of 1.1 or 1.2 (or declared as 1.1 and uses features of 1.2) 
+				this is also considered a <a>Schema Error</a>.
 				The Version Declaration is MANDATORY.
 				</p>
 				<table class="ebnf-table">
@@ -363,7 +364,7 @@ simon,57,male
 						<td class="ebnf-num">[3]</td>
 						<td class="ebnf-left"><a title="ebnf-version-decl"><dfn>VersionDecl</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
-						<td class="ebnf-right">("version 1.0" | "version 1.1")</td>
+						<td class="ebnf-right">("version 1.0" | "version 1.1" | "version 1.2")</td>
 					</tr>
 				</table>
 					<section>
@@ -1771,24 +1772,40 @@ simon,57,male
 					<h3>Input parameters used in Single Expressions and External Single Expressions</h3>
 					<p>
 					Many <a title="Single Expression">Single Expressions</a> and <a title="External Single Expression">External Single Expressions</a> take a <a>String Provider</a> 
-					as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a>, a <a>String Literal</a>, <a>Concatenation Expression</a>
-					or a <a>No Extension Argument Provider</a>.
+					as an input. A <dfn>String Provider</dfn> takes the form of either a <a>Column Reference</a>, a <a>String Literal</a>, <a>Concatenation Expression</a> 
+					<a>No Extension Argument Provider</a>, or a <a>URI Decode Expression</a>.
 					</p>
 					<p>
 					A <dfn>Column Reference</dfn> comprises a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>, 
 					followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
 					</p>
 					<p>
+					The final three string providers are recursive, themselves taking one or more <a title="String Provider">String Providers</a> as arguments, 
+					and returning a new <a>String Provider</a>.
+					</p>
+					<p>
 					<em>The following expressions were introduced in CSV Schema Language 1.1</em>
 					</p>
 					<p>
-					The final two string providers are recursive, themselves taking one or more <a title="String Provider">String Providers</a> as arguments, 
-					and returning a new <a>String Provider</a>.
 					The <dfn>Concatenation Expression</dfn> takes two or more <a title="String Provider">String Providers</a>, 
 					returning a new string that is the concatenation of all those supplied.  You MUST provide at least two parameters. 
 					The <dfn>No Extension Argument Provider</dfn> removes anything that appears to be a Windows 
 					file extension from the end of a supplied <a>String Provider</a>, and returns a new string.  
 					A string that does not contain a <code>full stop (.)</code>, i.e. the [[UTF-8]] character codes <code>0x2D</code> will be returned unchanged.
+					</p>
+					<p>
+					<em>This is a new expression in CSV Schema Language 1.2</em>
+					</p>
+					<p>
+					The <dfn>URI Decode Function</dfn> takes two <a title="String Provider">String Providers</a> as arguments.  
+					The first argument is MANDATORY and provides the string that is to be decoded.  Decoding is in the sense described in [[!RFC3986]], Section 2, Characters, 
+					converting characters represented by a percent-encoding back to their usual character representation, <code>%20</code> is decoded to a <code>space ( )</code>.
+					By default it is assumed that the original percent-encoding is based on UTF-8, but this can be overriden with the OPTIONAL second parameter which supplies 
+					another string representing the alternative character set to be used.
+					</p>
+					<p>
+					This function is intended to facilitate comparison between data in two or more columns where one column is in the form of a URI (and would normally be validated by
+					a <a>URI Expression</a>) and the others are simple string data.
 					</p>
 					<table class="ebnf-table">
 						<tr>
@@ -1809,6 +1826,12 @@ simon,57,male
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"noExt(" <a>StringProvider</a> ")"</td> 
 						</tr>
+						<tr>
+							<td class="ebnf-num">[74]</td>
+							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>UriDecodeExpr</dfn></a></td>
+							<td class="ebnf-bind">::=</td>
+							<td class="ebnf-right">"uriDecode(" <a>StringProvider</a> ("," <a>StringProvider</a>)? ")"</td> 
+						</tr>
 					</table>
 					<section>
 						<h4>Usage</h4>
@@ -1821,6 +1844,14 @@ simon,57,male
 	/*in this rather artificial example, fifth_column must be either "no file" (the value of a_column) or a PDF file with the same basic name as the HTML file named in fourth_column,
 	  located at either file:///C:/ or http://example.com/ (in fact as written you could have file:///example.com/ or http://C:/ as well)*/
 						</pre>
+						<pre class="example" data-lt="URI Decode Expression Syntax">
+	identifier: uri                                     
+	file_name: in(uriDecode($identifier))
+	/*in this example, identifier is the full filepath to a file, expressed in the form of a URI, eg file:///some/directories/are/here/then/my%20file.txt
+	Then the file_name column has just the file name of the file, expressed as an ordinary string.  To check that the file name does indeed appear in the full filepath,
+	as would be expected, we decode the identifier string which replaces %20 with an actual space character, ie file:///some/directories/are/here/then/my file.txt
+	Then the In Expression can determine that (the equivalent of) "my file.txt" does indeed appear in the identifier*/
+						</pre>
 					</section>
 	 			</section>
 				<section>
@@ -1832,7 +1863,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[74]</td>
+							<td class="ebnf-num">[75]</td>
 							<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"(" <a>ColumnValidationExpr</a>+ ")"</td> 
@@ -1852,7 +1883,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[75]</td>
+						<td class="ebnf-num">[76]</td>
 						<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>IfExpr</a> | <a>SwitchExpr</a></td> 
@@ -1868,7 +1899,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[76]</td>
+							<td class="ebnf-num">[77]</td>
 							<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
@@ -1910,13 +1941,13 @@ simon,57,male
 					</section>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[77]</td>
+							<td class="ebnf-num">[78]</td>
 							<td class="ebnf-left"><a title="ebnf-switch-expr"><dfn>SwitchExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"switch(" <a>SwitchCaseExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
 						</tr>
 						<tr>
-							<td class="ebnf-num">[78]</td>
+							<td class="ebnf-num">[79]</td>
 							<td class="ebnf-left"><a title="ebnf-switch-case-expr"><dfn>SwitchCaseExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"("( <a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ")"</td>
@@ -2007,7 +2038,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[79]</td>
+						<td class="ebnf-num">[80]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-time-literal"><dfn>XsdDateTimeLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> "T" <a>XsdTimeLiteral</a></td>
@@ -2025,7 +2056,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[80]</td>
+						<td class="ebnf-num">[81]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-time-with-time-zone-literal"><dfn>XsdDateTimeWithTimeZoneLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> "T" <a>XsdTimeWithoutTimezoneComponent</a> <a>XsdTimezoneComponent</a></td>
@@ -2042,7 +2073,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[81]</td>
+						<td class="ebnf-num">[82]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-literal"><dfn>XsdDateLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> <a>XsdOptionalTimezoneComponent</a></td>
@@ -2060,7 +2091,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[82]</td>
+						<td class="ebnf-num">[83]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-time-literal"><dfn>XsdTimeLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdTimeWithoutTimezoneComponent</a> <a>XsdOptionalTimezoneComponent</a></td>
@@ -2072,21 +2103,21 @@ simon,57,male
 				<p>The various XSD Date and Time data types from [[!XMLSCHEMA-2]] are made up from common reuseable components that are defined by regular expressions.</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[83]</td>
+						<td class="ebnf-num">[84]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-without-timezone-component"><dfn>XsdDateWithoutTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[84]</td>
+						<td class="ebnf-num">[85]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-time-without-timezone-component"><dfn>XsdTimeWithoutTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[85]</td>
+						<td class="ebnf-num">[86]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-optional-timezone-component"><dfn>XsdOptionalTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?</td>
@@ -2094,7 +2125,7 @@ simon,57,male
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[86]</td>
+						<td class="ebnf-num">[87]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-timezone-component"><dfn>XsdTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)</td>
@@ -2111,7 +2142,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[87]</td>
+					<td class="ebnf-num">[88]</td>
 					<td class="ebnf-left"><a title="ebnf-uk-date-literal"><dfn>UkDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}</td>
@@ -2128,7 +2159,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[88]</td>
+					<td class="ebnf-num">[89]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-non-zero-integer-literal"><dfn>PositiveNonZeroIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[1-9][0-9]*</td>
@@ -2145,7 +2176,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[89]</td>
+					<td class="ebnf-num">[90]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-integer-literal"><dfn>PositiveIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[0-9]+</td>
@@ -2160,7 +2191,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[90]</td>
+					<td class="ebnf-num">[91]</td>
 					<td class="ebnf-left"><a title="ebnf-numeric-literal"><dfn>NumericLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">-?[0-9]+(\.[0-9]+)?</td>
@@ -2175,7 +2206,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-num">[92]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>StringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" [^"]* "\""</td>
@@ -2189,7 +2220,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[92]</td>
+					<td class="ebnf-num">[93]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>CharacterLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"'" [^\r\n\f'] "'"</td>
@@ -2203,7 +2234,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[93]</td>
+					<td class="ebnf-num">[94]</td>
 					<td class="ebnf-left"><a title="ebnf-wildcard-literal"><dfn>WildcardLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"*"</td>
@@ -2219,7 +2250,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[94]</td>
+					<td class="ebnf-num">[95]</td>
 					<td class="ebnf-left"><a title="ebnf-ident"><dfn>Ident</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
@@ -2267,8 +2298,8 @@ simon,57,male
 	</section>
 	<section class="appendix">
 		<h2>The text/csv-schema Media Type</h2>
-		<p>This Appendix specifies the media type for CSV Schema Version 1.0 and CSV Schema Version 1.1. CSV Schema is a language for describing and validating CSV files, as specified in the main body of this document. This media type has been submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
-		<p>The <code>text/csv-schema</code> media type, is intended to be used for transmitting schemas written in the CSV Schema language.</p>
+		<p>This Appendix specifies the media type for CSV Schema Language Version 1.0, CSV Schema Language Version 1.1, and CSV Schema Language Version 1.2. CSV Schema Language is a language for describing and validating CSV files, as specified in the main body of this document. This media type has been submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
+		<p>The <code>text/csv-schema</code> media type, is intended to be used for transmitting schemas written in the CSV Schema Language.</p>
 		<section>
 			<h3>File Extensions</h3>
 			<p>The suggested file extension for use when naming CSV Schema files is <code>.csvs</code>.</p>
@@ -2801,6 +2832,14 @@ simon,57,male
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"noExt(" <a title="ebnf-string-provider">StringProvider</a> ")"</td>
 					<td class="ebnf-note"></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num"></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-uri-decode-expr">UriDecodeExpr</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right">"uriDecode(" <a title="ebnf-string-provider">StringProvider</a> ("," <a title="ebnf-string-provider">StringProvider</a>)? ")"</td>
+					<td class="ebnf-note">/* The first, MANDATORY, parameter is the string to be decoded.  
+					The second, OPTIONAL, parameter is to supply an identifier for a specific charset */</td>
 				</tr>
 				<tr>
 					<td class="ebnf-num"></td>
