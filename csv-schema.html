@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CSV Schema Language 1.1</title>
+    <title>CSV Schema Language 1.2</title>
     <meta charset='utf-8'/>
     <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
@@ -18,7 +18,7 @@
           subtitle   :  "A Language for Defining and Validating CSV Data",
 
           // if you wish the publication date to be other than today, set this
-          publishDate:  "2016-01-25",
+          //publishDate:  "2016-01-25",
 
           // if the specification's copyright date is a range of years, specify
           // the start date here:
@@ -27,12 +27,12 @@
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
           previousMaturity:  "ED",
-          previousPublishDate:  "2014-08-23",
-		  previousURI:   "http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html",
+          previousPublishDate:  "2016-01-25",
+		  previousURI:   "http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
 
           // if there a publicly available Editor's Draft, this is the link
           // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
-          edDraftURI:           "http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
+          edDraftURI:           "http://digital-preservation.github.io/csv-schema/csv-schema-1.2.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -174,11 +174,12 @@
   </head>
   <body>
     <section id="sotd">
-      This document represents the specification of the CSV Schema Language 1.1
+      This document represents the specification of the CSV Schema Language 1.2
       as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
       such as the <a href="http://w3.org">W3C</a>.  
-	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
+	  This version will supersede <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.1</a> published on 25 January 2016, 
+	  and the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -275,7 +276,7 @@
 		</ol>
         <p>Let's now illustrate a simple CSV Schema that is concerned with CSV data about names, ages and gender:</p>
         <pre class="example" data-lt="Simple CSV Schema">
-version 1.1
+version 1.2
 @totalColumns 3
 name: notEmpty
 age: range(0, 120)
@@ -301,38 +302,20 @@ simon,57,male
         </pre>
         <p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.</p>
     </section>
-	<section id="new-in-1.1" class="informative">
-		<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
-		<p>
-		The last 18 months with <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.0</a> being in regular use at The National Archives 
-		has highlighted a few additional <a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, 
-		simplify schema writing, or make schemas more readable.  In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
-		to produce a final string input to expressions from some set of other <a title="String Provider">String Providers</a>, and also a function to allow removal of a Windows file
-		extension to make certain comparisons more straightforward and robust.
-		</p>
-		<p>
-		The new <a title="Column Validation Expression">Column Validation Expressions</a> are the:
-		<ol>
-			<li><a>Upper Case Expression</a>, which asserts that all the characters in the column must be uppercase (according to the definitions in [[UTF-8]]).</li>
-			<li><a>Lower Case Expression</a>, which asserts that all the characters in the column must be lowercase (according to the definitions in [[UTF-8]]).</li>
-			<li><a>Integrity Check Expression</a>, this is effectively the converse of the <a>File Exists Expression</a>, checking that if there is a file present
-			in the folders referred to in a CSV file, it has an explicit reference within that CSV file.</li>
-			<li><a>XSD Date Time With Time Zone Expression</a>, this expression adapts the existing <a>XSD Date Time Expression</a> to make the timezone portion mandatory.</li>
-			<li><a>Identical Expression</a>, this asserts that all values in a certain column must be identical, but does not specify the precise value within the schema.  
-			Within the CSV files received by The National Archives this is expected to be used in conjunction with a <a>Regular Expression Expression</a> to give the general form
-			for a batchcode field for a project, each line in a CSV should have the same batchcode, but we do not want to update the schema for each batch received to state 
-			the exact batchcode.</li>
-			<li><a>Any Expression</a>, this is effectively a combination of the <a>Is Expression</a> and the <a>Or Expression</a> into one expression.</li>
-			<li><a>Switch Expression</a>, this allows a flatter expression of what would otherwise have to be expressed as a set of nested <a title="If Expression">If Expressions</a>.
-			Such expressions can be hard to read and maintain due to the number of sets of brackets that can be involved.</li>
-		</ol>
-		In addition the <a>Range Expression</a> has been extended to allow the creation of ranges that have only an upper or lower bound using similar syntax to that employed by
-		the <a>Length Expression</a>. This also required the addition of <a>Numeric Or Any</a> type (to allow ranges to have negative values as bounds), or the <a>Wildcard Literal</a>. 
-		In the <a>Length Expression</a> we used only <a>Positive Integer Or Any</a> since a negative value has no sensible meaning for the length of a field.
-		There is also one new <a title="Global Directives">Global Directive</a>, the <a>Permit Empty Directive</a>.  This allows a file with no data rows to be treated as valid.
-		</p>
-	</section>
-    <section>
+	<section>
+		<h1>Change history</h1>
+		<section id="new-in-1.2" class="informative">
+			<h1>New in CSV Schema Language 1.2 - A brief introduction to the new features of CSV Schema Language 1.2</h1>
+		</section>
+		<section id="new-in-1.1" class="informative">
+			<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
+			<p>
+			See the <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html#new-in-1.1">"New in 1.1 section of the CSV Schema Language 1.1 document</a> for details of the 
+			expressions introduced in that update.
+			</p>
+		</section>
+    </section>
+	<section>
 		<h1>Schema structure</h1>
 		<p>
 		The CSV schema language is formally a <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
@@ -491,7 +474,7 @@ simon,57,male
 				<section>
 					<h4>Permit Empty Directive</h4>
 					<p>
-					<em>This is a new expression in CSV Schema Language 1.1</em>
+					<em>This expression was introduced in CSV Schema Language 1.1</em>
 					</p>
 					<p>
 					The <dfn>Permit Empty Directive</dfn> allows you to specify that the CSV file can be empty: i.e. there is no row data.
@@ -932,7 +915,8 @@ simon,57,male
 					<h3>Single Expressions</h3>
 					<p>
 					<dfn title="Single Expression">Single Expressions</dfn> are the basic building blocks of <a>Column Rules</a>.  There are currently 27 available for use 
-					as of CSV Schema Language 1.1 (and some have their own subexpressions used as parameters), although the first is really used as an OPTIONAL modifier to the rest. 
+					as of CSV Schema Language 1.1 (some have their own subexpressions used as parameters), no new Single Expressions are introduced in CSV Schema Language 1.2, 
+					although the first Single Expression described is really used as an OPTIONAL modifier to the rest. 
 					In many cases values can be provided to the test either as an explicit string (or number where appropriate), or by reference to the value held by another column.
 					</p>
 					<table class="ebnf-table">
@@ -999,7 +983,7 @@ simon,57,male
 					<section>
 						<h4>Any Expressions</h4>
 						<p>
-						<em>This is a new expression in CSV Schema Language 1.1</em>
+						<em>This expression was introduced in CSV Schema Language 1.1</em>
 						</p>
 						<p>
 						An <dfn>Any Expression</dfn> checks that the value of the column is identical to one of the supplied strings or the values in the referenced columns.
@@ -1135,7 +1119,7 @@ simon,57,male
 					<section>
 						<h4>Range Expressions</h4>
 						<p>
-						<em>The definition of this expression in CSV Schema Language 1.1 extends the definition originally made in CSV Schema Language 1.0</em>
+						<em>The definition of this expression from CSV Schema Language 1.1 on extends the definition originally made in CSV Schema Language 1.0</em>
 						</p>
 						<p>
 						A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.  
@@ -1521,7 +1505,7 @@ simon,57,male
 					<section>
 						<h4>Upper Case Expression</h4>
 						<p>
-						<em>This is a new expression in CSV Schema Language 1.1</em>
+						<em>This expression was introduced in CSV Schema Language 1.1</em>
 						</p>
 						<p>
 						An <dfn>Upper Case Expression</dfn> checks that the column content is all upper case, 
@@ -1550,7 +1534,7 @@ simon,57,male
 					<section>
 						<h4>Lower Case Expression</h4>
 						<p>
-						<em>This is a new expression in CSV Schema Language 1.1</em>
+						<em>This expression was introduced in CSV Schema Language 1.1</em>
 						</p>
 						<p>
 						A <dfn>Lower Case Expression</dfn> checks that the column content is all lower case, 
@@ -1579,7 +1563,7 @@ simon,57,male
 					<section>
 						<h4>Identical Expressions</h4>
 						<p>
-						<em>This is a new expression in CSV Schema Language 1.1</em>
+						<em>This expression was introduced in CSV Schema Language 1.1</em>
 						</p>
 						<p>
 						An <dfn>Identical Expression</dfn> asserts that the value of the column MUST be identical for every row within a CSV file, 
@@ -1657,7 +1641,7 @@ simon,57,male
 					<section>
 						<h4>Integrity Check Expressions</h4>
 						<p>
-						<em>This is a new expression in CSV Schema Language 1.1</em>
+						<em>This expression was introduced in CSV Schema Language 1.1</em>
 						</p>
 						<p>
 						An <dfn>Integrity Check Expression</dfn> checks a filesystem to see if there are any files present that are not specifically mentioned in the CSV file.
@@ -1795,7 +1779,7 @@ simon,57,male
 					followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
 					</p>
 					<p>
-					<em>The following are new expressions in CSV Schema Language 1.1</em>
+					<em>The following expressions were introduced in CSV Schema Language 1.1</em>
 					</p>
 					<p>
 					The final two string providers are recursive, themselves taking one or more <a title="String Provider">String Providers</a> as arguments, 
@@ -1863,7 +1847,7 @@ simon,57,male
 				result of the evaluation of some other <a>Non Conditional Expression</a>.  
 				This is particularly useful when the data expected in one column depends on the value of another column.  
 				In the original CSV Schema Language 1.0 there was only one form of Conditional Expression, the <a>If Expression</a>.
-				CSV Schema Language 1.1 introduces the <a>Switch Expression</a> which allows a more compact and readable form for what would 
+				CSV Schema Language 1.1 introduced the <a>Switch Expression</a> which allows a more compact and readable form for what would 
 				otherwise be written as nested <a title="If Expression">If Expressions</a>.
 				</p>
 				<table class="ebnf-table">
@@ -1906,7 +1890,7 @@ simon,57,male
 				<section>
 					<h3>Switch Expressions</h3>
 					<p>
-					<em>This is a new expression in CSV Schema Language 1.1</em>
+					<em>This expression was introduced in CSV Schema Language 1.1</em>
 					</p>
 					<p>
 					The <dfn>Switch Expression</dfn> generalises the <a>If Expression</a>. It comprises at least one <a>Switch Case Expression</a> followed by a final OPTIONAL parameter, 
@@ -1964,7 +1948,7 @@ simon,57,male
 				Most of these are extensively commented in order to explain usage.  There is a also a set of example files to be downloaded which allow 
 				<a title="File Exists Expression">File Exists Expressions</a> and <a title="Checksum Expression">Checksum Expressions</a> 
 				and path substitutions to be more easily understood, these are designed to be used with the generic_digitised_surrogate_tech_acq_metadata_v1.1.csvs and 
-				generic_digitised_surrogate_tech_acq_metadata_v1.0.csvs schemas, which also helps demonstrate the additional checking that CSV Schema Language 1.1 enables.
+				generic_digitised_surrogate_tech_acq_metadata_v1.0.csvs schemas, which also helps demonstrate the additional checking that CSV Schema Language 1.1 and later enable.
 				</p>
 				<pre class="example" data-lt="Column Expression Syntax">
 	piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
