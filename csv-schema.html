@@ -306,6 +306,12 @@ simon,57,male
 		<h1>Change history</h1>
 		<section id="new-in-1.2" class="informative">
 			<h1>New in CSV Schema Language 1.2 - A brief introduction to the new features of CSV Schema Language 1.2</h1>
+			<p>
+			CSV Schema Language 1.2 further extends the String Provider concept with a URI Decode Expression which converts the percentage-encoding used within URIs back to a normal
+			string (eg converting %20 to a space). This takes 1 or 2 inputs, the first is the string to be decoded (as a String Provider), 
+			and the second is an OPTIONAL instruction to use a particular character set.
+			By default the decoding will use UTF-8.
+			</p>
 		</section>
 		<section id="new-in-1.1" class="informative">
 			<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
