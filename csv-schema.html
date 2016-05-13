@@ -1804,7 +1804,7 @@ simon,57,male
 					</p>
 					<p>
 					The <dfn>URI Decode Function</dfn> takes two <a title="String Provider">String Providers</a> as arguments.  
-					The first argument is MANDATORY and provides the string that is to be decoded.  Decoding is in the sense described in [[!RFC3986]], Section 2, Characters, 
+					The first argument MUST be supplied and provides the string that is to be decoded.  Decoding is in the sense described in [[!RFC3986]], Section 2, Characters, 
 					converting characters represented by a percent-encoding back to their usual character representation, <code>%20</code> is decoded to a <code>space ( )</code>.
 					By default it is assumed that the original percent-encoding is based on UTF-8, but this can be overriden with the OPTIONAL second parameter which supplies 
 					another string representing the alternative character set to be used.
@@ -1818,7 +1818,7 @@ simon,57,male
 							<td class="ebnf-num">[71]</td>
 							<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
-							<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a> | <a>ConcatExpr</a> | <a>NoExtExpr</a></td> 
+							<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a> | <a>ConcatExpr</a> | <a>NoExtExpr</a> | <a>UriDecodeExpr</a></td> 
 						</tr>
 						<tr>
 							<td class="ebnf-num">[72]</td>
@@ -2822,7 +2822,7 @@ simon,57,male
 					<td class="ebnf-num"></td>
 					<td class="ebnf-left"><a><dfn title="ebnf-string-provider">StringProvider</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
-					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-string-literal">StringLiteral</a> | <a title="ebnf-concat-expr">ConcatExpr</a> | <a title="ebnf-no-ext-expr">NoExtExpr</a></td>
+					<td class="ebnf-right"><a title="ebnf-column-ref">ColumnRef</a> | <a title="ebnf-string-literal">StringLiteral</a> | <a title="ebnf-concat-expr">ConcatExpr</a> | <a title="ebnf-no-ext-expr">NoExtExpr</a> | <a title="ebnf-uri-decode-expr">UriDecodeExpr</a></td>
 					<td class="ebnf-note"></td>
 				</tr>
 				<tr>
