@@ -9,7 +9,7 @@ is then published as HTML. The Schema language is formally expressed in EBNF.
 You can find the the documentation and latest published specification here:
 	http://digital-preservation.github.io/csv-schema.
 
-* Examples of CSV Schemas can be found in the [`example-schemas`](https://github.com/adamretter/csv-schema/tree/master/example-schemas) folder.
+* Examples of CSV Schemas can be found in the [`example-schemas`](https://github.com/digital-preservation/csv-schema/tree/master/example-schemas) folder.
 
 
 Repository Organisation
