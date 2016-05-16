@@ -43,7 +43,7 @@ accented characters.  We then allow repeats of these basic building blocks, sepa
 The version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in
 total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.
 
-A more generic check would be regex("^([- \'\?\p{Ll}\p{Lu}\]*|\*]$") requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
+A more generic check would be ``````regex("^([- \'\?\p{Ll}\p{Lu}\]*|\*]$")``` requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
 
 Titles/postnominals
 
