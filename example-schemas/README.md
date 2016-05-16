@@ -9,7 +9,7 @@ Digital Preservation @ TNA
 
 CSV Schema created by the Digital Preservation and Digital Repository Infrastructure teams at The National Archives will be added to this folder to make them available to digitisation partners and to serve as examples of the use of the CSV Schema Language.
 
-An initial example CSV can be found in the \[`example-data`\](http://github.com/digital-preservation/csv-schema/tree/master/example-schemas/example-data) folder, which relates to the xml files to be found in its subfolder TEST_1 and further subfolders.  This is designed to be validated against the schema \[`digitised_surrogate_tech_acq_metadata_v1_TESTBATCH000.csvs`\](https://github.com/digital-preservation/csv-schema/blob/master/example-schemas/digitised_surrogate_tech_acq_metadata_v1_TESTBATCH000.csvs).  In a genuine digitisation project, the files described by the metadata CSV would be JPEG2000s, but these would tend to be quite large, so to make downloading more practical for demonstration purposes, we have supplied only the XML which would normally be embedded within the JPEG2000 file.
+An initial example CSV can be found in the [`example-data`](http://github.com/digital-preservation/csv-schema/tree/master/example-schemas/example-data) folder, which relates to the xml files to be found in its subfolder TEST_1 and further subfolders.  This is designed to be validated against the schema [`digitised_surrogate_tech_acq_metadata_v1_TESTBATCH000.csvs`](https://github.com/digital-preservation/csv-schema/blob/master/example-schemas/digitised_surrogate_tech_acq_metadata_v1_TESTBATCH000.csvs).  In a genuine digitisation project, the files described by the metadata CSV would be JPEG2000s, but these would tend to be quite large, so to make downloading more practical for demonstration purposes, we have supplied only the XML which would normally be embedded within the JPEG2000 file.
 
 
 Other
@@ -43,7 +43,7 @@ accented characters.  We then allow repeats of these basic building blocks, sepa
 The version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in
 total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.
 
-A more generic check would be ``````regex("^([- \'\?\p{Ll}\p{Lu}\]*|\*]$")``` requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
+A more generic check would be ```regex("^([- \'\?\p{Ll}\p{Lu}\]*|\*]$")``` requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
 
 Titles/postnominals
 
