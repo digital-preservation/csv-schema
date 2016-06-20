@@ -38,12 +38,12 @@ Forename checking
 While these look complex they break down into a few simpler blocks:
 ```((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?``` defines "particles" that may appear
 at the start of names and might cause a name to begin with a lower case letter which would otherwise be unexpected, this is things like de, de la, St, Mac etc, then
-```[\?A-Z][\?\p{Ll}]{2,15}``` says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters (\p{Ll} is unicode aware to allow 
+```[\?A-Z][\?\p{Ll}]{2,15}``` says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters \p{Ll} is unicode aware to allow 
 accented characters.  We then allow repeats of these basic building blocks, separated by either hyphen or space to allow for multiple forenames, or multi-barrelled surnames.
 The version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in
 total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.
 
-A more generic check would be ```regex("^([- \'\?\p{Ll}\p{Lu}\]*|\*]$")``` requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
+A more generic check would be ```regex("^([- \'\?\p{Ll}\p{Lu}]*|\*)$")``` requiring one or more characters from the set specified, hyphen, space, apostrophe, question mark (for unreadable characters), upper or lower case characters (as defined in Unicode), or a single asterisk (representing a blank entry).
 
 Titles/postnominals
 
