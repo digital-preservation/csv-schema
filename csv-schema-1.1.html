@@ -970,8 +970,8 @@ simon,57,male
 						<section>
 							<h5>Usage</h5>
 							<pre class="example" data-lt="Explicit Context Expression Syntax">
-	a_column: is("some string") and $another_column/startsWith("some string") //here two tests are combined on a single line, the second test here looks to the second column 
-	another_column:                                                           //to check it's value starts with "some string"
+	a_column: is("some string") and $another_column/starts("some string") //here two tests are combined on a single line, the second test here looks to the second column 
+	another_column:                                                       //to check it's value starts with "some string"
 							</pre>
 						</section>
 					</section>
@@ -1081,8 +1081,8 @@ simon,57,male
 						<section>
 							<h5>Usage</h5>
 							<pre class="example" data-lt="Starts With Expression Syntax">
-	a_column: startsWith("some string")   //the value of a_column must start with the string "some string" eg "some strings" or "some string is here that's really long"
-	another_column: startsWith($a_column) //the value of another_column must start with the contents of a_column
+	a_column: starts("some string")   //the value of a_column must start with the string "some string" eg "some strings" or "some string is here that's really long"
+	another_column: starts($a_column) //the value of another_column must start with the contents of a_column
 							</pre>
 						</section>
 					</section>
@@ -1102,8 +1102,8 @@ simon,57,male
 						<section>
 							<h5>Usage</h5>
 							<pre class="example" data-lt="Ends With Expression Syntax">
-	a_column: endsWith("some string")   //the value of a_column must end with the string "some string" eg "here is some string" or "this really long string ends with some string"
-	another_column: endsWith($a_column) //the value of another_column must end with the contents of a_column
+	a_column: ends("some string")   //the value of a_column must end with the string "some string" eg "here is some string" or "this really long string ends with some string"
+	another_column: ends($a_column) //the value of another_column must end with the contents of a_column
 							</pre>
 						</section>
 					</section>
