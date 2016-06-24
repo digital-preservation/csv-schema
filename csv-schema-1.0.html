@@ -758,7 +758,7 @@ simon,57,male
 					<h4>Column Definitions examples</h4>
 					<pre class="example" title="Column Definition Syntax">
 	a_column_title:			is("somedata") or is("otherdata")        	@optional @matchIsFalse @ignoreCase @warning
-	another_column_title:	isNot("somedata") and isNot("otherdata")	@ignoreCase
+	another_column_title:	not("somedata") and not("otherdata")	@ignoreCase
 					</pre>
 					<p>
 					The two Column Definitions are both validating the data in their respective columns against the explicit strings <code>somedata</code> and <code>otherdata</code>.
