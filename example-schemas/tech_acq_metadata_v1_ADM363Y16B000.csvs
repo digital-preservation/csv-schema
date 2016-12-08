@@ -1,0 +1,114 @@
+version 1.1
+@totalColumns 43
+/*-------------------------------------------------------------------------------
+|Schema:   tech_acq_metadata_v1_ADM363Y16B000.csvs                               |
+|Authors:  David Underdown                                                       |
+|          Anna de Sousa                                                         |
+|Purpose:  To capture technical metadata about the digitisation of the ADM 363   |
+|          series recording provenance information about the process             |
+|Revision: 1.0  first release based on earlier ADM 363 project                   |    
+|Revision: 1.1 update to image_deskew and image_deskew_operator to match         |
+|          image_crop and image_crop_operator and updated file_path to           | 
+|          (excludeFolder)  - was previously (includeFolder) but changed as      |       
+|          item row that matches piece row not being included in this instance.  |   
+-------------------------------------------------------------------------------*/
+batch_code: regex("^ADM363Y16[BS]([0-9]{3})$") identical
+//defines the batch code as a string like ADM363Y16S000 (for initial samples until production is signed off or
+//ADM363Y16B000 for production batches. In each case 000 is replaced with an appropriate batch number, padded with leading zeroes as required
+//The batch number must be identical throughout an individual metadata file (the same batchcode should be included in the metadata filename)
+department: (is("ADM") if($resource_uri/empty,in($file_path),in($file_path) and in($resource_uri)))
+//department has a fixed value, ADM, and this is also found within the file_path and resource_uri values where there is an actual image file associated with a metadata row.
+division: is("25")
+//division has a fixed value, 25, the division number within ADM (this is not used in the citable reference, so does not appear in file_path and resource_uri strings).
+series: is("363") and if($resource_uri/empty,in($file_path),in($file_path) and in($resource_uri))
+//series has a fixed value, 363, and this is also found within the file_path and resource_uri values where there is an actual image file associated with a metadata row.
+piece: positiveInteger range(516,619) switch(($book_number/range(2037,2084),range(516,563)),($book_number/range(108,138),range(564,594)),($book_number/range(1293,1298),range(595,600)),($book_number/range(791,809),range(601,619))) if($item/empty,in($file_path) $description/notEmpty,in($file_path) and in($resource_uri) and $description/empty)
+//piece numbering continues from where the earlier project on these records finished, so first piece number to be assigned will 516. The books currently carry an individual number, so the 
+//the piece number assigned should relate to the book number as indicated by the ranges shown, there should be a direct one-to-one correspondence between the book_number range and the piece
+//range, so book 2037 = piece 516, book 2038 = piece 517, book 2039 = piece 518 and so on all the way up to book 2084 = piece 563 and similarly for the other ranges.
+book_number: positiveInteger (range(108,138) or range(791,809) or range(1293,1298) or range(2037,2084))
+//the original reference number for the book, as an additional cross-check we also recheck the ranges for this value already used in the piece field above
+item: (in($file_path) positiveInteger unique($piece,$item,$ordinal) range(1,203)) or empty
+//item reference will be blank for piece level rows, but otherwise the combination of values for piece, item and ordinal must be unique, if the row refers to an individual image file
+//then the item reference must also appear in the file_path
+//it is believed that the largest possible number of items in a book is 203, based on the difference between highest and lowest official numbers
+ordinal: if($item/empty,empty,unique($piece,$item,$ordinal) and range(1,8))
+//the ordinal is simply a running count for each image within an item (starting at 1), it should also appear in the filename.  Usually this will eb no higher than 2, in the original set a small number were higher than 8, but that was unusual, this may need amending if material is found with a high number of pages
+description: if($item/empty,regex("^(Continuous Service Record Cards: Numbers )(((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))\-((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))(\. \(Described at item level\)))$"),empty)
+//generic description for piece level rows incorporating known official number range for each book
+held_by: if($item/empty,is("The National Archives, Kew"),empty)
+//legal place of deposit of the digitised record
+legal_status: if($item/empty,is("Public Record"),empty)
+//legal status under the Public Record Acts
+covering_dates: if($item/empty,is("[01 Jan 1925 - 31 Dec 1939]"),empty)
+//indication of the general date range of material in this record series
+file_uuid: if($ordinal/empty,empty,uuid4 unique in($resource_uri))
+//A uuid should be assigned to each image as soon as possible after scanning
+file_path: uri unique fileExists integrityCheck("excludeFolder") switch(($item/empty,is(concat("file:///",$department,"_",$series,"/content/",$piece,"/"))),($ordinal/empty,is(concat("file:///",$department,"_",$series,"/content/",$piece,"/",$item,"/"))),starts(concat("file:///",$department,"_",$series,"/content/",$piece,"/",$item,"/",$piece,"_",$item,"_")) regex(".*/[56][0-9]{2}_[1-9][0-9]{0,2}_000[1-8]\.jp2$") ends(concat($ordinal,".jp2"))) // fileExists
+//the file path is built up as shown in the starts(concat) expression.  Because the ordinal is padded with leading zeroes within the filename to keep the files ordered correctly in a 
+//standard file system view of the item folder it's difficult to specify the full file name in a single concatenation statement, so we also use regex to check that the number part is
+//no longer than expected.  The file_path must also be unique, a valid uri, and exist on the file system (a path substitution will be needed at run time to point to the actual top-level
+//directory (and drive for Windows).  The integrityCheck ensures no other files other than the image files are included below the content folder - excludeFolders indicates there is no
+//row within this file that specifically gives the file_path to each folder below content.
+//as with the range given in ordinal, the regex in this rule will need to be updated slightly if items with more than 8 images are found.
+file_checksum: if($ordinal/empty,empty,not("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") and checksum(file($file_path),"SHA-256"))
+//for rows with an image this verifies that the checksum recorded in the file actually matches that for the file on disk, we also check that the file is not a 0-byte file:
+//e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 is the SHA-256 checksum for an empty message.
+resource_uri: if($ordinal/empty,empty,uri is(concat("http://datagov.nationalarchives.gov.uk/66/",$department,"/",$series,"/",$piece,"/",$file_uuid)))
+//check that the resource_uri specified in the file is built up in the correct way from the appropriate data elements as shown in the is(concat(...)) statement
+scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
+//a simple string to record the scan_operator - this should not be obviously personally identifiable (though the scanning contractor should be able to decode it if required, 
+//for instance if QA shows a high number of errors by a scan_operator), this should not be the actual name of the operator, or a system username trivially related to an actual name
+//eg Joe Bloggs or jbloggs would not be acceptable
+scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z_]{1,12}$"))
+//string identifying the actual scanning equipment, camera rig etc used for creating the original image
+scan_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+//location where scanning performed
+scan_native_format: if($ordinal/empty,empty,regex("[0-9\w\s,.:]+"))
+//the original native image format produced by the scanner or camera rig etc
+scan_timestamp: if($ordinal/empty,empty,xDateTimeTz)
+//date and time (with timezone) the scan was performed
+image_resolution: if($ordinal/empty,empty,is("300"))
+//nominal image resolution
+image_width: if($ordinal/empty,empty,positiveInteger)
+//width of the image (in pixels)
+image_height: if($ordinal/empty,empty,positiveInteger)
+//height of the image (in pixels)
+image_tonal_resolution: if($ordinal/empty,empty,is("24-bit colour"))
+//bit depth and colour
+image_format: if($ordinal/empty,empty,is("x-fmt/392"))
+//the final image format, expressed as a puid - x-fmt/392 is the JP2 puid
+image_colour_space: if($ordinal/empty,empty,is("sRGB"))
+//the colour space used for the image - must be the enumerated sRGB profile
+process_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+//location info for the location of image processing
+jp2_creation_timestamp: if($ordinal/empty,empty,xDateTimeTz)
+//date and time (with timezone) the image was converted to jp2 format
+uuid_timestamp: if($ordinal/empty,empty,xDateTimeTz)
+// date and time (with timezone) the uuid was assigned (should be as soon as possible after image creation to allow tracking through processing)
+embed_timestamp: if($ordinal/empty,empty,xDateTimeTz)
+//date and time (with timezone) the embedded metadata (resource_uri etc as defined in ITT) was added into the JP2
+image_split: if($ordinal/empty,empty,is("yes") or is("no"))
+//records if an original image capture was subsequently split into multiple images (would generally be expected to be no for this project)
+image_split_other_uuid: if($ordinal/empty,empty,if($image_split/is("yes"),uuid4,is("")))
+//if an image was split, the uuid(s) of other images originally captured in the same scanning process should be recorded here 9would generally be blank for this project)
+image_split_operator: if($ordinal/empty,empty,if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+//identifier for operator carrying out any split process
+image_split_timestamp: if($ordinal/empty,empty,if($image_split/is("yes"),xDateTimeTz,is("")))
+// date time (with timezone) for any split operation
+image_crop: if($ordinal/empty,empty,is("auto") or is("manual") or is("none"))
+//records any cropping applied to the image to reduce it to its final pixel dimensions, auto if the process was completely automatic, none if left as captured, manual for any manual intervention
+image_crop_operator: if($ordinal/empty,empty,if($image_crop/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+//for a manual crop, identifier for the individual operator
+image_crop_timestamp: if($ordinal/empty,empty,if($image_crop/is("none"),empty,xDateTimeTz))
+//date time (with timezone) of any cropping process applied
+image_deskew: if($ordinal/empty,empty,is("auto") or is("manual") or is("none"))
+//records if any deskew applied to image  auto if the process was completely automatic, none if left as captured, manual for any manual intervention
+image_deskew_operator: if($ordinal/empty,empty,if($image_deskew/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is("")))
+//for a deskewed image, records the operator who performed the process if image_deskew is 'manual'
+image_deskew_timestamp: if($ordinal/empty,empty,if($image_deskew/is("none"),is(""),xDateTimeTz))
+//date time (with timezone) of any deskewing process
+qa_code: regex("^[A-J](,[A-J]){0,9}$") @optional
+//code as defined in the ITT to record any pre-existing damage to the document prior to the scanning process to demonstrate that imaging process has captured all available information in the original
+comments: regex("[-\w\s,\.\(\)\/'":\?]+") @optional
+//any additional comments relating to the image
