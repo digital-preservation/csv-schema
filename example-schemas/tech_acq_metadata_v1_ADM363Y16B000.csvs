@@ -34,7 +34,7 @@ item: (in($file_path) positiveInteger unique($piece,$item,$ordinal) range(1,203)
 //it is believed that the largest possible number of items in a book is 203, based on the difference between highest and lowest official numbers
 ordinal: if($item/empty,empty,unique($piece,$item,$ordinal) and range(1,8))
 //the ordinal is simply a running count for each image within an item (starting at 1), it should also appear in the filename.  Usually this will eb no higher than 2, in the original set a small number were higher than 8, but that was unusual, this may need amending if material is found with a high number of pages
-description: if($item/empty,regex("^(Continuous Service Record Cards: Numbers )(((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))\-((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))(\. \(Described at item level\)))$"),empty)
+description: if($item/empty,regex("^(Continuous Service Record Cards: Numbers )(((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))\-((JX 1((2[5-9])|(3[0123]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))(\. \(Described at item level\)))$"),empty)
 //generic description for piece level rows incorporating known official number range for each book
 held_by: if($item/empty,is("The National Archives, Kew"),empty)
 //legal place of deposit of the digitised record
