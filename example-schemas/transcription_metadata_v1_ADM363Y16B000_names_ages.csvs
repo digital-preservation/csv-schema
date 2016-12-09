@@ -1,0 +1,41 @@
+version 1.1
+@totalColumns 24
+/*-------------------------------------------------------------------------------
+|Schema:   transcription_metadata_v1_ADM363Y16B000.csvs                         |
+|Authors:  David Underdown                                                      |
+|Purpose:  Validation of transcription metadata for ADM363Y16                   |
+|          Schema for basic name/age checking to highlight entries to QA staff  |
+|Revision: 1.0 first release                                                    |
+|------------------------------------------------------------------------------*/
+//this schema performs some additional checks on name structure and age, these are regarded as warnings only, and are not run at final ingest time
+//the main transcription schema contains the checks for all the other fields (and some basic checking on these fields).
+batch_code: 
+department: 
+division: 
+series: 
+piece: 
+item: 
+ordinal: 
+covering_dates: 
+book_number: 
+file_path: 
+file_uuid: 
+legal_status: 
+held_by: 
+official_number: 
+surname: if($item/empty,empty,regex("^(((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})(([- ])((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})?$") or is("???") or is("*")) @warning
+surname_other: if($item/empty,empty,regex("^(((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})(([- ])((([dDL][\?aeiou]([- ,]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{2,15})?$") or is("???") or is("*")) @warning @optional
+//Surname checking (this comes with a health warning, it will show that a string looks something like a "British/European" surname, it does not attempt to claim it will correct validate all names, especially those from non-European cultures. It has limited Unicode awareness to cater for accented characters
+//While these look complex they break down into a few simpler blocks: ((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))? defines "particles" that may appear at the start of names and might cause a name to begin with a lower case letter which would otherwise be unexpected, this is things like de, de la, St, Mac etc, 
+//then [\?A-Z][\?\p{Ll}]{2,15} says that we expect the main part of the name to start with a capital letter and be followed by at least two lower case letters (\p{Ll} is unicode aware to allow accented characters. We then allow repeats of these basic building blocks, separated by either hyphen or space to allow for multiple forenames, or multi-barrelled surnames.
+//surname_other and forenames_other also allow a comma separator to cater for the case where multiple alternative names are recorded
+forenames: if($item/empty,empty,regex("^((St(e?[- ]?))|(M[\?a]?[\?c]|M\'))?[\?A-Z][\?\p{Ll}]{2,15}([- ](((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{0,15}))*$") or is("???") or is("*")) @warning 
+forenames_other: if($item/empty,empty,regex("^((St(e?[- ]?))|(M[\?a]?[\?c]|M\'))?[\?A-Z][\?\p{Ll}]{2,15}([- ,](((([dDL][\?aeiou]([- ]?))|([dDAL](e)?\')|([dD]e([- ]?)[lL]a([- ]?))|(St(e?[- ]?))|([Vv][\?ao]n( ?)([Dd]e[rn]?( ?))?))|(M[\?a]?[\?c]|M\'|O\'))?[\?A-Z][\?\p{Ll}]{0,15}))*$") or is("???") or is("*")) @optional @warning 
+//basically the same as surname checks, but the version used in forenames allows subsequent forenames to be expressed as initials only, but as many repoeats as needed, while in surnames the regex as written allows only 2 barrels in total, additional ones could be allowed be changing the final question mark to {0,2} for 3 barrels in total etc.
+place_of_birth: 
+birth_date_day:  
+birth_date_month: 
+birth_date_year: if($item/empty,empty,range(1867,1916)) @warning
+//this alerts us to records that have an unexpectedly early date of birth (suggesting a possible mistranscription, or possible typo on original record)
+comments: 
+alt_description: 
