@@ -5,6 +5,7 @@ version 1.0
 /*Updates following meeting 24/7. Allow for non-numeric schedule refs where duplicates are distinguished in original by addition of a-f or A-F as a suffix, 
 or where we have had to distinguish duplicates ourselves which will add suffix of form DUPnn (if the value is an integer the previous range will still be checked.)
 Allow additional punctuation in street_name - instructions should already be OK as the length check should allow any string characters */
+/*Updates 20/12/2016, allow brackets in County eg Yorkshire (North Riding), apostrophe in borough eg Bishop's Castle*/
 /*For general understanding of the data, a piece is an individual booklet of registration data (these were usually bound into a volume after the register was completed), compiled by an 
 enumerator from the household returns for a specific area. An item is an individual page from the registers, this may be a cover page (ITEM_TITLEPAGE) which contains various summary 
 information about the area covered, or a register page (ITEM_MAINPAGE or ITEM_CONPAGE) which has header info relating to the place, then around 40 or so lines filled to some degree with 
@@ -20,7 +21,7 @@ piece: if($metadata_type/starts("ITEM_"),regex("^[0-9]{1,5}[A-Z]$") in($file_pat
 //All types of row have the piece value, which has between 1 and 5 numeric characters, followed by an upper case alphabetic value.  For item level rows, we also check that the piece value appears in the file_path field
 item: if($metadata_type/not("PIECE"), range(1,500) unique($piece, $item,$sub_item), is(""))    @warning
 //For item and sub_item rows (ie anything that's not a piece level row), item should have a numeric value in the range 1-500 (inclusive) and the combination of piece reference, item reference and sub_item reference should be unique.  For piece level rows this field should be blank
-sub_item: if($metadata_type/starts("SUBITEM_"), range(1,44) unique($piece, $item,$sub_item), is("")) @warning
+sub_item: if($metadata_type/starts("SUBITEM_"), range(1,46) unique($piece, $item,$sub_item), is("")) @warning
 //For sub_item rows (ie the transcription of an individual row on a register page) this field should have a numeric value in the range 1-44 (inclusive), and we reiterate the requirement for the combination of piece reference, item reference and sub_item reference to be unique.  For piece and item rows, this field should be blank
 metadata_type: is("PIECE") or is("ITEM") or is("ITEM_TITLEPAGE") or is("ITEM_MAINPAGE") or is("ITEM_CONPAGE") or is("SUBITEM_NAME") or is("SUBITEM_CONNAME") or is("SUBITEM_VACANT") or is("SUBITEM_BLANK") or is("SUBITEM_REMOVED") or is("SUBITEM_QADDRESS")
 //This check prescribes the acceptable values for metadata_type (this value is then used by most of the rest of the checks to define acceptable values for that type of metadata row
@@ -41,17 +42,17 @@ last_date_day: if($metadata_type/is("PIECE"), is("29"), is(""))
 last_date_month: if($metadata_type/is("PIECE"), is("September"), is(""))
 last_date_year: if($metadata_type/is("PIECE"), is("1939"), is(""))
 //The various date fields allow us to construct a covering date for this information - we are suing just the date on which the original register was compiled, and not making any attempt to capture when the data was subsequently updated when the register was in use
-county: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z ]{3,}$"), is(""))
+county: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z \(\)]{3,}$"), is(""))
 //County is data derived by DCTFH based on the enumeration district.  We are merely checking that there are at least 3 alphanumeric characters here, we are not attempting to introduce a controlled vocab
 ED_letter_code: if($metadata_type/is("PIECE"), regex("^[A-Z]{4,5}$"), is(""))
 //each enumeration district (ed) was assigned a four or five letter code
-borough: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[a-zA-Z \.]{3,}$"), is(""))
+borough: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)|(PIECE)"), regex("^[-a-zA-Z \.']{3,}$"), is(""))
 //The borough should be recorded at the start of each register booklet (PIECE), and for search purposes is then copied down into the SUBITEMs
 registration_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
 //The name of the registration district is captured for each PIECE (and should otherwise be blank)
 sub_district: if($metadata_type/is("PIECE"), regex("^[0-9]{1,6}"), is(""))
 //Sub_district, a numeric value up to six digits long, is captured at piece level (only)
-house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[0-9A-Za-z\-\(\)\?]{1,7}$"), $house_name/not("")), is(""))
+house_number: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"),  if(not(""), regex("^[-/0-9A-Za-z\-\(\)\?,]{1,7}$"), $house_name/not("")), is(""))
 //house_number should be blank except at sub-item level.  Where an address is populated, which is every type of sub_item except SUBITEM_BLANK which represents an entirely blank row, at least one of house_number and house_name must be populated.  House number is not strictly numeric, obviously things like 1A are not uncommon, and we've also found various instances of punctuation etc, so these are allowed
 house_name: if($metadata_type/regex("(SUBITEM_NAME)|(SUBITEM_VACANT)|(SUBITEM_CONNAME)|(SUBITEM_REMOVED)|(SUBITEM_QADDRESS)"), if(not(""), length(2, *), $house_number/not("")), is(""))
 //Like house_number, for sub_item rows other than SUBITEM_BLANK, at least one of house_number and house_name must be populated (having both is permitted).  The only real restriction on a name is that it must have at least two characters
