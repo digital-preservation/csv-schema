@@ -1,0 +1,55 @@
+version 1.1
+@totalColumns 24
+/*-------------------------------------------------------------------------------
+|Schema:   transcription_metadata_v1_ADM363Y16B000.csvs                         |
+|Authors:  David Underdown                                                      |
+|Purpose:  Validation of transcription metadata for ADM363Y16                   |
+|Revision: 1.0 first release                                                    |
+|------------------------------------------------------------------------------*/
+batch_code: regex("^ADM363Y16[BS][0-9]{3}$") identical
+//as in the tech_acq, this confirms that the basic structure of the batch_code is correct, and that all entries in an individual metadata file are the same
+department: is("ADM") and in($file_path)
+//checks that for department is the string ADM
+division: is("25")
+//checks that the division entry is 25
+series: is("363") and in($file_path)
+//checks that the series reference is correct
+piece: positiveInteger range(516,619) switch(($book_number/range(2037,2084),range(516,563)),($book_number/range(108,138),range(564,594)),($book_number/range(1293,1298),range(595,600)),($book_number/range(791,809),range(601,619))) if($file_path/notEmpty,in($file_path))
+//checks the relationship between piece number and book number
+item: (positiveInteger unique($piece,$item,$ordinal) range(1,203) in($file_path)) or empty
+//checks the item is in the expected range and for uniqueness of the combination of piece, item and ordinal values
+ordinal: if($item/empty,empty,unique($piece,$item,$ordinal) and range(1,8))
+//the running number for an image within an item, starts at 1 for each item.  Anything larger than 8 would be very unsual, but we will amend the schema if genuine cases are found
+covering_dates: is("[01 Jan 1925 - 31 Dec 1939]")
+//basic covering dates for an item - may need adjustment
+book_number: positiveInteger (range(108,138) or range(791,809) or range(1293,1298) or range(2037,2084))
+//book number used for referencing the original volume the card came from
+file_path: uri and fileExists if($item/empty,is(concat("file:///",$department,"_",$series,"/content/",$piece,"/")),starts(concat("file:///",$department,"_",$series,"/content/",$piece,"/",$item,"/",$piece,"_",$item,"_")) regex("^.*[1-9][0-9]{0,2}_[1-9][0-9]{0,3}_000[1-8]\.jp2$"))
+//image file_path for cross-referencing transcribed info back to original image for QA etc
+file_uuid: if($item/empty,empty,uuid4 and unique)
+//the unique reference for the image
+legal_status: is("Public Record")
+//fixed value
+held_by: is("The National Archives, Kew")
+//fixed value
+official_number: if($item/empty,empty,regex("^(JX 1((2[5-9])|(3[0123]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3})|(J 115257)|(KX 87264)$") or is("*"))
+/*number should have one of the prefixes JX, KX, LX, or MX, followed by a number in a range given in project documentation.  
+|The prefixes should be recorded without any space or punctuation between the alphabetic characters, but there must be a space before the numeric part
+|The regex checks the most significant digits to ensure the numbers are roughly in the expected range
+|In theory a question mark would be allowed for an unreadable character in the official_number, but in practice the number should generally be inferred from those either side, or by cross-reference with earlier parts of the man's record
+|very basic checking that each name field comprises upper and lower case characters (unicode aware), plus hyphen, space and question marks, or a single asterisk (in the event of name being blank)
+|surname_other and forenames_other also allow commas to cater for the case where multiple alternatives have been recorded*/
+surname: if($item/empty,empty,regex("^([- \'\?\p{Ll}\p{Lu}]*|\*)$"))
+surname_other: if($item/empty,empty,regex("^([- \'\?,\p{Ll}\p{Lu}]*|\*)$")) @optional
+forenames: if($item/empty,empty,regex("^([- \'\?\p{Ll}\p{Lu}]*|\*)$"))
+forenames_other: if($item/empty,empty,regex("^([- \'\?,\p{Ll}\p{Lu}]*|\*)$")) @optional
+place_of_birth: if($item/empty,empty,regex("^((([A-Z]|\*, )[- A-Za-z23,;\(\)\[\]\.'\?\*]*)|(\*, \*)|(recorded as 'Not known'))$")) 
+//it's expected that there will always be at least one comma in place_of_birth, between the town and county.  Some additional checking to allow names with hyphens eg -upon- , names related to saints or similar with 's at the end, and a few specific countries
+birth_date_day:  if($item/empty,empty,regex("^\*|([0\?][1-9\?])|([1-2\?][0-9\?])|([3\?][0-1\?])$"))
+birth_date_month: if($item/empty,empty,is("*") or is("???") or is("January") or is("February") or is("March") or is("April") or is("May") or is("June") or is("July") or is("August") or is("September") or is("October") or is("November") or is("December"))
+birth_date_year: if($item/empty,empty,regex("^1[7-9][0-9\?]{2}|\*|\?{4}$"))
+//basic sense checking of dates (hope to be able to use partDate for more rigorous checks, but not currently implemented in CSV validator
+comments: regex("[-\w\s,\.\(\)\/'":\?\&]+") @optional
+//anything else of note found in records or in general process of transcribing an image
+alt_description: if($item/empty,regex("^(Continuous Service Record Cards: Numbers )(((JX 1((2[5-9])|(3[012]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))\-((JX 1((2[5-9])|(3[0123]))[0-9]{3})|(KX ((7[5-9])|(80))[0-9]{3})|(LX 2[01][0-9]{3})|(MX 4[5-8][0-9]{3}))(\. \(Described at item level\)))$"),if($surname/is("*") and $forenames/is("*") and $place_of_birth/is("*, *") and $birth_date_day/is("*") and $birth_date_month/is("*") and $birth_date_year/is("*"),is("Administrative material not relating to any individual seaman"),empty))
+//to be used to provide a basic catalogue description if material other than the expected individual personnel cards is found
