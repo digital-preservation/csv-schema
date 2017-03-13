@@ -1833,7 +1833,7 @@ simon,57,male
 	another_column: any("file:///","http://")
 	third_column: any("C:","example.com")
 	fourth_column: ends(".html")
-	fifth_column: is($a_column) or is(concat($another_column,$third_column,"/",noExt(fourth_column),".pdf")
+	fifth_column: is($a_column) or is(concat($another_column,$third_column,"/",noExt($fourth_column),".pdf")
 	/*in this rather artificial example, fifth_column must be either "no file" (the value of a_column) or a PDF file with the same basic name as the HTML file named in fourth_column,
 	  located at either file:///C:/ or http://example.com/ (in fact as written you could have file:///example.com/ or http://C:/ as well)*/
 						</pre>
