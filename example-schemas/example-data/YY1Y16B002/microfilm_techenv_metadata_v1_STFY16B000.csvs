@@ -1,0 +1,22 @@
+version 1.1
+@totalColumns 9
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical environment metadata csv files according to the specification given for Lots 2 and 4                                        |
+|of the Scanning and Transcription Framework Invitation To Tender document, Appendix K.                                                                                     |
+|The data in this file is a fairly general description of (software) tools used to process images, so in fact there are few hard and fast restrictions:                     |
+|Most fields are allowed to be any length and may contain any combination of numerals, word characters, whitespace, hyphens, commas and full stops, any exception are noted |
+|below.  However, as the schema stands, each field must contain some value, it cannot be empty.                                                                             |
+|This schema was used to validate test results supplied by potential suppliers                                                                                              |
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+//the version number above is the version of the schema language, not the version of this particular schema file
+//each line of the csv file being tested must contain 9 columns (fields)
+batch_code: length(1,16) regex("^((YY)|(ZZ))1Y16B00[24]$") identical	//condition restricts to alphanumeric characters as specified in ITT Appendix K (Lots 2 and 4), 
+//																		  if more than one row, the value must be same for all rows
+company_name: regex("[-/0-9\w\s,.]+")
+image_deskew_software: regex("[-/0-9\w\s,.]+")
+image_split_software: regex("[-/0-9\w\s,.]+")
+image_crop_software: regex("[-/0-9\w\s,.]+")
+jp2_creation_software: regex("[-/0-9\w\s,.]+")
+uuid_software: regex("[-/0-9\w\s,.]+")
+embed_software: regex("[-/0-9\w\s,.]+")
+image_inversion_software: regex("[-/0-9\w\s,.]+")

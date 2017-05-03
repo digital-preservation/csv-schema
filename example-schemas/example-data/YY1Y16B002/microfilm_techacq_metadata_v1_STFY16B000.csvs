@@ -1,0 +1,171 @@
+version 1.1
+@totalColumns 43
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|This schema is for the validation of technical acquisition metadata csv files according to the specification given for Lots 2 and 4 of the Scanning and Transcription Framework|
+|Invitation To Tender document, Appendix K, in particular this schema was used to validate test results supplied by potential suppliers                                         |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+batch_code: regex("^((YY)|(ZZ))1Y16B00[24]$") and starts(concat($department,$series,"Y16B00")) and identical
+//														  Restricted to alphanumeric characters as specified in ITT, made up as shown
+//														  all rows must have identical values
+department: any("YY","ZZ") and if($ordinal/empty,in($batch_code) and in($file_path),in($batch_code) and in($file_path) and in($resource_uri))
+//														  Parentheses control evaluation order of booleans as might be expected
+//														  The grouped "in" statements say that the value found in this field must also
+//														  be found as part of the fields "batch_code", "file_path" and "resource_uri" for image rows
+//														  or as part of the fields "batch_code", "file_path" for piece rows
+division: empty											//this field must be empty
+series: positiveInteger is("1") and if($ordinal/empty,in($batch_code) and in($file_path),in($batch_code) and in($file_path) and in($resource_uri))
+//														  in general we expect this field will be a positive (non-zero) integer.
+//														  be found as part of the fields "batch_code", "file_path" and "resource_uri" for image rows
+//														  or as part of the fields "batch_code", "file_path" for piece rows
+sub_series: empty										//this field must be empty
+sub_sub_series: empty									//this field must be empty
+piece: if($department/is("YY"),positiveInteger,is("1"))  and if($ordinal/empty,in($file_path),in($file_path) and in($resource_uri))
+//														  for the test series YY 1 the expected values are the integers taken
+//														  from the top corner of the microfiche
+//														  Otherwise (for ZZ 1) it must have the specific value 1.
+//														  The value must also be found as part of the fields "file_path" and "resource_uri" for image rows
+//														  or as part of the fields "file_path" for piece rows
+item: empty												//item should be empty
+ordinal: empty or positiveInteger						//this field must be empty for piece level row (other columns check back against this to determine 
+//														  if it is a piece level row),otherwise a positive integer
+file_uuid: if($ordinal/empty,empty,uuid4 unique)		//empty for a piece level row, otherwise must be a version 4 uuid, 
+//														  and the value must be unique within the file.
+//												 		  uuids must be lower case.
+file_path: fileExists uri if($ordinal/empty,starts(concat("file:///",$department,"_",$series,"/content/",$piece,"/")),starts(concat("file:///",$department,"_",$series,"/content/",$piece,"/",$piece,"_")) regex("^.*_[0-9]{1,4}\.jp2$") ends(concat($ordinal,".jp2")))
+//														  fileExists checks that there is actually a file (or folder) of the given 
+//														  name at the specified location on the file system.
+//														  If a piece level row (no ordinal) the path will be for the piece folder,
+//														  so the uri ends with the piece name followed by /
+//														  For an image row, there will be a full filename,
+//														  and the name comprises piece_ordinal.jp2
+//														  in the filename, ordinal is zero-padded to four digits.
+//														  (Conditions specified on earlier columns say that the values of those columns
+//														  must also appear as part of the content of this field)
+file_checksum: if($ordinal/empty,empty,checksum(file($file_path),"SHA-256"))
+//														  must be empty for piece level rows (empty ordinal)
+//														  Otherwise, calculate the checksum for the file referenced in the file_path field
+//														  and compare the result with the value given in this field
+//														  Use the specified checksum algorithm (SHA-256).
+//														  (must use lowercase hex characters)
+resource_uri: if($ordinal/empty,empty,uri is(concat("http://datagov.nationalarchives.gov.uk/66/",$department,"/",$series,"/",$piece,"/",$file_uuid)))
+//														  Empty for piece level row
+//														  For image rows, must be a valid uri which is formed from the fields specified
+//														  (Conditions specified on earlier columns say that the values of those columns
+//														  must also appear as part of the content of this field)
+scan_operator: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  similar to conditions to "batch_code" but only 12 alphanumeric characters
+scan_id: if($ordinal/empty,empty,length(1,12) regex("^[0-9a-zA-Z]{1,12}$"))	//Same rule as "scan_operator"
+scan_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  spec did not define a maximum length for this field so the regex allows any
+//														  number of characters, allows general word and whitespace characters plus
+//														  hyphen and comma
+scan_native_format: if($ordinal/empty,empty,regex("[0-9\w\s,.:]+"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  no length restriction was given for this field, nor any real restrictions on
+//														  characters to be used, so the regex allows all numerals, word characters,
+//														  whitespace, comma, fullstop and colon.
+scan_timestamp: if($ordinal/empty,empty,xDateTime)		//Empty for piece level row.  Otherwise, for image rows,
+//														  timestamp for the scanning operation, compliant with XSD DateTime data type
+image_resolution: if($ordinal/empty,empty,positiveInteger is("300"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  generally must be a positive (non-zero) integer, and in this case 300 ppi
+//														  as discussed in ITT, resolution for microform scanning is defined with 
+//														  respect to original document dimensions, not to the microform
+image_width: if($ordinal/empty,empty,positiveInteger)	//Empty for piece level row.  Otherwise, for image rows,
+//														  Must be a positive (non-zero) integer.  If the size of the material being
+//														  digitised is well understood could use a range check to ensure values are
+//														  within a "sensible" range eg range(2400,2600) for A4 material - just over
+//														  8" wide (portrait), and assuming 300 ppi
+image_height: if($ordinal/empty,empty,positiveInteger)	//Empty for piece level row.  Otherwise, for image rows,
+//														  must be a positive (non-zero) integer.  If the size of the material being
+//														  digitised is well understood could use a range check to ensure values are
+//														  within a "sensible" range eg range(2400,2600) for A4 material - just over
+//														  11.5" high (portrait), and assuming 300 ppi
+image_tonal_resolution: if($ordinal/empty,empty,is("Grayscale"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: Grayscale (precisely - case as shown)
+image_format: if($ordinal/empty,empty,is("x-fmt/392"))	//Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: x-fmt/392 (precisely) - ie a jp2 file as understood by PRONOM
+image_colour_space: if($ordinal/empty,empty,is("sGray"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: sGray (precisely - case as shown)
+image_split: if($ordinal/empty,empty,is("yes") or is("no"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: yes; or string: no (precisely - case as shown)
+image_split_other_uuid: if($image_split/is("yes"),uuid4,empty)
+//														  if "image_split" field is yes, must be a uuid4, else must be empty
+//														  (in certain circumstances it would be possible that this could be a 
+//														  list of uuids, in which case the conditions would have to be reworked)
+image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),empty)
+//														  If "image_split" field is string:yes (precisely)
+//														  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//														  else must be empty
+//														  (implicity it can only be non-empty for image rows due to condition on image_split field)
+image_split_timestamp: if($image_split/is("yes"),xDateTime,empty)
+//														  If "image_split" field is string:yes (precisely)
+//														  then timestamp for image split, compliant with XSD DateTime data type
+//														  else must be empty
+//														  (implicity it can only be non-empty for image rows due to condition on image_split field)
+image_crop: if($ordinal/empty,empty,any("auto","manual","none"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: auto; or string: manual or string: none
+//														  (precisely - case as shown)
+image_crop_operator: if($image_crop/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),empty)
+//														  If "image_crop" field is string:manual (precisely)
+//														  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//														  else must be empty
+//														  (implicity it can only be non-empty for image rows due to condition on image_split field)
+image_crop_timestamp: if($image_crop/is("none") or $ordinal/empty,empty,xDateTime)
+//									  					  If "image_crop" field is string: none (precisely) or ordinal is empty
+//														  (ie a piece level row) then must be empty
+//														  else timestamp for image split, compliant with XSD DateTime data type
+image_deskew: if($ordinal/empty,empty,any("auto","manual","none"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: auto; or string: manual or string: none
+//														  (precisely - case as shown)
+image_deskew_operator: if($image_deskew/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),empty)
+//														  If "image_deskew" field is string:manual (precisely)
+//														  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//														  else must be empty
+image_deskew_timestamp: if($image_deskew/is("none") or $ordinal/empty,empty,xDateTime)
+//														  If "image_deskew" field is string: none (precisely) or ordinal is empty
+//														  (ie a piece level row) then must be empty
+//														  else timestamp for image split, compliant with XSD DateTime data type
+process_location: if($ordinal/empty,empty,regex("[-\w\s,]+"))
+//														  See "scan_location" for conditions, this is location for conversion to jp2 etc
+//														  only valid for image rows, empty for item level rows
+jp2_creation_timestamp: if($ordinal/empty,empty,xDateTime)
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  timestamp for the conversion to jp2, compliant with XSD DateTime data type
+uuid_timestamp: if($ordinal/empty,empty,xDateTime)		//Empty for piece level row.  Otherwise, for image rows,
+//														  timestamp for creation of uuid, compliant with XSD DateTime data type
+embed_timestamp: if($ordinal/empty,empty,xDateTime)		//Empty for piece level row.  Otherwise, for image rows,
+//														  timestamp for embedding xml in jp2, compliant with XSD DateTime data type
+image_inversion: if($ordinal/empty,empty,is("auto") or is("manual") or is("none"))
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  must be string: auto; or string: manual or string: none
+//														  (precisely - case as shown)
+image_inversion_operator: if($image_inversion/is("manual"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),empty)
+//														  If "image_inversion" field is string:manual (precisely)
+//														  then must obey same format rule as "scan_operator" (12 alphanumeric)
+//														  else must be empty
+//														  (implicity it can only be non-empty for image rows due to condition on image_split field)
+image_inversion_timestamp: if($image_inversion/is("none") or $ordinal/empty,empty,xDateTime)
+//														  If "image_inversion" field is string: none (precisely) or ordinal is empty
+//														  (ie a piece level row) then must be empty
+//														  else timestamp for image split, compliant with XSD DateTime data type
+qa_code: if($ordinal/empty,empty,range(40,44)) @optional
+//														  Empty for piece level row.  Otherwise, for image rows,
+//														  specified integer values representing the following issues:
+//														  40: microform scratched
+//														  41: illegible: image too dark
+//														  42: illegible: image too light
+//														  43: Microform breakage
+//														  44: No foliation
+//														  45: Missing page
+//														  46: Original image not in numerical order
+//														  47: Obscured in original image
+comments: regex("[\w\s,.\(\)]+") @optional					//This field is optional, but if used the regex restricts to standard word
+//														  characters, whitespace plus comma and fullstop.  No length limit.
