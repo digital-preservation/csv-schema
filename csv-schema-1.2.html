@@ -3,7 +3,7 @@
   <head>
     <title>CSV Schema Language 1.2</title>
     <meta charset='utf-8'/>
-    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
@@ -28,11 +28,11 @@
           // and its maturity status
           previousMaturity:  "ED",
           previousPublishDate:  "2016-01-25",
-		  previousURI:   "http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
+		  previousURI:   "https://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
 
           // if there a publicly available Editor's Draft, this is the link
           // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
-          edDraftURI:           "http://digital-preservation.github.io/csv-schema/csv-schema-1.2.html",
+          edDraftURI:           "https://digital-preservation.github.io/csv-schema/csv-schema-1.2.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -45,7 +45,7 @@
                 companyURL: "http://adamretter.org.uk/" },
               { name: "David Underdown", 
                 company: "The National Archives",
-                companyURL: "http://www.nationalarchives.gov.uk" },
+                companyURL: "https://www.nationalarchives.gov.uk" },
               { name: "Rob Walpole",
               	company: "Devexe Ltd",
               	companyURL: "http://www.devexe.co.uk/"}
@@ -64,7 +64,7 @@
           wg:           "The National Archives - Digital Preservation",
      
           // URI of the public WG page
-          wgURI:        "http://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
+          wgURI:        "https://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
      
           // name (without the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "csvs",
@@ -175,11 +175,11 @@
   <body>
     <section id="sotd">
       This document represents the specification of the CSV Schema Language 1.2
-      as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
+      as defined by <a href="https://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
-      such as the <a href="http://w3.org">W3C</a>.  
-	  This version will supersede <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.1</a> published on 25 January 2016, 
-	  and the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
+      such as the <a href="https://w3.org">W3C</a>.
+	  This version will supersede <a href="https://digital-preservation.github.io/csv-schema/csv-schema-1.1.html">CSV Schema Language 1.1</a> published on 25 January 2016,
+	  and the original <a href="https://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -215,7 +215,7 @@
                 individuals; the problem of CSV data formats is certainly not unique to The National Archives.
             </p>
         	<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboration and contributions from all interested parties.</p>
-        	<p>A reference implementation has been created to prove the standard: The open source <a href="http://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
+        	<p>A reference implementation has been created to prove the standard: The open source <a href="https://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
 		</section>
         <section id="principles">
             <h2>Guiding Principles</h2>
@@ -316,7 +316,7 @@ simon,57,male
 		<section id="new-in-1.1" class="informative">
 			<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
 			<p>
-			See the <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html#new-in-1.1">"New in 1.1 section of the CSV Schema Language 1.1 document</a> for details of the 
+			See the <a href="https://digital-preservation.github.io/csv-schema/csv-schema-1.1.html#new-in-1.1">"New in 1.1 section of the CSV Schema Language 1.1 document</a> for details of the
 			expressions introduced in that update.
 			</p>
 		</section>
@@ -324,8 +324,8 @@ simon,57,male
 	<section>
 		<h1>Schema structure</h1>
 		<p>
-		The CSV schema language is formally a <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
-		expressed in <a href="http://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+		The CSV schema language is formally a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
+		expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
 		</p>
 		<p>
 		The following subsections examine the structure of a CSV Schema in more detail. 
@@ -463,7 +463,7 @@ simon,57,male
 				<section>
 					<h4>Total Columns Directive</h4>
 					<p>
-					The <dfn>Total Columns Directive</dfn> allows you to specify the total number of data columns expected to make up each row of the CSV file.
+					The <dfn>Total Columns Directive</dfn> allows you to specify the exact number of data columns expected to make up each row of the CSV file.
 					The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a>Column Rules</a>,
 					a mismatch is considered a <a>Schema Error</a>.
 					The Total Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
@@ -475,6 +475,50 @@ simon,57,male
 							<td class="ebnf-left"><a title="ebnf-total-columns-directive"><dfn>TotalColumnsDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "totalColumns" <a>PositiveNonZeroIntegerLiteral</a></td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h4>Max Columns Directive</h4>
+					<p>
+					<em>This expression was introduced in CSV Schema Language 1.2</em>
+					</p>
+					<p>
+						The <dfn>Max Columns Directive</dfn> allows you to specify the maximum number of data columns allowed to make up each row of the CSV file.
+						The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a>Column Rules</a>,
+						a mismatch is considered a <a>Schema Error</a>.
+						The Max Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
+						and it will be assumed that you have supplied the correct number of Column Rules.
+						The Max Columns Directive is most useful when used in conjunction with <a href="#optional-column-directive" class="internalDFN" data-link-type="dfn">Optional Column</a>.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[11]</td>
+							<td class="ebnf-left"><a title="ebnf-max-columns-directive"><dfn>MaxColumnsDirective</dfn></a></td>
+							<td class="ebnf-bind">::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "maxColumns" <a>PositiveNonZeroIntegerLiteral</a></td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h4>Min Columns Directive</h4>
+					<p>
+					<em>This expression was introduced in CSV Schema Language 1.2</em>
+					</p>
+					<p>
+						The <dfn>Min Columns Directive</dfn> allows you to specify the minimum number of data columns allowed to make up each row of the CSV file.
+						The parser will also verify that the <a>Body</a> of the CSV Schema contains the same number of <a>Column Rules</a>,
+						a mismatch is considered a <a>Schema Error</a>.
+						The Min Columns Directive is OPTIONAL: when this directive is not used this verification of the number of Column Rules cannot be performed,
+						and it will be assumed that you have supplied the correct number of Column Rules.
+						The Min Columns Directive is most useful when used in conjunction with <a href="#optional-column-directive" class="internalDFN" data-link-type="dfn">Optional Column</a>.
+					</p>
+					<table class="ebnf-table">
+						<tr>
+							<td class="ebnf-num">[12]</td>
+							<td class="ebnf-left"><a title="ebnf-min-columns-directive"><dfn>MinColumnsDirective</dfn></a></td>
+							<td class="ebnf-bind">::=</td>
+							<td class="ebnf-right"><a>DirectivePrefix</a> "minColumns" <a>PositiveNonZeroIntegerLiteral</a></td>
 						</tr>
 					</table>
 				</section>
@@ -491,7 +535,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[11]</td>
+							<td class="ebnf-num">[13]</td>
 							<td class="ebnf-left"><a title="ebnf-permit-empty-directive"><dfn>PermitEmptyDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "permitEmpty"</td>
@@ -508,7 +552,7 @@ simon,57,male
 					<p>The No Header Directive is mutually exclusive to the use of the <a>Ignore Column Name Case Directive</a>, when one is used, the other MUST NOT be.</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[12]</td>
+							<td class="ebnf-num">[14]</td>
 							<td class="ebnf-left"><a title="ebnf-no-header-directive"><dfn>NoHeaderDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "noHeader"</td>
@@ -525,7 +569,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[13]</td>
+							<td class="ebnf-num">[15]</td>
 							<td class="ebnf-left"><a title="ebnf-ignore-column-name-case-directive"><dfn>IgnoreColumnNameCaseDirective</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreColumnNameCase"</td>
@@ -556,13 +600,13 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[14]</td>
+					<td class="ebnf-num">[16]</td>
 					<td class="ebnf-left"><a title="ebnf-body"><dfn title="body-def">Body</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a>BodyPart</a>+</td>
 				</tr>
 				<tr>
-					<td class="ebnf-num">[15]</td>
+					<td class="ebnf-num">[17]</td>
 					<td class="ebnf-left"><a title="ebnf-body-part"><dfn>BodyPart</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-comment">Comment</a>* <a title="ebnf-column-definition">ColumnDefinition</a> <a title="ebnf-comment">Comment</a>*</td>
@@ -587,21 +631,21 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[16]</td>
+						<td class="ebnf-num">[18]</td>
 						<td class="ebnf-left"><a title="ebnf-comment"><dfn title="comment-def">Comment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>SingleLineComment</a> | <a>MultiLineComment</a></td>
 						<td class="ebnf-note"></td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[17]</td>
+						<td class="ebnf-num">[19]</td>
 						<td class="ebnf-left"><a title="ebnf-single-line-comment"><dfn>SingleLineComment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">//[\S\t ]*</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[18]</td>
+						<td class="ebnf-num">[20]</td>
 						<td class="ebnf-left"><a title="ebnf-multi-line-comment"><dfn>MultiLineComment</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">\/\*(?:[^*\r\n]+|(?:\r?\n))*\*\/</td>
@@ -636,7 +680,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[19]</td>
+						<td class="ebnf-num">[21]</td>
 						<td class="ebnf-left"><a title="ebnf-column-definition"><dfn>ColumnDefinition</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">(<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>) ":" <a>ColumnRule</a></td> 
@@ -660,13 +704,13 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[20]</td>
+							<td class="ebnf-num">[22]</td>
 							<td class="ebnf-left"><a title="ebnf-column-identifier"><dfn>ColumnIdentifier</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>PositiveNonZeroIntegerLiteral</a> | <a>Ident</a></td> 
 						</tr>
 						<tr>
-							<td class="ebnf-num">[21]</td>
+							<td class="ebnf-num">[23]</td>
 							<td class="ebnf-left"><a title="ebnf-quoted-column-identifier"><dfn>QuotedColumnIdentifier</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>StringLiteral</a></td> 
@@ -698,7 +742,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[22]</td>
+							<td class="ebnf-num">[24]</td>
 							<td class="ebnf-left"><a title="ebnf-column-rule"><dfn>ColumnRule</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ColumnValidationExpr</a>* <a>ColumnDirectives</a></td> 
@@ -718,7 +762,7 @@ simon,57,male
 						without listing every possible order).</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[23]</td>
+								<td class="ebnf-num">[25]</td>
 								<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a></td>
@@ -730,13 +774,33 @@ simon,57,male
 							<p>
 							The <dfn>Optional Directive</dfn> is used when completion of the data field in the original CSV file to be validated is OPTIONAL. 
 							When this directive is used the data in the column is considered valid if the <a title="Column Rules">Column Rule</a> evaluates to true, or if the column is empty.
+							The column header is still required with this directive.
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[24]</td>
+									<td class="ebnf-num">[26]</td>
 									<td class="ebnf-left"><a title="ebnf-optional-directive"><dfn>OptionalDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "optional"</td> 
+								</tr>
+							</table>
+						</section>
+						<section>
+							<h6>Optional Column Directive</h6>
+							<p>
+							<em>This expression was introduced in CSV Schema Language 1.2</em>
+							</p>
+							<p>
+								The <dfn>Optional Column Directive</dfn> is used when a column header in the original CSV file to be validated is OPTIONAL.
+								When this directive is used, and the column is not included, then the CSV will still be considered valid.
+								If the column exists, standard validations will apply.
+							</p>
+							<table class="ebnf-table">
+								<tr>
+									<td class="ebnf-num">[27]</td>
+									<td class="ebnf-left"><a title="ebnf-optional-column-directive"><dfn>OptionalColumnDirective</dfn></a></td>
+									<td class="ebnf-bind">::=</td>
+									<td class="ebnf-right"><a>DirectivePrefix</a> "optionalColumn"</td>
 								</tr>
 							</table>
 						</section>
@@ -748,7 +812,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[25]</td>
+									<td class="ebnf-num">[28]</td>
 									<td class="ebnf-left"><a title="ebnf-match-is-false-directive"><dfn>MatchIsFalseDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "matchIsFalse"</td> 
@@ -763,7 +827,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[26]</td>
+									<td class="ebnf-num">[29]</td>
 									<td class="ebnf-left"><a title="ebnf-ignore-case-directive"><dfn>IgnoreCaseDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "ignoreCase"</td> 
@@ -783,7 +847,7 @@ simon,57,male
 							</p>
 							<table class="ebnf-table">
 								<tr>
-									<td class="ebnf-num">[27]</td>
+									<td class="ebnf-num">[30]</td>
 									<td class="ebnf-left"><a title="ebnf-warning-directive"><dfn>WarningDirective</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
 									<td class="ebnf-right"><a>DirectivePrefix</a> "warning"</td> 
@@ -809,7 +873,7 @@ simon,57,male
 					</p>
 					<p>
 					The second Column Definition (with the effect of the <a>Match Is False Directive</a> on the first taken into account) is actually logically equivalent to the first 
-					(see <a href="http://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
+					(see <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column
 					would not be valid data, and since the <a>Warning Directive</a> has also not been included, a <a>Validation Warning</a> would be raised instead of a <a>Validation Error</a>.					
 					</p>
 				</section>
@@ -831,7 +895,7 @@ simon,57,male
     	<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.</p>
 		<table class="ebnf-table">
 			<tr>
-				<td class="ebnf-num">[28]</td>
+				<td class="ebnf-num">[31]</td>
 				<td class="ebnf-left"><a title="ebnf-column-validation-expr"><dfn>ColumnValidationExpr</dfn></a></td>
 				<td class="ebnf-bind">::=</td>
 				<td class="ebnf-right"><a>CombinatorialExpr</a> | <a>NonCombinatorialExpr</a></td> 
@@ -849,7 +913,7 @@ simon,57,male
     		</p>
     		<table class="ebnf-table">
     			<tr>
-    				<td class="ebnf-num">[29]</td>
+    				<td class="ebnf-num">[32]</td>
     				<td class="ebnf-left"><a title="ebnf-combinatorial-expr"><dfn>CombinatorialExpr</dfn></a></td>
     				<td class="ebnf-bind">::=</td>
     				<td class="ebnf-right"><a>OrExpr</a> | <a>AndExpr</a></td> 
@@ -863,7 +927,7 @@ simon,57,male
     			</p>
     			<table class="ebnf-table">
     				<tr>
-    					<td class="ebnf-num">[30]</td>
+    					<td class="ebnf-num">[33]</td>
     					<td class="ebnf-left"><a title="ebnf-or-expr"><dfn>OrExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
     					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "or" <a>ColumnValidationExpr</a></td> 
@@ -880,7 +944,7 @@ simon,57,male
     			</p>
     			<table class="ebnf-table">
     				<tr>
-    					<td class="ebnf-num">[31]</td>
+    					<td class="ebnf-num">[34]</td>
     					<td class="ebnf-left"><a title="ebnf-and-expr"><dfn>AndExpr</dfn></a></td>
     					<td class="ebnf-bind">::=</td>
     					<td class="ebnf-right"><a>NonCombinatorialExpr</a> "and" <a>ColumnValidationExpr</a></td> 
@@ -896,7 +960,7 @@ simon,57,male
     		The majority of Column Validation Expressions are of the Non-Combinatorial Expression class.</p>
     		<table class="ebnf-table">
     			<tr>
-    				<td class="ebnf-num">[32]</td>
+    				<td class="ebnf-num">[35]</td>
     				<td class="ebnf-left"><a title="ebnf-non-combinatorial-expr"><dfn>NonCombinatorialExpr</dfn></a></td>
     				<td class="ebnf-bind">::=</td>
     				<td class="ebnf-right"><a>NonConditionalExpr</a> | <a>ConditionalExpr</a></td>
@@ -912,7 +976,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[33]</td>
+						<td class="ebnf-num">[36]</td>
 						<td class="ebnf-left"><a title="ebnf-non-conditional-expr"><dfn>NonConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>SingleExpr</a> | <a>ExternalSingleExpr</a> | <a>ParenthesizedExpr</a></td> 
@@ -928,7 +992,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[34]</td>
+							<td class="ebnf-num">[37]</td>
 							<td class="ebnf-left"><a title="ebnf-single-expr"><dfn>SingleExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>IsExpr</a> | <a>AnyExpr</a> | <a>NotExpr</a> | <a>InExpr</a> | <a>StartsWithExpr</a> | 
@@ -946,13 +1010,13 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[35]</td>
+								<td class="ebnf-num">[38]</td>
 								<td class="ebnf-left"><a title="ebnf-explicit-context-expr"><dfn>ExplicitContextExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>ColumnRef</a> "/"</td> 
 							</tr>
 						<tr>
-							<td class="ebnf-num">[36]</td>
+							<td class="ebnf-num">[39]</td>
 							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ColumnRef</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"$" (<a>ColumnIdentifier</a> | <a>QuotedColumnIdentifier</a>)</td> 
@@ -973,7 +1037,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[37]</td>
+								<td class="ebnf-num">[40]</td>
 								<td class="ebnf-left"><a title="ebnf-is-expr"><dfn>IsExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"is(" <a>StringProvider</a> ")"</td> 
@@ -999,7 +1063,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[38]</td>
+								<td class="ebnf-num">[41]</td>
 								<td class="ebnf-left"><a title="ebnf-any-expr"><dfn>AnyExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"any(" <a>StringProvider</a> ("," <a>StringProvider</a>)* ")"</td> 
@@ -1020,7 +1084,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[39]</td>
+								<td class="ebnf-num">[42]</td>
 								<td class="ebnf-left"><a title="ebnf-not-expr"><dfn>NotExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"not(" <a>StringProvider</a> ")"</td> 
@@ -1042,7 +1106,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[40]</td>
+								<td class="ebnf-num">[43]</td>
 								<td class="ebnf-left"><a title="ebnf-in-expr"><dfn>InExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"in(" <a>StringProvider</a> ")"</td> 
@@ -1063,7 +1127,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[41]</td>
+								<td class="ebnf-num">[44]</td>
 								<td class="ebnf-left"><a title="ebnf-starts-with-expr"><dfn>StartsWithExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"starts(" <a>StringProvider</a> ")"</td> 
@@ -1084,7 +1148,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[42]</td>
+								<td class="ebnf-num">[45]</td>
 								<td class="ebnf-left"><a title="ebnf-ends-with-expr"><dfn>EndsWithExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"ends(" <a>StringProvider</a> ")"</td> 
@@ -1107,10 +1171,10 @@ simon,57,male
 						harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
 						then that approach should be attempted first.
 						</p>
-						<p>The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+						<p>The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[43]</td>
+								<td class="ebnf-num">[46]</td>
 								<td class="ebnf-left"><a title="ebnf-reg-exp-expr"><dfn>RegExpExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"regex(" <a>StringLiteral</a> ")"</td> 
@@ -1120,7 +1184,7 @@ simon,57,male
 							<h5>Usage</h5>
 							<pre class="example" data-lt="Regular Expression Expression Syntax">
 	a_column: regex("[bcm]at")   //the value of a_column must match the regular expression [bcm]at ie a string containing "bat", "cat" or "mat"
-	another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] ie a string containing only the digits only 0-5.
+								another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] ie a string containing only the digits only 0-5.</pre>
 						</section>
 					</section>
 					<section>
@@ -1144,13 +1208,13 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[44]</td>
+								<td class="ebnf-num">[47]</td>
 								<td class="ebnf-left"><a title="ebnf-range-expr"><dfn>RangeExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"range(" (<a>NumericOrAny</a> "," <a>NumericLiteral</a> | <a>NumericLiteral</a> "," <a>NumericOrAny</a>) ")"</td>
 							</tr>
 							<tr>
-								<td class="ebnf-num">[45]</td>
+								<td class="ebnf-num">[48]</td>
 								<td class="ebnf-left"><a title="ebnf-numeric-or-any-literal"><dfn>NumericOrAny</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>NumericLiteral</a> | <a>WildcardLiteral</a></td> 
@@ -1172,13 +1236,13 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[46]</td>
+								<td class="ebnf-num">[49]</td>
 								<td class="ebnf-left"><a title="ebnf-length-expr"><dfn>LengthExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"length(" (<a>PositiveIntegerOrAny</a> ",")? <a>PositiveIntegerOrAny</a> ")"</td> 
 							</tr>
 							<tr>
-								<td class="ebnf-num">[47]</td>
+								<td class="ebnf-num">[50]</td>
 								<td class="ebnf-left"><a title="ebnf-positive-integer-or-any"><dfn>PositiveIntegerOrAny</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right"><a>PositiveIntegerLiteral</a> | <a>WildcardLiteral</a></td> 
@@ -1192,7 +1256,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[48]</td>
+								<td class="ebnf-num">[51]</td>
 								<td class="ebnf-left"><a title="ebnf-empty-expr"><dfn>EmptyExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"empty"</td> 
@@ -1212,7 +1276,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[49]</td>
+								<td class="ebnf-num">[52]</td>
 								<td class="ebnf-left"><a title="ebnf-not-empty-expr"><dfn>NotEmptyExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"notEmpty"</td> 
@@ -1235,7 +1299,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[50]</td>
+								<td class="ebnf-num">[53]</td>
 								<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UniqueExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"unique" ("(" <a>ColumnRef</a> ("," <a>ColumnRef</a>)* ")")?</td> 
@@ -1256,7 +1320,7 @@ simon,57,male
 					</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[51]</td>
+								<td class="ebnf-num">[54]</td>
 								<td class="ebnf-left"><a title="ebnf-unique-expr"><dfn>UriExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"uri"</td> 
@@ -1281,7 +1345,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[52]</td>
+								<td class="ebnf-num">[55]</td>
 								<td class="ebnf-left"><a title="ebnf-xsd-date-time-expr"><dfn>XsdDateTimeExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"xDateTime" ("(" <a>XsdDateTimeLiteral</a> "," <a>XsdDateTimeLiteral</a> ")")?</td> 
@@ -1307,7 +1371,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[53]</td>
+								<td class="ebnf-num">[56]</td>
 								<td class="ebnf-left"><a title="ebnf-xsd-date-time-with-time-zone-expr"><dfn>XsdDateTimeWithTimeZoneExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"xDateTimeTz" ("(" <a>XsdDateTimeWithTimeZoneLiteral</a> "," <a>XsdDateTimeWithTimeZoneLiteral</a> ")")?</td> 
@@ -1331,7 +1395,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[54]</td>
+								<td class="ebnf-num">[57]</td>
 								<td class="ebnf-left"><a title="ebnf-xsd-date-expr"><dfn>XsdDateExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"xDate" ("(" <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a> ")")?</td> 
@@ -1354,7 +1418,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[55]</td>
+								<td class="ebnf-num">[58]</td>
 								<td class="ebnf-left"><a title="ebnf-xsd-time-expr"><dfn>XsdTimeExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"xTime" ("(" <a>XsdTimeLiteral</a> "," <a>XsdTimeLiteral</a> ")")?</td> 
@@ -1378,7 +1442,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[56]</td>
+								<td class="ebnf-num">[59]</td>
 								<td class="ebnf-left"><a title="ebnf-uk-date-expr"><dfn>UkDateExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"ukDate" ("(" <a>UkDateLiteral</a> "," <a>UkDateLiteral</a> ")")?</td> 
@@ -1402,7 +1466,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[57]</td>
+								<td class="ebnf-num">[60]</td>
 								<td class="ebnf-left"><a title="ebnf-date-expr"><dfn>DateExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"date(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ("," <a>XsdDateLiteral</a> "," <a>XsdDateLiteral</a>)? ")"</td> 
@@ -1430,7 +1494,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[58]</td>
+								<td class="ebnf-num">[61]</td>
 								<td class="ebnf-left"><a title="ebnf-partial-uk-date-expr"><dfn>PartialUkDateExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"partUkDate"</td> 
@@ -1452,7 +1516,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[59]</td>
+								<td class="ebnf-num">[62]</td>
 								<td class="ebnf-left"><a title="ebnf-partial-date-expr"><dfn>PartialDateExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"partDate(" <a>StringProvider</a> "," <a>StringProvider</a> "," <a>StringProvider</a> ")"</td> 
@@ -1476,7 +1540,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[60]</td>
+								<td class="ebnf-num">[63]</td>
 								<td class="ebnf-left"><a title="ebnf-uuid4-expr"><dfn>Uuid4Expr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"uuid4"</td> 
@@ -1496,7 +1560,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[61]</td>
+								<td class="ebnf-num">[64]</td>
 								<td class="ebnf-left"><a title="ebnf-positive-integer-expr"><dfn>PositiveIntegerExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"positiveInteger"</td> 
@@ -1520,12 +1584,12 @@ simon,57,male
 						Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
 						</p>
 						<p>
-						In Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
+						In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
 						"^[\p{Lu}\p{N}\p{P}\s]*$".
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[62]</td>
+								<td class="ebnf-num">[65]</td>
 								<td class="ebnf-left"><a title="ebnf-upper-case-expr"><dfn>UpperCaseExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"upperCase"</td> 
@@ -1549,12 +1613,12 @@ simon,57,male
 						Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
 						</p>
 						<p>
-						In Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
+						In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
 						"^[\p{Ll}\p{N}\p{P}\s]*$".
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[63]</td>
+								<td class="ebnf-num">[66]</td>
 								<td class="ebnf-left"><a title="ebnf-lower-case-expr"><dfn>LowerCaseExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"lowerCase"</td> 
@@ -1578,7 +1642,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[64]</td>
+								<td class="ebnf-num">[67]</td>
 								<td class="ebnf-left"><a title="ebnf-identical-expr"><dfn>IdenticalExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"identical"</td> 
@@ -1611,7 +1675,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[65]</td>
+							<td class="ebnf-num">[68]</td>
 							<td class="ebnf-left"><a title="ebnf-external-single-expr"><dfn>ExternalSingleExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ExplicitContextExpr</a>? (<a>FileExistsExpr</a> | <a>IntegrityCheckExpr</a> | <a>ChecksumExpr</a> | <a>FileCountExpr</a>)</td>
@@ -1631,7 +1695,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[66]</td>
+								<td class="ebnf-num">[69]</td>
 								<td class="ebnf-left"><a title="ebnf-file-exists-expr"><dfn>FileExistsExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"fileExists" ("(" <a>StringProvider</a> ")")?</td> 
@@ -1671,7 +1735,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[67]</td>
+								<td class="ebnf-num">[70]</td>
 								<td class="ebnf-left"><a title="ebnf-integrity-check-expr"><dfn>IntegrityCheckExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"integrityCheck" "(" (<a>StringProvider</a> ",")? (<a>StringProvider</a> ",")? ("\"includeFolder\"" | "\"excludeFolder\"") ")"</td>
@@ -1703,7 +1767,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[68]</td>
+								<td class="ebnf-num">[71]</td>
 								<td class="ebnf-left"><a title="ebnf-checksum-expr"><dfn>ChecksumExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"checksum(" <a>FileExpr</a> "," <a>StringLiteral</a> ")"</td> 
@@ -1729,7 +1793,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[69]</td>
+								<td class="ebnf-num">[72]</td>
 								<td class="ebnf-left"><a title="ebnf-file-count-expr"><dfn>FileCountExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"fileCount(" <a>FileExpr</a> ")"</td> 
@@ -1753,7 +1817,7 @@ simon,57,male
 						</p>
 						<table class="ebnf-table">
 							<tr>
-								<td class="ebnf-num">[70]</td>
+								<td class="ebnf-num">[73]</td>
 								<td class="ebnf-left"><a title="ebnf-file-expr"><dfn>FileExpr</dfn></a></td>
 								<td class="ebnf-bind">::=</td>
 								<td class="ebnf-right">"file(" (<a>StringProvider</a> ",")? <a>StringProvider</a> ")"</td> 
@@ -1815,25 +1879,25 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[71]</td>
+							<td class="ebnf-num">[74]</td>
 							<td class="ebnf-left"><a title="ebnf-string-provider"><dfn>StringProvider</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right"><a>ColumnRef</a> | <a>StringLiteral</a> | <a>ConcatExpr</a> | <a>NoExtExpr</a> | <a>UriDecodeExpr</a></td> 
 						</tr>
 						<tr>
-							<td class="ebnf-num">[72]</td>
+							<td class="ebnf-num">[75]</td>
 							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>ConcatExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"concat(" <a>StringProvider</a> ("," <a>StringProvider</a>)+ ")"</td> 
 						</tr>
 						<tr>
-							<td class="ebnf-num">[73]</td>
+							<td class="ebnf-num">[76]</td>
 							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>NoExtExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"noExt(" <a>StringProvider</a> ")"</td> 
 						</tr>
 						<tr>
-							<td class="ebnf-num">[74]</td>
+							<td class="ebnf-num">[77]</td>
 							<td class="ebnf-left"><a title="ebnf-column-ref"><dfn>UriDecodeExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"uriDecode(" <a>StringProvider</a> ("," <a>StringProvider</a>)? ")"</td> 
@@ -1869,7 +1933,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[75]</td>
+							<td class="ebnf-num">[78]</td>
 							<td class="ebnf-left"><a title="ebnf-parenthesized-expr"><dfn>ParenthesizedExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"(" <a>ColumnValidationExpr</a>+ ")"</td> 
@@ -1889,7 +1953,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[76]</td>
+						<td class="ebnf-num">[79]</td>
 						<td class="ebnf-left"><a title="ebnf-conditional-expr"><dfn>ConditionalExpr</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>IfExpr</a> | <a>SwitchExpr</a></td> 
@@ -1905,7 +1969,7 @@ simon,57,male
 					</p>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[77]</td>
+							<td class="ebnf-num">[80]</td>
 							<td class="ebnf-left"><a title="ebnf-if-expr"><dfn>IfExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"if(" (<a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
@@ -1947,13 +2011,13 @@ simon,57,male
 					</section>
 					<table class="ebnf-table">
 						<tr>
-							<td class="ebnf-num">[78]</td>
+							<td class="ebnf-num">[81]</td>
 							<td class="ebnf-left"><a title="ebnf-switch-expr"><dfn>SwitchExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"switch(" <a>SwitchCaseExpr</a>+ ("," <a>ColumnValidationExpr</a>+)? ")"</td>
 						</tr>
 						<tr>
-							<td class="ebnf-num">[79]</td>
+							<td class="ebnf-num">[82]</td>
 							<td class="ebnf-left"><a title="ebnf-switch-case-expr"><dfn>SwitchCaseExpr</dfn></a></td>
 							<td class="ebnf-bind">::=</td>
 							<td class="ebnf-right">"("( <a>CombinatorialExpr</a> | <a>NonConditionalExpr</a>) "," <a>ColumnValidationExpr</a>+ ")"</td>
@@ -2044,7 +2108,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[80]</td>
+						<td class="ebnf-num">[83]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-time-literal"><dfn>XsdDateTimeLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> "T" <a>XsdTimeLiteral</a></td>
@@ -2062,7 +2126,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[81]</td>
+						<td class="ebnf-num">[84]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-time-with-time-zone-literal"><dfn>XsdDateTimeWithTimeZoneLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> "T" <a>XsdTimeWithoutTimezoneComponent</a> <a>XsdTimezoneComponent</a></td>
@@ -2079,7 +2143,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[82]</td>
+						<td class="ebnf-num">[85]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-literal"><dfn>XsdDateLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdDateWithoutTimezoneComponent</a> <a>XsdOptionalTimezoneComponent</a></td>
@@ -2097,7 +2161,7 @@ simon,57,male
 				</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[83]</td>
+						<td class="ebnf-num">[86]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-time-literal"><dfn>XsdTimeLiteral</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right"><a>XsdTimeWithoutTimezoneComponent</a> <a>XsdOptionalTimezoneComponent</a></td>
@@ -2109,21 +2173,21 @@ simon,57,male
 				<p>The various XSD Date and Time data types from [[!XMLSCHEMA-2]] are made up from common reuseable components that are defined by regular expressions.</p>
 				<table class="ebnf-table">
 					<tr>
-						<td class="ebnf-num">[84]</td>
+						<td class="ebnf-num">[87]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-date-without-timezone-component"><dfn>XsdDateWithoutTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">-?[0-9]{4}-(((0(1|3|5|7|8)|1(0|2))-(0[1-9]|(1|2)[0-9]|3[0-1]))|((0(4|6|9)|11)-(0[1-9]|(1|2)[0-9]|30))|(02-(0[1-9]|(1|2)[0-9])))</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[85]</td>
+						<td class="ebnf-num">[88]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-time-without-timezone-component"><dfn>XsdTimeWithoutTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">([0-1][0-9]|2[0-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])(\.[0-9]{3})?</td>
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[86]</td>
+						<td class="ebnf-num">[89]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-optional-timezone-component"><dfn>XsdOptionalTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)?</td>
@@ -2131,7 +2195,7 @@ simon,57,male
 						<td class="ebnf-note">/* <a>xgc:regular-expression</a> */</td>
 					</tr>
 					<tr>
-						<td class="ebnf-num">[87]</td>
+						<td class="ebnf-num">[90]</td>
 						<td class="ebnf-left"><a title="ebnf-xsd-timezone-component"><dfn>XsdTimezoneComponent</dfn></a></td>
 						<td class="ebnf-bind">::=</td>
 						<td class="ebnf-right">((\+|-)(0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])|Z)</td>
@@ -2148,7 +2212,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[88]</td>
+					<td class="ebnf-num">[91]</td>
 					<td class="ebnf-left"><a title="ebnf-uk-date-literal"><dfn>UkDateLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">(((0[1-9]|(1|2)[0-9]|3[0-1])\/(0(1|3|5|7|8)|1(0|2)))|((0[1-9]|(1|2)[0-9]|30)\/(0(4|6|9)|11))|((0[1-9]|(1|2)[0-9])\/02))\/[0-9]{4}</td>
@@ -2165,7 +2229,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[89]</td>
+					<td class="ebnf-num">[92]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-non-zero-integer-literal"><dfn>PositiveNonZeroIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[1-9][0-9]*</td>
@@ -2182,7 +2246,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[90]</td>
+					<td class="ebnf-num">[93]</td>
 					<td class="ebnf-left"><a title="ebnf-positive-integer-literal"><dfn>PositiveIntegerLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">[0-9]+</td>
@@ -2197,7 +2261,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[91]</td>
+					<td class="ebnf-num">[94]</td>
 					<td class="ebnf-left"><a title="ebnf-numeric-literal"><dfn>NumericLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">-?[0-9]+(\.[0-9]+)?</td>
@@ -2212,7 +2276,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[92]</td>
+					<td class="ebnf-num">[95]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>StringLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"\"" [^"]* "\""</td>
@@ -2226,7 +2290,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>	
-					<td class="ebnf-num">[93]</td>
+					<td class="ebnf-num">[96]</td>
 					<td class="ebnf-left"><a title="ebnf-character-literal"><dfn>CharacterLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"'" [^\r\n\f'] "'"</td>
@@ -2240,7 +2304,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[94]</td>
+					<td class="ebnf-num">[97]</td>
 					<td class="ebnf-left"><a title="ebnf-wildcard-literal"><dfn>WildcardLiteral</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">"*"</td>
@@ -2256,7 +2320,7 @@ simon,57,male
 			</p>
 			<table class="ebnf-table">
 				<tr>
-					<td class="ebnf-num">[95]</td>
+					<td class="ebnf-num">[98]</td>
 					<td class="ebnf-left"><a title="ebnf-ident"><dfn>Ident</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right">/* [A-Za-z0-9\-_\.]+ */</td>
@@ -2401,6 +2465,20 @@ simon,57,male
 				</tr>
 				<tr>
 					<td class="ebnf-num"></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-max-columns-directive">MaxColumnsDirective</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "maxColumns" <a title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</a></td>
+					<td class="ebnf-note"></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num"></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-min-columns-directive">MinColumnsDirective</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "minColumns" <a title="ebnf-positive-non-zero-integer-literal">PositiveNonZeroIntegerLiteral</a></td>
+					<td class="ebnf-note"></td>
+				</tr>
+				<tr>
+					<td class="ebnf-num"></td>
 					<td class="ebnf-left"><a><dfn title="ebnf-permit-empty-directive">PermitEmptyDirective</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "permitEmpty"</td>
@@ -2497,6 +2575,13 @@ simon,57,male
 		          	<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "optional"</td>
 		          	<td class="ebnf-note"></td>
 		        </tr>
+				<tr>
+					<td class="ebnf-num"></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-optional-column-directive">OptionalColumnDirective</dfn></a></td>
+					<td class="ebnf-bind">::=</td>
+					<td class="ebnf-right"><a title="ebnf-directive-prefix">DirectivePrefix</a> "optionalColumn"</td>
+					<td class="ebnf-note"></td>
+				</tr>
 				<tr>
 					<td class="ebnf-num"></td>
 					<td class="ebnf-left"><a><dfn title="ebnf-match-is-false-directive">MatchIsFalseDirective</dfn></a></td>
@@ -2639,7 +2724,7 @@ simon,57,male
 				</tr>
 				<tr>
 					<td class="ebnf-num"></td>
-					<td class="ebnf-left"><a><dfn title="ebnf-numeric-or-any-literal"><dn>NumericOrAny</dfn></a></td>
+					<td class="ebnf-left"><a><dfn title="ebnf-numeric-or-any-literal">NumericOrAny</dfn></a></td>
 					<td class="ebnf-bind">::=</td>
 					<td class="ebnf-right"><a title="ebnf-numeric-literal">NumericLiteral</a> | <a title="ebnf-wildcard-literal">WildcardLiteral</a></td> 
 				</tr>
@@ -3003,7 +3088,7 @@ simon,57,male
 				<h4>Extra-grammatical Constraints</h4>
 				<section>
 					<h5><dfn>xgc:regular-expression</dfn></h5>
-					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 				</section>
 				<section>
 					<h5><dfn>xgc:unordered</dfn></h5>
@@ -3019,7 +3104,7 @@ simon,57,male
 		<h2>Acknowledgements</h2>
       	<p>Many thanks to:</p>
     	<ul>
-			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="http://github.com/darobin/respec">ReSpec</a> tool.</li>
+			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="https://github.com/darobin/respec">ReSpec</a> tool.</li>
 	    </ul>
     </section>
   </body>

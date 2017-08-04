@@ -3,7 +3,7 @@
   <head>
     <title>CSV Schema 1.0</title>
     <meta charset='utf-8'/>
-    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
@@ -31,7 +31,7 @@
 
           // if there a publicly available Editor's Draft, this is the link
           // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
-          edDraftURI:           "http://digital-preservation.github.io/csv-validator/csv-schema-1.0.html",
+          edDraftURI:           "https://digital-preservation.github.io/csv-validator/csv-schema-1.0.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -44,7 +44,7 @@
                 companyURL: "http://adamretter.org.uk/" },
               { name: "David Underdown", 
                 company: "The National Archives",
-                companyURL: "http://www.nationalarchives.gov.uk" },
+                companyURL: "https://www.nationalarchives.gov.uk" },
               { name: "Rob Walpole",
               	company: "Devexe Ltd",
               	companyURL: "http://www.devexe.co.uk/"}
@@ -63,7 +63,7 @@
           wg:           "The National Archives - Digital Preservation",
           
           // URI of the public WG page
-          wgURI:        "http://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
+          wgURI:        "https://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
           
           // name (without the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "csvs",
@@ -174,9 +174,9 @@
   <body>
     <section id="sotd">
       This document represents the specification of the CSV Schema 1.0 language
-      as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
+      as defined by <a href="https://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
-      such as the <a href="http://w3.org">W3C</a>.
+      such as the <a href="https://w3.org">W3C</a>.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -212,7 +212,7 @@
                 individuals; the problem of CSV data formats is certainly not unique to The National Archives.
             </p>
         	<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboriation and contributions from all iterested parties.</p>
-        	<p>A reference implemenation has been created to prove the standard: The open source <a href="http://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
+        	<p>A reference implemenation has been created to prove the standard: The open source <a href="https://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
 		</section>
         <section id="principles">
             <h2>Guiding Principles</h2>
@@ -302,8 +302,8 @@ simon,57,male
     <section>
 		<h1>Schema structure</h1>
 		<p>
-		The CSV schema language is formally a <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
-		expressed in <a href="http://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+		The CSV schema language is formally a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
+		expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
 		</p>
 		<p>
 		The following subsections examine the structure of a CSV Schema in more detail. 
@@ -771,7 +771,7 @@ simon,57,male
 					</p>
 					<p>
 					The second Column Definition (with the effect of the <a>Match Is False Directive</a> on the first taken into account) is actually logically equivalent to the first 
-					(see <a href="http://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
+					(see <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column
 					would not be valid data, and since the <a>Warning Directive</a> has also not been included, a <a>Validation Warning</a> would be raised instead of a <a>Validation Error</a>.					
 					</p>
 				</section>
@@ -989,7 +989,7 @@ simon,57,male
 						harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
 						then that approach should be attempted first.
 						</p>
-						<p>The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+						<p>The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 						<table class="ebnf-table">
 							<tr>
 								<td class="ebnf-num">[41]</td>
@@ -2288,7 +2288,7 @@ simon,57,male
 				<h4>Extra-grammatical Constraints</h4>
 				<section>
 					<h5><dfn>xgc:regular-expression</dfn></h5>
-					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 				</section>
 				<section>
 					<h5><dfn>xgc:unordered</dfn></h5>
@@ -2304,7 +2304,7 @@ simon,57,male
 		<h2>Acknowledgements</h2>
       	<p>Many thanks to:</p>
     	<ul>
-			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="http://github.com/darobin/respec">ReSpec</a> tool.</li>
+			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="https://github.com/darobin/respec">ReSpec</a> tool.</li>
 	    </ul>
     </section>
   </body>
