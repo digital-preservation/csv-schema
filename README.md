@@ -41,4 +41,4 @@ Often the Metadata files that we receive are very large as they contain many rec
 We try to do the right thing by default, CSV files and their bretheren (Tab Separated Values etc.) can come in many shapes and sizes, by default we parse CSV according to [RFC 4180](http://tools.ietf.org/html/rfc4180 "Common Format and MIME Type for Comma-Separated Values (CSV) Files"), of course we allow you to customize this behaviour in the CSV Schema.
 
 * CSV Schema is ***NOT*** a Programming Language.
-This is worth stressing as it was something we had to keep site of ourselves during development; CSV Schema is a simple data definition and validation language for CSV!
+This is worth stressing as it was something we had to keep sight of ourselves during development; CSV Schema is a simple data definition and validation language for CSV!
