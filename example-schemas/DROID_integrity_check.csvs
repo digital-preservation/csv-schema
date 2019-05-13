@@ -14,13 +14,17 @@ version 1.1
 | by examining the URI field, if the URI ends with a slash, we check just that |
 | the SHA256_HASH is empty. If the RESOURCE column from DROID were included in |
 | the output could use if($RESOURCE/is("folder") to test instead.              |
+| to run this you will need to replace "foldername" in the integrityCheck test |
+| with the name of the top level Folder in your DROID report. That is, if you  |
+| ran the report starting at, for example, C:\users\documents, replace         |
+| foldername with documents.                                                   |
 |                                                                              |
 | Authors:                                                                     |
 | David Underdown, The National Archives                                       |
 \-----------------------------------------------------------------------------*/
 ID:
 PARENT_ID:
-URI: fileExists integrityCheck("","","includeFolder") 
+URI: fileExists integrityCheck("","foldername","includeFolder") //replace foldername with name of top level folder within DROID report
 FILE_PATH:
 NAME:
 METHOD:
