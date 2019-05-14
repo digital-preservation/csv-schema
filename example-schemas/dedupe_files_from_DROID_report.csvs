@@ -4,6 +4,10 @@ version 1.1
 | DROID file format identification tool profile.  It will report an error for  |
 | any duplicate files within the report, allowing you to deduplicate material  |
 | held within the area of interest.                                            |
+|                                                                              |
+| When exporting the CSV from DROID, choose the option to have one row per     |
+| format.                                                                      |
+|                                                                              |
 | The error report will give the data line number of the error, and also the   |
 | data line number where the CSV Validator first encountered that checksum.    |
 | These line numbers do not include the header row, so if viewing your CSV file|
@@ -14,6 +18,9 @@ version 1.1
 | by examining the URI field, if the URI ends with a slash, we check just that |
 | the SHA256_HASH is empty. If the RESOURCE column from DROID were included in |
 | the output could use if($RESOURCE/is("folder") to test instead.              |
+|                                                                              |
+| To handle the case of files identifying with multiple possible formats, we   |
+| check the checksum for uniqueness only for the first identification.         |
 |                                                                              |
 | Authors:                                                                     |
 | Rachel MacGregor, Modern Records Centre, University of Warwick               |
@@ -31,7 +38,8 @@ TYPE:
 EXT:
 LAST_MODIFIED:
 EXTENSION_MISMATCH:
-SHA256_HASH: if($URI/ends("/"),empty,unique) //folders do not have a checksum
+SHA256_HASH: if($URI/ends("/"),empty,if($FORMAT_COUNT/is("1"),unique)) //folders do not have a checksum
+//                                                                       ignore additional format IDs
 FORMAT_COUNT:
 PUID:
 MIME_TYPE:
