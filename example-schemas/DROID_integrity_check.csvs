@@ -19,12 +19,17 @@ version 1.1
 | ran the report starting at, for example, C:\users\documents, replace         |
 | foldername with documents.                                                   |
 |                                                                              |
+| We also need to skip files inside zips and other containers for this purpose |
+| as it is sufficient to check that the container itself is unchanged.         |
+|                                                                              |
 | Authors:                                                                     |
 | David Underdown, The National Archives                                       |
 \-----------------------------------------------------------------------------*/
 ID:
 PARENT_ID:
-URI: fileExists integrityCheck("","foldername","includeFolder") //replace foldername with name of top level folder within DROID report
+URI: if(starts("zip:"),,fileExists integrityCheck("","foldername","includeFolder"))
+//replace "foldername" in integrityCheck with name of top level folder within DROID report (in quotes)
+//Will probably need to add eg or starts("iso:") etc for each possible container type in the conditional
 FILE_PATH:
 NAME:
 METHOD:
