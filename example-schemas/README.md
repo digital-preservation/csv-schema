@@ -16,7 +16,8 @@ Other
 -----
 
 `TCP.csvs` CSV Schema provided for validation of Early English Texts released by the TEI project.
-[dedupe_files_from_DROID_report.csvs](https://github.com/digital-preservation/csv-schema/blob/master/example-schemas/dedupe_files_from_DROID_report.csvs) allows you to check for duplicate files on a file system using a previously created [DROID](https://github.com/digital-preservation/droid) report on the files.
+
+See also [droid-csv-schema](https://github.com/digital-preservation/droid-csv-schema) for CSV schema that allows you to work with a previously created [DROID](https://github.com/digital-preservation/droid) CSV export to (for example) check for duplicate files on a file system, or to perform ongoing data integrity checks.
 
 Regex
 -----
