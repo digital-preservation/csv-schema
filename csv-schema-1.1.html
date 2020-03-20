@@ -3,14 +3,14 @@
   <head>
     <title>CSV Schema Language 1.1</title>
     <meta charset='utf-8'/>
-    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "unofficial",
           additionalCopyrightHolders: "Mozilla Public Licence version 2.0",
      
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          // the specification's short name, as in https://www.w3.org/TR/short-name/
           shortName:            "csvs",
 
           // if your specification has a subtitle that goes below the main
@@ -28,11 +28,11 @@
           // and its maturity status
           previousMaturity:  "ED",
           previousPublishDate:  "2014-08-23",
-		  previousURI:   "http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html",
+		  previousURI:   "https://digital-preservation.github.io/csv-schema/csv-schema-1.0.html",
 
           // if there a publicly available Editor's Draft, this is the link
-          // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
-          edDraftURI:           "http://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
+          // edDraftURI:           "https://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
+          edDraftURI:           "https://digital-preservation.github.io/csv-schema/csv-schema-1.1.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -42,13 +42,13 @@
           editors:  [
               { name: "Adam Retter",
                 company: "Evolved Binary Ltd",
-                companyURL: "http://adamretter.org.uk/" },
+                companyURL: "https://adamretter.org.uk/" },
               { name: "David Underdown", 
                 company: "The National Archives",
-                companyURL: "http://www.nationalarchives.gov.uk" },
+                companyURL: "https://www.nationalarchives.gov.uk" },
               { name: "Rob Walpole",
               	company: "Devexe Ltd",
-              	companyURL: "http://www.devexe.co.uk/"}
+              	companyURL: "https://www.devexe.co.uk/"}
           ],
 
           // authors, add as many as you like. 
@@ -56,15 +56,15 @@
           // only "name" is required. Same format as editors.
 
           //authors:  [
-          //    { name: "Your Name", url: "http://example.org/",
-          //      company: "Your Company", companyURL: "http://example.com/" },
+          //    { name: "Your Name", url: "https://example.org/",
+          //      company: "Your Company", companyURL: "https://example.com/" },
           //],
      
           // name of the WG
           wg:           "The National Archives - Digital Preservation",
      
           // URI of the public WG page
-          wgURI:        "http://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
+          wgURI:        "https://www.nationalarchives.gov.uk/information-management/projects-and-work/digital-preservation.htm",
      
           // name (without the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "csvs",
@@ -175,10 +175,10 @@
   <body>
     <section id="sotd">
       This document represents the specification of the CSV Schema Language 1.1
-      as defined by <a href="http://www.nationalarchives.gov.uk">The National Archives</a>.
+      as defined by <a href="https://www.nationalarchives.gov.uk">The National Archives</a>.
       It is unclear yet whether this document will be submitted to a formal standards body
-      such as the <a href="http://w3.org">W3C</a>.  
-	  This version supersedes the original <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
+      such as the <a href="https://w3.org">W3C</a>.  
+	  This version supersedes the original <a href="https://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> published on 28 August 2014.
     </section> 
     <section id='abstract'>
       <acronym title="Comma Separated Value">CSV</acronym> (Comma Separated Value) data comes in many shapes and sizes. Apart from [[RFC4180]] which is a fairly recent development (and often ignored),
@@ -214,7 +214,7 @@
                 individuals; the problem of CSV data formats is certainly not unique to The National Archives.
             </p>
         	<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboration and contributions from all interested parties.</p>
-        	<p>A reference implementation has been created to prove the standard: The open source <a href="http://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
+        	<p>A reference implementation has been created to prove the standard: The open source <a href="https://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
 		</section>
         <section id="principles">
             <h2>Guiding Principles</h2>
@@ -304,7 +304,7 @@ simon,57,male
 	<section id="new-in-1.1" class="informative">
 		<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
 		<p>
-		The last 18 months with <a href="http://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> being in regular use at The National Archives 
+		The last 18 months with <a href="https://digital-preservation.github.io/csv-schema/csv-schema-1.0.html">CSV Schema Language 1.0</a> being in regular use at The National Archives 
 		has highlighted a few additional <a title="Column Validation Expression">Column Validation Expressions</a> that would provide further useful validation, 
 		simplify schema writing, or make schemas more readable.  In addition the concept of a <a>String Provider</a> has been extended to allow concatenation
 		to produce a final string input to expressions from some set of other <a title="String Provider">String Providers</a>, and also a function to allow removal of a Windows file
@@ -335,8 +335,8 @@ simon,57,male
     <section>
 		<h1>Schema structure</h1>
 		<p>
-		The CSV schema language is formally a <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
-		expressed in <a href="http://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+		The CSV schema language is formally a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
+		expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
 		</p>
 		<p>
 		The following subsections examine the structure of a CSV Schema in more detail. 
@@ -819,7 +819,7 @@ simon,57,male
 					</p>
 					<p>
 					The second Column Definition (with the effect of the <a>Match Is False Directive</a> on the first taken into account) is actually logically equivalent to the first 
-					(see <a href="http://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
+					(see <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's Laws</a>).  However, since the <a>Optional Directive</a> has not been used, an empty column 
 					would not be valid data, and since the <a>Warning Directive</a> has also not been included, a <a>Validation Warning</a> would be raised instead of a <a>Validation Error</a>.					
 					</p>
 				</section>
@@ -1116,7 +1116,7 @@ simon,57,male
 						harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
 						then that approach should be attempted first.
 						</p>
-						<p>The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+						<p>The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 						<table class="ebnf-table">
 							<tr>
 								<td class="ebnf-num">[43]</td>
@@ -1529,7 +1529,7 @@ simon,57,male
 						Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
 						</p>
 						<p>
-						In Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
+						In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
 						"^[\p{Lu}\p{N}\p{P}\s]*$".
 						</p>
 						<table class="ebnf-table">
@@ -1558,7 +1558,7 @@ simon,57,male
 						Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
 						</p>
 						<p>
-						In Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
+						In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
 						"^[\p{Ll}\p{N}\p{P}\s]*$".
 						</p>
 						<table class="ebnf-table">
@@ -1830,12 +1830,12 @@ simon,57,male
 						<h4>Usage</h4>
 						<pre class="example" data-lt="Concatenation Expression Syntax">
 	a_column: is("no file")                                     
-	another_column: any("file:///","http://")
+	another_column: any("file:///","https://")
 	third_column: any("C:","example.com")
 	fourth_column: ends(".html")
 	fifth_column: is($a_column) or is(concat($another_column,$third_column,"/",noExt($fourth_column),".pdf")
 	/*in this rather artificial example, fifth_column must be either "no file" (the value of a_column) or a PDF file with the same basic name as the HTML file named in fourth_column,
-	  located at either file:///C:/ or http://example.com/ (in fact as written you could have file:///example.com/ or http://C:/ as well)*/
+	  located at either file:///C:/ or https://example.com/ (in fact as written you could have file:///example.com/ or https://C:/ as well)*/
 						</pre>
 					</section>
 	 			</section>
@@ -2974,7 +2974,7 @@ simon,57,male
 				<h4>Extra-grammatical Constraints</h4>
 				<section>
 					<h5><dfn>xgc:regular-expression</dfn></h5>
-					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
+					<p>The right-hand side of the expression is expressed using a Regular Expression. The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
 				</section>
 				<section>
 					<h5><dfn>xgc:unordered</dfn></h5>
@@ -2990,7 +2990,7 @@ simon,57,male
 		<h2>Acknowledgements</h2>
       	<p>Many thanks to:</p>
     	<ul>
-			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="http://github.com/darobin/respec">ReSpec</a> tool.</li>
+			<li>Robin Berjon for making the production of this specification much simpler with his cool <a href="https://github.com/darobin/respec">ReSpec</a> tool.</li>
 	    </ul>
     </section>
   </body>
