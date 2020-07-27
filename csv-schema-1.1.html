@@ -251,7 +251,7 @@
 					A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
 					Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
 					A column rule may express constraints based on the content of other columns in the same row, however at present there is no scope for looking forward or backward through rows directly.
-					However, it is possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
+					However, it is possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique).
 			</p>
 			<p>A CSV Schema is made up of two main parts:</p>
 			<ol class="nested">
@@ -303,7 +303,7 @@
 				lauren,19,f
 				simon,57,male
 			</pre>
-			<p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.</p>
+			<p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t or n.</p>
 		</section>
 		<section id="new-in-1.1" class="informative">
 			<h1>New in CSV Schema Language 1.1 - A brief introduction to the new features of CSV Schema Language 1.1</h1>
@@ -346,12 +346,12 @@
 			<h1>Schema structure</h1>
 			<p>
 				The CSV schema language is formally a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
-				expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+				expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backus-Naur Form</dfn></a> (EBNF - see also [[RFC5234]]).
 			</p>
 			<p>
 				The following subsections examine the structure of a CSV Schema in more detail.
 				Each subsection comprises definitions of terms, cross-references to other definitions,
-				the relevant portion of the <a>EBNF</a> (links on the lefthandside go to the appendix containing the full EBNF, those on the right to a fuller explanation of those term(s)),
+				the relevant portion of the <a>EBNF</a> (links on the lefthand side go to the appendix containing the full EBNF, those on the right to a fuller explanation of those term(s)),
 				and examples of correct usage.
 			</p>
 			<p>A <dfn>Schema</dfn> MUST comprise both <a>Prolog</a> and <a>Body</a>.</p>
@@ -657,7 +657,7 @@
 					</table>
 					<section>
 						<h4>Column Identifiers</h4>
-						<p>There are two classes of identifier that can be used for columns, the original simple <dfn>Column Identifier</dfn>, and the <dfn>Quoted Column Identifier</dfn>.</p>
+						<p>There are two classes of identifiers that can be used for columns: the original, simple <dfn>Column Identifier</dfn> and the <dfn>Quoted Column Identifier</dfn>.</p>
 						<p>
 							A <a>Column Identifier</a> is either a <a>Positive Non Zero Integer Literal</a> (most commonly used when the CSV file to be validated has no header row -
 							see <a>No Header Directive</a>) which indicates the offset of the column (starting from 1), or an <a>Ident</a>.
@@ -730,7 +730,7 @@
 									<td class="ebnf-num">[23]</td>
 									<td class="ebnf-left"><a title="ebnf-column-directives"><dfn>ColumnDirectives</dfn></a></td>
 									<td class="ebnf-bind">::=</td>
-									<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a></td>
+									<td class="ebnf-right"><a>OptionalDirective</a>? <a>MatchIsFalseDirective</a>? <a>IgnoreCaseDirective</a>? <a>WarningDirective</a>?</td>
 									<td class="ebnf-note">/* <a>xgc:unordered</a> */</td>
 								</tr>
 							</table>
@@ -919,7 +919,7 @@
 					<h2>Non Conditional Expressions</h2>
 					<p>
 						<dfn title="Non Conditional Expression">Non Conditional Expressions</dfn> are divided into three classes of sub-expressions:
-						<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a>, and <a title="Parenthesized Expression">Parenthesized Expressions</a>.
+						<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a> and <a title="Parenthesized Expression">Parenthesized Expressions</a>.
 						The first two are individual validation checks (differing in that the second allows access to some resource outside the CSV file being validated),
 						whilst the last provides a mechanism for controlling the evaluation order of complex compound expressions.
 					</p>
@@ -1057,7 +1057,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="In Expression Syntax">
-									a_column: in("some string")   //the value of a_column must be a substring of "some string" eg "some" or "string" or "me st" etc
+									a_column: in("some string")   //the value of a_column must be a substring of "some string" e.g. "some" or "string" or "me st" etc
 									another_column: in($a_column) //the value of another_column must be a substring of the contents of a_column
 								</pre>
 							</section>
@@ -1076,7 +1076,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Starts With Expression Syntax">
-									a_column: starts("some string")   //the value of a_column must start with the string "some string" eg "some strings" or "some string is here that's really long"
+									a_column: starts("some string")   //the value of a_column must start with the string "some string" e.g. "some strings" or "some string is here that's really long"
 									another_column: starts($a_column) //the value of another_column must start with the contents of a_column
 								</pre>
 							</section>
@@ -1095,7 +1095,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Ends With Expression Syntax">
-									a_column: ends("some string")   //the value of a_column must end with the string "some string" eg "here is some string" or "this really long string ends with some string"
+									a_column: ends("some string")   //the value of a_column must end with the string "some string" e.g. "here is some string" or "this really long string ends with some string"
 									another_column: ends($a_column) //the value of another_column must end with the contents of a_column
 								</pre>
 							</section>
@@ -1104,9 +1104,9 @@
 							<h4>Regular Expression Expressions</h4>
 							<p>A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.</p>
 							<p>
-								Whilst obviously many of the the other
+								Whilst obviously many of the other
 								<a title="Column Validation Expression">Column Validation Expressions</a> could be written as Regular Expressions, it is felt that that would make the resulting Schema
-								harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
+								harder to read, and much harder to write for less technical users. As such it is recommended that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
 								then that approach should be attempted first.
 							</p>
 							<p>The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
@@ -1121,8 +1121,8 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Regular Expression Expression Syntax">
-									a_column: regex("[bcm]at")   //the value of a_column must match the regular expression [bcm]at ie a string containing "bat", "cat" or "mat"
-									another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] ie a string containing only the digits only 0-5.
+									a_column: regex("[bcm]at")     //the value of a_column must match the regular expression [bcm]at i.e. a string containing "bat", "cat" or "mat"
+									another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] i.e. a string containing only the digits only 0-5.
 								</pre>
 							</section>
 						</section>
@@ -1131,7 +1131,7 @@
 							<p><em>The definition of this expression in CSV Schema Language 1.1 extends the definition originally made in CSV Schema Language 1.0</em></p>
 							<p>
 								A <dfn>Range Expression</dfn> checks that the value of the column is a number lying between, or equal to, the supplied upper and lower bounds.
-								One or other bounding value MAY be left unrestricted (by using the <a>Wildcard Literal</a>),
+								One bounding value MAY be left unrestricted (by using the <a>Wildcard Literal</a>),
 								so that the expression can also be used to check that a column is at least some value, or at most some value.
 								One bounding value is defined as a <dfn>Numeric Or Any</dfn> expression which accepts a <a>Numeric Literal</a> (a Real Number expressed as a decimal),
 								or the <a>Wildcard Literal</a>, while the other is a <a>Numeric Literal</a> only.
@@ -1139,7 +1139,7 @@
 								so valid Range Expressions SHALL define ranges of:
 							</p>
 							<ol>
-								<li>At least <em>n</em>. For example <code>range(10, *)</code> states that the column value MUST be <em>at least</em> 10</li>
+								<li>At least <em>n</em>. For example <code>range(10, *)</code> states that the column value MUST be <em>at least</em> 10.</li>
 								<li>At most <em>n</em>. For example <code>range(*, 10)</code> ensures that the column value MUST be <em>at most</em> 10 (and may be negative).</li>
 								<li>Between <em>m</em> and <em>n</em>(inclusive). For example <code>range(4, 7)</code> ensures that the column value MUST be <em>between</em> 4 and 7 (inclusive).</li>
 							</ol>
@@ -1169,7 +1169,7 @@
 							</ol>
 							<p>
 								In order to do this the expression takes two input parameters, the first is defined as OPTIONAL, the second MUST be supplied. Both take the form of a
-								<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero), or a <a>Wildcard Literal</a>.
+								<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero) or a <a>Wildcard Literal</a>.
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -1248,7 +1248,7 @@
 						</section>
 						<section>
 							<h4>URI Expressions</h4>
-							<p>A <dfn>URI Expression</dfn> means that the value in the column MSUT be a valid URI as defined in [[!RFC3986]].</p>
+							<p>A <dfn>URI Expression</dfn> means that the value in the column MUST be a valid URI as defined in [[!RFC3986]].</p>
 							<table class="ebnf-table">
 								<tr>
 									<td class="ebnf-num">[51]</td>
@@ -1333,8 +1333,8 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="XSD Date Zone Expression Syntax">
-									a_column: xDate                                  //the value of a_column must be a valid xDate
-									another_column: xDateTime(2014-10-04,2015-12-03) //the value of another_column must be a valid xDate and between the two xDates shown (inclusive)
+									a_column: xDate                              //the value of a_column must be a valid xDate
+									another_column: xDate(2014-10-04,2015-12-03) //the value of another_column must be a valid xDate and between the two xDates shown (inclusive)
 								</pre>
 							</section>
 						</section>
@@ -1405,7 +1405,7 @@
 								<h5>Usage</h5>
 								<pre class="example" data-lt="XSD Date Time With Time Zone Expression Syntax">
 									year_column: date($year_column,$month_column,$day_column)                      /*the full date to be checked is made up from the values from the three columns indicated,
-									                                                                                 as shown, the columns can appear in CSV file in any order, but must appear in the date expression in the order year, month, day*/
+									                                                                                 as shown, the columns can appear in the CSV file in any order, but must appear in the date expression in the order year, month, day*/
 									day_column: date($year_column,$month_column,$day_column,2014-10-04,2015-12-03) //this second example shows that you can also supply from and to dates as xDates, both dates are inclusive
 									month_column:
 								</pre><!--can month column be a textual representation?-->
@@ -1650,7 +1650,7 @@
 							</p>
 							<p>
 								Default treatment of case sensitivity should follow the norms of the relevant file system,
-								implementations may wish to include some means to over-ride this, but that is outside the scope of the EBNF.
+								implementations may wish to include some means to override this, but that is outside the scope of the EBNF.
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -1700,7 +1700,7 @@
 									a_column: checksum(file($file_path),"SHA-256")                           /*a_column contains the SHA-256 checksum value supplied for the file, the validator
 									                                                                           then computes the checksum for the file at file_path and reports an error if they do not match*/
 									another_column: checksum(file("file:///C:/my_folder/",$file_name),"MD5") /*here the string "file:///C:/my_folder" is prepended to the contents of file_name before the
-									                                                                           checksum verification is performed, another_column has an MD5 checksum value in it
+									                                                                           checksum verification is performed, another_column has an MD5 checksum value in it*/
 								</pre>
 							</section>
 						</section>
@@ -1721,8 +1721,8 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="File Count Expression Syntax">
-									file_path: uri                                      //a full filepath for a folder
-									another_column: integer fileCount(file($file_path)) //another_column contains an integer value, this is checked against the number of files in the file system folder at file_path
+									file_path: uri                                              //a full filepath for a folder
+									another_column: positiveInteger fileCount(file($file_path)) //another_column contains an integer value, this is checked against the number of files in the file system folder at file_path
 								</pre>
 							</section>
 						</section>
@@ -1868,11 +1868,11 @@
 							<pre class="example" data-lt="If Expression Syntax">
 								a_column: any("true","false")
 								another_column: any("yes","no")
-								third_column: if($a_column\is("true"),is("some string"),is("some other string")) /*here we look to the value of a_column, if it is "true", third_column must be "some string"
+								third_column: if($a_column/is("true"),is("some string"),is("some other string")) /*here we look to the value of a_column, if it is "true", third_column must be "some string"
 								                                                                                   otherwise third_column must be "some other string"*/
-								fourth_column: if(($a_column\is("true") and $another_column\is("yes")),is("some string"),is("some other string"))
+								fourth_column: if(($a_column/is("true") and $another_column/is("yes")),is("some string"),is("some other string"))
 								//in fourth_column we use a more complicated combinatorial expression as the initial test, if both a_column is "true" and another_column is "yes",
-								//then fourth_column is "some string", otherwise fourth_column is "some other string". All column expressions could be used for the test etc, only is is used for simpilcity
+								//then fourth_column is "some string", otherwise fourth_column is "some other string". All column expressions could be used for the test etc, only is is used for simplicity
 							</pre>
 						</section>
 					</section>
@@ -1911,14 +1911,14 @@
 							<h4>Usage</h4>
 							<pre class="example" data-lt="If Expression Syntax">
 								a_column: any("true","false","unknown")
-								another_column: if($a_column\is("true"),is("some string"),if($a_column\is("false"),is("some other string"),is("some third string")))
+								another_column: if($a_column/is("true"),is("some string"),if($a_column/is("false"),is("some other string"),is("some third string")))
 								/*here we look to the value of a_column, if it is "true", another_column must be "some string" otherwise, check if a another_column is "false),
-								if so another_column must be "some other string", otherwise another_column is "some third string". Nesting if statments like this can quickly get
+								if so another_column must be "some other string", otherwise another_column is "some third string". Nesting if statements like this can quickly get
 								very difficult to read, so instead we can use the switch statement*/
-								third_column: switch(($a_column\is("true"),is("some string")),($a_column\is("false"),is("some other string")),is("some third string"))
+								third_column: switch(($a_column/is("true"),is("some string")),($a_column/is("false"),is("some other string")),is("some third string"))
 								//this switch statement for third_column is functionally identical to the nested if statement demonstrated on another_column, and is much easier to extend
 								//is there were additional options available for a_column, each bracketed pair such of test and column validation expression,
-								//such as ($a_column\is("true"),is("some string")), is called a Switch Case Expression, as many as required are then followed by a final column validation expression,
+								//such as ($a_column/is("true"),is("some string")), is called a Switch Case Expression, as many as required are then followed by a final column validation expression,
 								//used if none of the Switch Case Expressions evaluate to true.
 							</pre>
 						</section>
@@ -1939,8 +1939,8 @@
 						piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
 																																								the value must also be part of the value of the columns "file_path" and "resource_uri"
 																																								explicit And Expression is used between each specified Column Expression*/
-						item: range(1,540) unique($piece,$item)                            //this field must contain an integer between 1 and 540 inclusive.
-																																								the combination of piece and item must be unique within the file.
+						item: range(1,540) unique($piece,$item)                            /*this field must contain an integer between 1 and 540 inclusive.
+																																								 the combination of piece and item must be unique within the file.*/
 						file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be
 																																								lower case). Here an implicit And Expression is used*/
 						file_path: fileExists uri starts(concat("file:///",$piece,"/",$item))     /*fileExists checks that there is actually a file of the given name at the
@@ -1956,17 +1956,17 @@
 						image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))    //if "image_split" field is yes, must be a uuid4, else must be blank
 						image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
 																																							/*If "image_split" field is the string: yes (precisely)
-																																								then field must be 12 characters long. This is further restricted by regex statement
+																																								then the field must be 12 characters long. This is further restricted by regex statement
 																																								to being only alphanumeric characters (upper and lower case).*/
 						image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+00:00,2014-03-04T23:59:59+00:00),is(""))
 																																							/*If "image_split" field is string: yes (precisely)
 																																								then timestamp for image split, compliant with XSD DateTime data type
 																																								and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December,
-																																								to last second of 4 March), in the UTC (Greenwich Meantime) timezone,
-																																								else it must be blank (ie "image_split" is no).
+																																								to the last second of 4 March), in the UTC (Greenwich Meantime) timezone,
+																																								else it must be blank (i.e. "image_split" is no).
 																																								As xDateTime, rather than xDateTimeTz, is specified,
-																																								the use of the timezone component within the supplied date time is optional, eg both:
-																																								2013-12-05T12:34:00+00:00 and 2013-12-05T12:34:00 would be acceptable in the metadata/*
+																																								the use of the timezone component within the supplied date time is optional, e.g. both:
+																																								2013-12-05T12:34:00+00:00 and 2013-12-05T12:34:00 would be acceptable in the metadata*/
 					</pre>
 				</section>
 			</section>
@@ -2153,7 +2153,7 @@
 			</section>
 			<section>
 				<h2>String Literals</h2>
-				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased witin quotation marks, i.e. the [[UTF-8]] character code <code>0x22</code>.</p>
+				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased within quotation marks, i.e. the [[UTF-8]] character code <code>0x22</code>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[91]</td>
@@ -2214,12 +2214,12 @@
 			<p>
 				If an implementation performs validation of a CSV file against a CSV Schema, a report SHOULD be produced for each <a>Column Validation Expression</a>
 				that fails validation;  This is generally considered a <a>Validation Error</a>,
-				unless the <a>Warning Directive</a> has been used to reduce the severity of an error within a specific  <a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
+				unless the <a>Warning Directive</a> has been used to reduce the severity of an error within a specific <a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
 			</p>
 			<section>
 				<h2>Schema Errors</h2>
 				<p>
-					A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the CSV Schema. These might include for example: an incorrect <a>Version Declaration</a>, or a mismatch between the
+					A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the CSV Schema. These might include, for example: an incorrect <a>Version Declaration</a> or a mismatch between the
 					number specified for <a>Total Columns Directive</a> and the actual number of <a title="Column Definition">Column Definitions</a> given in the <a>Body</a> of the Schema.
 					Schema Errors would also be produced by mismatched <a title="Parenthesized Expression">Parenthesized Expressions</a>,
 					unrecognised <a title="Column Validation Expression">Column Validation Expressions</a> and <a title="Explicit Context Expression">Explicit Context Expressions</a> which do not
@@ -2247,7 +2247,7 @@
 		<section class="appendix">
 			<h2>The text/csv-schema Media Type</h2>
 			<p>This Appendix specifies the media type for CSV Schema Version 1.0 and CSV Schema Version 1.1. CSV Schema is a language for describing and validating CSV files, as specified in the main body of this document. This media type has been submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
-			<p>The <code>text/csv-schema</code> media type, is intended to be used for transmitting schemas written in the CSV Schema language.</p>
+			<p>The <code>text/csv-schema</code> media type is intended to be used for transmitting schemas written in the CSV Schema Language.</p>
 			<section>
 				<h3>File Extensions</h3>
 				<p>The suggested file extension for use when naming CSV Schema files is <code>.csvs</code>.</p>
@@ -2268,7 +2268,7 @@
 				<p>Link conventions used in this appendix:</p>
 				<ul>
 					<li>links on the <em>left</em> of an expression go to more detailed discussion of the term in the body of this document</li>
-					<li>links on the <em>right</em> of an expresson go to a further definition within this appendix.</li>
+					<li>links on the <em>right</em> of an expression go to a further definition within this appendix.</li>
 				</ul>
 				<table class="ebnf-table">
 					<tr>
