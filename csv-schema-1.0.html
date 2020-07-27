@@ -212,8 +212,8 @@
 					also further recognised that a general CSV Schema language would be of greater benefit if it was made publicly available and invited collaboration from other organisations and
 					individuals; the problem of CSV data formats is certainly not unique to The National Archives.
 				</p>
-				<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboriation and contributions from all iterested parties.</p>
-				<p>A reference implemenation has been created to prove the standard: The open source <a href="https://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
+				<p>CSV Schema is a standard currently guided by The National Archives, but developed in an open source collaborative manner that invites collaboration and contributions from all interested parties.</p>
+				<p>A reference implementation has been created to prove the standard: The open source <a href="https://digital-preservation.github.io/csv-validator/">CSV Validator</a> application and API, offers both CSV Schema parsing and CSV file validation.</p>
 			</section>
 			<section id="principles">
 				<h2>Guiding Principles</h2>
@@ -249,7 +249,7 @@
 				A CSV Schema is really a rules based language which defines how data in each cell should be formatted.
 				Rules are expressed per-column of the CSV data. Rules are evaluated for each row in the CSV data.
 				A column rule may express constraints based on the content of other columns in the same row, however at present there is no scope for looking forward or backward through rows directly.
-				However, it is possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique)
+				However, it is possible to check that a cell entry is unique within that column in the CSV file (or that the value of a combination of cells is unique).
 			</p>
 			<p>A CSV Schema is made up of two main parts:</p>
 			<ol class="nested">
@@ -301,18 +301,18 @@
 				lauren,19,f
 				simon,57,male
 			</pre>
-			<p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t, or n.</p>
+			<p>The Invalid CSV Data example above fails when validated against the CSV Schema because: 1) at row 2 column 2, "4 years" is not a number between 1 and 120 inclusive, and 2) at row 4 column 3, "male" is not one of the characters m, f, t or n.</p>
 		</section>
 		<section>
 			<h1>Schema structure</h1>
 			<p>
 				The CSV schema language is formally a <a href="https://en.wikipedia.org/wiki/Context-free_grammar">context-free grammar</a>
-				expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backhaus-Naur Form</dfn></a>  (EBNF - see also [[RFC5234]])
+				expressed in <a href="https://en.wikipedia.org/wiki/EBNF"><dfn title="EBNF">Extended Backus-Naur Form</dfn></a> (EBNF - see also [[RFC5234]]).
 			</p>
 			<p>
 				The following subsections examine the structure of a CSV Schema in more detail.
 				Each subsection comprises definitions of terms, cross-references to other definitions,
-				the relevant portion of the <a>EBNF</a> (links on the lefthandside go to the appendix containing the full EBNF, those on the right to a fuller explanation of those term(s)),
+				the relevant portion of the <a>EBNF</a> (links on the lefthand side go to the appendix containing the full EBNF, those on the right to a fuller explanation of those term(s)),
 				and examples of correct usage.
 			</p>
 			<p>A CSV schema MUST comprise both <a>Prolog</a> and <a>Body</a>.</p>
@@ -452,23 +452,6 @@
 						</table>
 					</section>
 					<section>
-						<h4>Permit Empty Directive</h4>
-						<p>
-							The <dfn>Permit Empty Directive</dfn> allows you to specify that the CSV file can be empty: i.e. there is no row data.
-							The Permit Empty Directive is OPTIONAL: when not present an empty file will cause a validation error.
-							The Permit Empty Directive can be used in conjunction with the <a>No Header Directive</a> thereby permitting a completely empty CSV file. If the <a>No Header Directive</a> is not
-							present then a minimum of one row containing column names must be provided.
-						</p>
-						<table class="ebnf-table">
-							<tr>
-								<td class="ebnf-num">[11]</td>
-								<td class="ebnf-left"><a title="ebnf-permit-empty-directive"><dfn>PermitEmptyDirective</dfn></a></td>
-								<td class="ebnf-bind">::=</td>
-								<td class="ebnf-right"><a>DirectivePrefix</a> "permitEmpty"</td>
-							</tr>
-						</table>
-					</section>
-					<section>
 						<h4>No Header Directive</h4>
 						<p>
 							The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: i.e. all rows are data rows.
@@ -510,7 +493,6 @@
 							@separator TAB
 							@quoted
 							@totalColumns 21
-							@permitEmpty
 							@ignoreColumnNameCase
 						</pre>
 					</section>
@@ -611,14 +593,14 @@
 					</table>
 					<section>
 						<h4>Column Identifiers</h4>
-						<p>There are two classes of identifier that can be used for columns, the original simple <dfn>Column Identifier</dfn>, and the <dfn>Quoted Column Identifier</dfn>.</p>
+						<p>There are two classes of identifiers that can be used for columns: the original, simple <dfn>Column Identifier</dfn> and the <dfn>Quoted Column Identifier</dfn>.</p>
 						<p>
 							A <a>Column Identifier</a> is either a <a>Positive Non Zero Integer Literal</a> (most commonly used when the CSV file to be validated has no header row -
 							see <a>No Header Directive</a>) which indicates the offset of the column (starting from 1), or an <a>Ident</a>.
 						</p>
 						<p>
 							The <a>Quoted Column Identifier</a> allows a greater range of characters to be used in naming the column than can be supported by an <a>Ident</a>,
-							but the identifier must be wrapped in <code>quotation marks (")</code>,
+							but the identifier MUST be wrapped in <code>quotation marks (")</code>,
 							i.e. the [[UTF-8]] character code <code>0x22</code>.
 						</p>
 						<p>Identifiers MUST be unique within a single Schema.</p>
@@ -784,7 +766,7 @@
 				but that is a subexpression of the Non Conditional Expression class).
 			</p>
 			<p>
-				<strong>NOTE</strong> To increase control over expression applicability and to avoiding creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
+				<strong>NOTE</strong> To increase control over expression applicability and to avoid creating a <a href="https://en.wikipedia.org/wiki/Left_recursion">left-recursive</a> grammar (which could lead to problems for various parser implementations),
 				<a title="Column Validation Expression">Column Validation Expressions</a> have been further split into <a title="Combinatorial Expression">Combinatorial Expressions</a> and <a title="Non Combinatorial Expression">Non Combinatorial Expressions</a>.
 			</p>
 			<table class="ebnf-table">
@@ -863,9 +845,9 @@
 					<h2>Non Conditional Expressions</h2>
 					<p>
 						<dfn title="Non Conditional Expression">Non Conditional Expressions</dfn> are divided into three classes of sub-expressions:
-						<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a>, and <a title="Parenthesized Expression">Parenthesized Expressions</a>.
+						<a title="Single Expression">Single Expressions</a>, <a title="External Single Expression">External Single Expressions</a> and <a title="Parenthesized Expression">Parenthesized Expressions</a>.
 						The first two are individual validation checks (differing in that the second allows access to some resource outside the CSV file being validated),
-						whilst the last provides a mechanism for controlling the evaludation order of complex compound expressions.
+						whilst the last provides a mechanism for controlling the evaluation order of complex compound expressions.
 					</p>
 					<table class="ebnf-table">
 						<tr>
@@ -974,9 +956,9 @@
 							<h4>Regular Expression Expressions</h4>
 							<p>A <dfn>Regular Expression Expression</dfn> checks the value of the column against the supplied Regular Expression.</p>
 							<p>
-								Whilst, obviously many of the the other
+								Whilst obviously many of the other
 								<a title="Column Validation Expression">Column Validation Expressions</a> could be written as Regular Expressions, it is felt that that would make the resulting Schema
-								harder to read, and much harder to write for less technical users. As such it is recommended, that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
+								harder to read, and much harder to write for less technical users. As such it is recommended that if a Column Rule can be written without regular expressions, by instead using other Column Validation Expressions,
 								then that approach should be attempted first.
 							</p>
 							<p>The Regular Expression syntax used is that from Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class.</p>
@@ -1008,11 +990,11 @@
 								<li>Precisely <em>n</em> characters long. For example <code>length(10)</code> ensures that the length is <em>exactly</em> 10 characters.</li>
 								<li>At least <em>n</em> characters long. For example <code>length(10, *)</code> ensures that the length is <em>at least</em> 10 or more characters</li>
 								<li>At most <em>n</em> characters long. For example <code>length(*, 10)</code> ensures that the length is <em>at most</em> 10 characters.</li>
-								<li>Between <em>m</em> and <em>n</em> characters long (inclusive). For example <code>length(4, 7)</code> ensures that the length is at least 4 characters and at most 10 characters.</li>
+								<li>Between <em>m</em> and <em>n</em> characters long (inclusive). For example <code>length(4, 7)</code> ensures that the length is at least 4 characters and at most 7 characters.</li>
 							</ol>
 							<p>
 								In order to do this the expression takes two input parameters, the first is defined as OPTIONAL, the second MUST be supplied. Both take the form of a
-								<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero), or a <a>Wildcard Literal</a>.
+								<dfn>Positive Integer Or Any</dfn> expression, which is either a <a>Positive Integer Literal</a> (which actually includes zero) or a <a>Wildcard Literal</a>.
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -1390,8 +1372,8 @@
 						piece: is("1") and (in($file_path) and in($resource_uri))          /*The column "piece" must have the specific value 1
 						                                                                     the value must also be part of the value of the columns "file_path" and "resource_uri"
 						                                                                     explicit And Expression is used between each specified Column Expression*/
-						item: range(1,540) unique($piece,$item)                            //this field must contain an integer between 1 and 540 inclusive.
-						                                                                     the combination of piece and item must be unique within the file.
+						item: range(1,540) unique($piece,$item)                            /*this field must contain an integer between 1 and 540 inclusive.
+						                                                                     the combination of piece and item must be unique within the file.*/
 						file_uuid: uuid4 unique                                            /*must be a version 4 uuid, and the value must be unique within the file (uuids must be
 						                                                                     lower case). Here an implicit And Expression is used*/
 						file_path: fileExists uri starts("file:///")                       /*fileExists checks that there is actually a file of the given name at the
@@ -1407,13 +1389,13 @@
 						image_split_other_uuid: if($image_split/is("yes"),uuid4,is(""))    //if "image_split" field is yes, must be a uuid4, else must be blank
 						image_split_operator: if($image_split/is("yes"),length(1,12) and regex("^[0-9a-zA-Z]{1,12}$"),is(""))
 						                                                                   /*If "image_split" field is the string: yes (precisely)
-						                                                                     then field must be 12 characters long. This is further restricted by regex statement
+						                                                                     then the field must be 12 characters long. This is further restricted by regex statement
 						                                                                     to being only alphanumeric characters (upper and lower case).*/
 						image_split_timestamp: if($image_split/is("yes"),xDateTime(2013-12-04T00:00:00+00:00,2014-03-04T23:59:59+00:00),is(""))
 						                                                                   /*If "image_split" field is string: yes (precisely)
 						                                                                     then timestamp for image split, compliant with XSD DateTime data type
 						                                                                     and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December,
-						                                                                     to last second of 4 March), else it must be blank (ie "image_split" is no).
+						                                                                     to the last second of 4 March), else it must be blank (i.e. "image_split" is no).*/
 					</pre>
 				</section>
 			</section>
@@ -1424,7 +1406,7 @@
 				Most <a title="Column Validation Expression">Column Validation Expressions</a> rely on a small number of underlying data types. Some of these are defined by means of a
 				regular expression embedded in the EBNF as indicated by <a>xgc:regular-expression</a>.
 				There are 11 data types, <a>XSD Date Time Literal</a>, <a>XSD Date Literal</a>, <a>XSD Time Literal</a>, <a>UK Date Literal</a>,
-				<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>StringLiteral</a>, <a>Character Literal</a>,
+				<a>Positive Non Zero Integer Literal</a>, <a>Positive Integer Literal</a>, <a>Numeric Literal</a>, <a>String Literal</a>, <a>Character Literal</a>,
 				<a>Wildcard Literal</a> and <a>Identifier</a>.
 			</p>
 			<section>
@@ -1483,7 +1465,7 @@
 				</section>
 				<section>
 					<h3>Common XSD Date and Time Components</h3>
-					<p>The various XSD Date and Time data types from [[!XMLSCHEMA-2]] are made up from common reuseable components that are defined by regular expressions.</p>
+					<p>The various XSD Date and Time data types from [[!XMLSCHEMA-2]] are made up from common reusable components that are defined by regular expressions.</p>
 					<table class="ebnf-table">
 						<tr>
 							<td class="ebnf-num">[70]</td>
@@ -1545,7 +1527,7 @@
 			<section>
 				<h2>Positive Integer Literals</h2>
 				<p>
-					A <dfn>Positive Integer Literal</dfn> is a data type representing the non-negtaive integer natural numbers.
+					A <dfn>Positive Integer Literal</dfn> is a data type representing the non-negative integer natural numbers.
 					It is represented in the EBNF by a regular expression defining precisely which characters are to be used.
 					It is a specialisation of <a>Numeric Literal</a>.
 				</p>
@@ -1574,7 +1556,7 @@
 			</section>
 			<section>
 				<h2>String Literals</h2>
-				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased witin quotation marks, i.e. the [[UTF-8]] character code <code>0x22</code>.</p>
+				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased within quotation marks, i.e. the [[UTF-8]] character code <code>0x22</code>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[77]</td>
@@ -1629,18 +1611,18 @@
 			<h1>Errors and Warnings</h1>
 			<p>
 				An implementation MUST first check that the provided CSV Schema(s) are syntactically correct. If not, a <a>Schema Error</a> is produced,
-				and no further validation SHOULD of the CSV Schema(s) or provided CSV files(s) should be undertaken. If the schema check is successful then an implementation
+				and no further validation of the CSV Schema(s) or provided CSV files(s) SHOULD be undertaken. If the schema check is successful then an implementation
 				MAY continue with further CSV Schema(s) and CSV file validation.
 			</p>
 			<p>
 				If an implementation performs validation of a CSV file against a CSV Schema, a report SHOULD be produced for each <a>Column Validation Expression</a>
-				that fails validation;  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used reduce the severity of an error within a specific
+				that fails validation;  This is generally considered a <a>Validation Error</a>, unless the <a>Warning Directive</a> has been used to reduce the severity of an error within a specific
 				<a title="Column Rules">Column Rule</a> to a <a>Validation Warning</a>.
 			</p>
 			<section>
 				<h2>Schema Errors</h2>
 				<p>
-					A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the CSV Schema. These might include for example: an incorrect <a>Version Declaration</a>, or a mismatch between the
+					A <dfn>Schema Error</dfn> is caused by syntax errors in the definition of the CSV Schema. These might include, for example: an incorrect <a>Version Declaration</a> or a mismatch between the
 					number specified for <a>Total Columns Directive</a> and the actual number of <a title="Column Definition">Column Definitions</a> given in the <a>Body</a> of the Schema.
 					Schema Errors would also be produced by mismatched <a title="Parenthesized Expression">Parenthesized Expressions</a>,
 					unrecognised <a title="Column Validation Expression">Column Validation Expressions</a> and <a title="Explicit Context Expression">Explicit Context Expressions</a> which do not
@@ -1667,8 +1649,8 @@
 		</section>
 		<section class="appendix">
 			<h2>The text/csv-schema Media Type</h2>
-			<p>This Appendix specifies the media type for CSV Schema Version 1.0. CSV Schema is a language for describing and validating CSV files, as specified in the main body of this document. This media type has being submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
-			<p>The <code>text/csv-schema</code> media type, is intended to be used for transmitting schemas written in the CSV Schema language.</p>
+			<p>This Appendix specifies the media type for CSV Schema Version 1.0. CSV Schema is a language for describing and validating CSV files, as specified in the main body of this document. This media type has been submitted to the IESG (Internet Engineering Steering Group) for review, approval, and registration with IANA (Internet Assigned Numbers Authority.)</p>
+			<p>The <code>text/csv-schema</code> media type is intended to be used for transmitting schemas written in the CSV Schema Language.</p>
 			<section>
 				<h3>File Extensions</h3>
 				<p>The suggested file extension for use when naming CSV Schema files is <code>.csvs</code>.</p>
@@ -1689,7 +1671,7 @@
 				<p>Link conventions used in this appendix:</p>
 				<ul>
 					<li>links on the <em>left</em> of an expression go to more detailed discussion of the term in the body of this document</li>
-					<li>links on the <em>right</em> of an expresson go to a further definition within this appendix.</li>
+					<li>links on the <em>right</em> of an expression go to a further definition within this appendix.</li>
 				</ul>
 				<table class="ebnf-table">
 					<tr>
@@ -2105,7 +2087,6 @@
 						<td class="ebnf-right"><a title="ebnf-explicit-context-expr">ExplicitContextExpr</a>? (<a title="ebnf-file-exists-expr">FileExistsExpr</a> | <a title="ebnf-checksum-expr">ChecksumExpr</a> | <a title="ebnf-file-count-expr">FileCountExpr</a>)</td>
 						<td class="ebnf-note"></td>
 					</tr>
-
 					<tr>
 						<td class="ebnf-num"></td>
 						<td class="ebnf-left"><a><dfn title="ebnf-file-exists-expr">FileExistsExpr</dfn></a></td>
