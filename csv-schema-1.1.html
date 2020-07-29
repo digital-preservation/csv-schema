@@ -6,7 +6,7 @@
 		<script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
 		<script class="remove">
 			var respecConfig = {
-				// specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+				// specification status (for example: WD, LCWD, NOTE, etc.). If in doubt use ED.
 				specStatus: "unofficial",
 				additionalCopyrightHolders: "Mozilla Public Licence version 2.0",
 
@@ -75,7 +75,7 @@
 				// Team Contact.
 				wgPatentURI: "",
 
-				// If specified, defines an array of alternate formats in which document is available (e.g., XML, Postscript). The format of the array is:
+				// If specified, defines an array of alternate formats in which document is available (for example: XML, Postscript). The format of the array is:
 				// alternateFormats:
 
 				doRDFa: "1.1",
@@ -228,7 +228,7 @@
 					</li>
 					<li>
 						<div class="principle">Context is King!</div>
-						<p>A schema rule is written for each column of the CSV file. Each set of column rules are asserted against each row of the CSV file. Each rule in the CSV Schema operates on the current context (e.g. defined Column and parsed Row), unless otherwise specified. This makes the rules short and concise.</p>
+						<p>A schema rule is written for each column of the CSV file. Each set of column rules are asserted against each row of the CSV file. Each rule in the CSV Schema operates on the current context (for example, defined Column and parsed Row), unless otherwise specified. This makes the rules short and concise.</p>
 					</li>
 					<li>
 						<div class="principle">Stream Processing</div>
@@ -408,7 +408,7 @@
 						There is no inherent reason why the Global Directives should be in the order shown, <a>EBNF</a> does not directly cater for unordered lists.
 						You could explicitly list each possible ordering, but that would require 4!=24 orderings to be included in the ENBF.
 						All directives (both Global Directives and <a>Column Directives</a>) used in the CSV Schema are indicated by the <dfn>Directive Prefix</dfn>,
-						defined as the character <code>@</code> i.e. the [[UTF-8]] character code <code>0x40</code>.
+						defined as the character <code>@</code> that is, the [[UTF-8]] character code <code>0x40</code>.
 					</p>
 					<p>
 						Whitespace is not generally significant, so Global Directives can be entered all on a single line, or each on separate lines
@@ -435,10 +435,10 @@
 						<p>
 							The <dfn>Separator Directive</dfn> allows you to specify the separator character that is used between columns in the CSV data.
 							As with all <a>Global Directives</a> the Separator Directive is OPTIONAL, if not supplied the default value is assumed.
-							By default the separator is a <code>comma (,)</code> i.e. the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
+							By default the separator is a <code>comma (,)</code> that is, the [[UTF-8]] character code <code>0x2c</code> (as specified in [[RFC4180]]).
 						</p>
 						<p>The Separator Directive takes a MANDATORY parameter in the form of either a <a>Separator Tab Expression</a> or a <a>Separator Character</a>.</p>
-						<p>A <dfn>Separator Tab Expression</dfn> indicates that the separator comprises a <emphasis>tab</emphasis> character, i.e. [[UTF-8]] character code <code>0x09</code>.</p>
+						<p>A <dfn>Separator Tab Expression</dfn> indicates that the separator comprises a <emphasis>tab</emphasis> character, that is, [[UTF-8]] character code <code>0x09</code>.</p>
 						<p>A <dfn>Separator Character</dfn> is a <a>Character Literal</a>: the character which is to be treated as the column separator.</p>
 						<table class="ebnf-table">
 							<tr>
@@ -465,7 +465,7 @@
 						<h4>Quoted Directive</h4>
 						<p>
 							The <dfn>Quoted Directive</dfn> allows you to specify whether or not all columns are <em>quoted</em>.
-							That is to say that their values are encased in <em>quotation mark</em> characters, i.e. [[UTF-8]] character code <code>0x22</code>.
+							That is to say that their values are encased in <em>quotation mark</em> characters, that is, [[UTF-8]] character code <code>0x22</code>.
 							In practice most CSV libraries are able to detect and handle the presence or absence of quotes and handle it appropriately,
 							but implementations of this schema language should be able to decide how to handle this situation.
 						</p>
@@ -500,7 +500,7 @@
 						<h4>Permit Empty Directive</h4>
 						<p><em>This is a new expression in CSV Schema Language 1.1</em></p>
 						<p>
-							The <dfn>Permit Empty Directive</dfn> allows you to specify that the CSV file can be empty: i.e. there is no row data.
+							The <dfn>Permit Empty Directive</dfn> allows you to specify that the CSV file can be empty: that is, there is no row data.
 							The Permit Empty Directive is OPTIONAL: when not present an empty file will cause a validation error.
 							The Permit Empty Directive can be used in conjunction with the <a>No Header Directive</a> thereby permitting a completely empty CSV file.
 							If the <a>No Header Directive</a> is not present then a minimum of one row containing column names must be provided.
@@ -517,7 +517,7 @@
 					<section>
 						<h4>No Header Directive</h4>
 						<p>
-							The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: i.e. all rows are data rows.
+							The <dfn>No Header Directive</dfn> is used to indicate that the CSV file to be validated does not contain a header row: that is, all rows are data rows.
 							The No Header Directive is OPTIONAL: when this directive is not used the parser assumes by default that the first row of the CSV file to be validated contains column names,
 							not data, and so the first row is skipped during validation.
 						</p>
@@ -587,14 +587,14 @@
 					<h3>Comments</h3>
 					<p>There are two types of <dfn>Comment</dfn>: either <a title="Single Line Comment">Single Line</a> or <a title="Multiple Line Comment">Multiple Line</a>.</p>
 					<p>
-						A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes (//)</code>, i.e. the [[UTF-8]] character codes <code>0x2F 0x2F</code>.
+						A <dfn>Single Line Comment</dfn> is started with two <code>forward slashes (//)</code>, that is, the [[UTF-8]] character codes <code>0x2F 0x2F</code>.
 						It is terminated by any [[UTF-8]] character that creates a line-break.
 					</p>
 					<p>
 						A <dfn>Multiple Line Comment</dfn> is started using the combination of a <code>forward slash (/)</code> and an <code>asterisk (*)</code>,
-						i.e. the [[UTF-8]] character codes <code>0x2F 0x2A</code>.
+						that is, the [[UTF-8]] character codes <code>0x2F 0x2A</code>.
 						It is terminated by the reverse combination, <code>asterisk (*)</code> <code>forward slash (/)</code>,
-						i.e. the [[UTF-8]] character codes <code>0x2A 0x2F</code>.
+						that is, the [[UTF-8]] character codes <code>0x2A 0x2F</code>.
 						<strong>Any</strong> [[UTF-8]] character except asterisk may be used between these comment markers, even if it forces a new line.
 						Comments do not need to start at the beginning of a line, but must be either before or after a complete <a>Column Definition</a> or another <a>Comment</a>.
 					</p>
@@ -644,7 +644,7 @@
 					<h3>Column Definitions</h3>
 					<p>
 						<dfn title="Column Definition">Column Definitions</dfn> comprise a <a>Column Identifier</a> or <a>Quoted Column Identifier</a> followed by a <code>colon (:)</code>,
-						i.e. the [[UTF-8]] character code <code>0x3A</code>, followed by a <a title="Column Rules">Column Rule</a>.
+						that is, the [[UTF-8]] character code <code>0x3A</code>, followed by a <a title="Column Rules">Column Rule</a>.
 						There MUST be a Column Definition for every column in the CSV that will be validated against the Schema, however the Column Rule can be left empty if no validation is needed for a specific column.
 					</p>
 					<table class="ebnf-table">
@@ -665,7 +665,7 @@
 						<p>
 							The <a>Quoted Column Identifier</a> allows a greater range of characters to be used in naming the column than can be supported by an <a>Ident</a>,
 							but the identifier MUST be wrapped in <code>quotation marks (")</code>,
-							i.e. the [[UTF-8]] character code <code>0x22</code> (this is implicit in its definition as a <a>String Literal</a>).
+							that is, the [[UTF-8]] character code <code>0x22</code> (this is implicit in its definition as a <a>String Literal</a>).
 						</p>
 						<p>Identifiers MUST be unique within a single Schema.</p>
 						<table class="ebnf-table">
@@ -718,7 +718,7 @@
 								There are four OPTIONAL <dfn>Column Directives</dfn> that are used
 								to modify aspects of how the <a>Column Rules</a> are evaluated.
 								Like <a>Global Directives</a>, Column Directives are indicated by the <a>Directive Prefix</a>,
-								defined as the character <code>@</code> i.e. the [[UTF-8]] character code <code>0x40</code>.
+								defined as the character <code>@</code> that is, the [[UTF-8]] character code <code>0x40</code>.
 							</p>
 							<p>
 								The Column Directives are the <a>Optional Directive</a>, the <a>Match Is False Directive</a>, the <a>Ignore Case Directive</a>,
@@ -1044,7 +1044,7 @@
 							<h4>In Expressions</h4>
 							<p>
 								An <dfn>In Expression</dfn> checks that the value of the column contains the supplied string or the value in the referenced column
-								(i.e. the column value is a super string of the supplied value).
+								(that is, the column value is a super string of the supplied value).
 							</p>
 							<table class="ebnf-table">
 								<tr>
@@ -1057,7 +1057,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="In Expression Syntax">
-									a_column: in("some string")   //the value of a_column must be a substring of "some string" e.g. "some" or "string" or "me st" etc
+									a_column: in("some string")   //the value of a_column must be a substring of "some string" for example, "some" or "string" or "me st" etc
 									another_column: in($a_column) //the value of another_column must be a substring of the contents of a_column
 								</pre>
 							</section>
@@ -1076,7 +1076,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Starts With Expression Syntax">
-									a_column: starts("some string")   //the value of a_column must start with the string "some string" e.g. "some strings" or "some string is here that's really long"
+									a_column: starts("some string")   //the value of a_column must start with the string "some string" for example, "some strings" or "some string is here that's really long"
 									another_column: starts($a_column) //the value of another_column must start with the contents of a_column
 								</pre>
 							</section>
@@ -1095,7 +1095,7 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Ends With Expression Syntax">
-									a_column: ends("some string")   //the value of a_column must end with the string "some string" e.g. "here is some string" or "this really long string ends with some string"
+									a_column: ends("some string")   //the value of a_column must end with the string "some string" for example, "here is some string" or "this really long string ends with some string"
 									another_column: ends($a_column) //the value of another_column must end with the contents of a_column
 								</pre>
 							</section>
@@ -1121,8 +1121,8 @@
 							<section>
 								<h5>Usage</h5>
 								<pre class="example" data-lt="Regular Expression Expression Syntax">
-									a_column: regex("[bcm]at")     //the value of a_column must match the regular expression [bcm]at i.e. a string containing "bat", "cat" or "mat"
-									another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5] i.e. a string containing only the digits only 0-5.
+									a_column: regex("[bcm]at")     //the value of a_column must match the regular expression [bcm]at, such as a string containing "bat", "cat" or "mat"
+									another_column: regex("[0-5]") //the value of another_column match the regular expression [0-5], such as a string containing only the digits only 0-5.
 								</pre>
 							</section>
 						</section>
@@ -1416,8 +1416,8 @@
 							<p>
 								A <dfn>Partial UK Date Expression</dfn> is essentially the same as a <a>UK Date Expression</a>,
 								but allows for difficulties in transcribing from original archival material by accepting a <code>question mark (?)</code>,
-								i.e. the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>,
-								i.e. the [[UTF-8]] character code <code>0x2A</code> in place of a missing value. The names of months may also be supplied as the full name in English, i.e.:
+								that is, the [[UTF-8]] character code <code>0x3F</code> in place of illegible digits in any position, or an <code>asterisk (*)</code>,
+								that is, the [[UTF-8]] character code <code>0x2A</code> in place of a missing value. The names of months may also be supplied as the full name in English, that is:
 								January, February, March, April, May, June, July, September, October, November, December.
 								As dates may not be complete, it is impossible to determine reliably if a date falls within a given range, so there is no option to supply one.
 							</p>
@@ -1506,7 +1506,7 @@
 							<p>
 								An <dfn>Upper Case Expression</dfn> checks that the column content is all upper case,
 								for all code points in the [[!UTF-8]] character set which have a defined case.
-								Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
+								Non-cased code points (for example: numeric characters, punctuation and white space) are also permitted.
 							</p>
 							<p>
 								In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
@@ -1533,7 +1533,7 @@
 							<p>
 								A <dfn>Lower Case Expression</dfn> checks that the column content is all lower case,
 								for all code points in the [[!UTF-8]] character set which have a defined case.
-								Non-cased code points (e.g. numeric characters, punctuation and white space) are also permitted.
+								Non-cased code points (for example: numeric characters, punctuation and white space) are also permitted.
 							</p>
 							<p>
 								In Java's <a href="https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Pattern</a> class this could be expressed via the following Regular Expression:
@@ -1766,7 +1766,7 @@
 							or a <a>No Extension Argument Provider</a>.
 						</p>
 						<p>
-							A <dfn>Column Reference</dfn> comprises a <code>dollar sign ($)</code>, i.e. the [[UTF-8]] character code <code>0x24</code>,
+							A <dfn>Column Reference</dfn> comprises a <code>dollar sign ($)</code>, that is, the [[UTF-8]] character code <code>0x24</code>,
 							followed by a <a>Column Identifier</a> or <a>Quoted Column Identifier</a>.
 						</p>
 						<p><em>The following are new expressions in CSV Schema Language 1.1</em></p>
@@ -1777,7 +1777,7 @@
 							returning a new string that is the concatenation of all those supplied. You MUST provide at least two parameters.
 							The <dfn>No Extension Argument Provider</dfn> removes anything that appears to be a Windows
 							file extension from the end of a supplied <a>String Provider</a>, and returns a new string.
-							A string that does not contain a <code>full stop (.)</code>, i.e. the [[UTF-8]] character codes <code>0x2D</code> will be returned unchanged.
+							A string that does not contain a <code>full stop (.)</code>, that is, the [[UTF-8]] character codes <code>0x2D</code> will be returned unchanged.
 						</p>
 						<table class="ebnf-table">
 							<tr>
@@ -1963,9 +1963,9 @@
 																																								then timestamp for image split, compliant with XSD DateTime data type
 																																								and in range 4 December 2013 - 4 March 2014 (from the midnight starting 4 December,
 																																								to the last second of 4 March), in the UTC (Greenwich Meantime) timezone,
-																																								else it must be blank (i.e. "image_split" is no).
+																																								else it must be blank (that is, "image_split" is no).
 																																								As xDateTime, rather than xDateTimeTz, is specified,
-																																								the use of the timezone component within the supplied date time is optional, e.g. both:
+																																								the use of the timezone component within the supplied date time is optional, for example, both:
 																																								2013-12-05T12:34:00+00:00 and 2013-12-05T12:34:00 would be acceptable in the metadata*/
 					</pre>
 				</section>
@@ -2153,7 +2153,7 @@
 			</section>
 			<section>
 				<h2>String Literals</h2>
-				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased within quotation marks, i.e. the [[UTF-8]] character code <code>0x22</code>.</p>
+				<p>A <dfn>String Literal</dfn> is zero or more characters (excluding quotation mark) encased within quotation marks, that is, the [[UTF-8]] character code <code>0x22</code>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[91]</td>
@@ -2165,7 +2165,7 @@
 			</section>
 			<section>
 				<h2>Character Literals</h2>
-				<p>A <dfn>Character Literal</dfn> is a single non-breaking character encased within apostrophes, i.e. the [[UTF-8]] character code <code>0x27</code>.</p>
+				<p>A <dfn>Character Literal</dfn> is a single non-breaking character encased within apostrophes, that is, the [[UTF-8]] character code <code>0x27</code>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[92]</td>
@@ -2177,7 +2177,7 @@
 			</section>
 			<section>
 				<h2>Wildcard Literals</h2>
-				<p>A <dfn>Wildcard Literal</dfn> is a single <code>asterisk (*)</code>, i.e. the [[UTF-8]] character code <code>0x2A</code>.</p>
+				<p>A <dfn>Wildcard Literal</dfn> is a single <code>asterisk (*)</code>, that is, the [[UTF-8]] character code <code>0x2A</code>.</p>
 				<table class="ebnf-table">
 					<tr>
 						<td class="ebnf-num">[93]</td>
@@ -2191,7 +2191,7 @@
 				<h2>Identifiers</h2>
 				<p>
 					An <dfn>Identifier</dfn> is the set of characters which can be used in an ordinary <a>Column Identifier</a>. Upper and lower case alphabetic characters (unaccented), along with
-					digits 0-9, the <code>hyphen-minus (-)</code>, <code>low line (_)</code> and <code>full stop (.)</code>, i.e. the [[UTF-8]] character codes <code>0x2D</code>, <code>0x5F</code>
+					digits 0-9, the <code>hyphen-minus (-)</code>, <code>low line (_)</code> and <code>full stop (.)</code>, that is, the [[UTF-8]] character codes <code>0x2D</code>, <code>0x5F</code>
 					and <code>0x2E</code>.
 				</p>
 				<table class="ebnf-table">
