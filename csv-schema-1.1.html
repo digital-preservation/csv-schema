@@ -1748,7 +1748,7 @@ simon,57,male
 							<h5>Usage</h5>
 							<pre class="example" data-lt="File Count Expression Syntax">
 	file_path: uri                                      //a full filepath for a folder
-	another_column: integer fileCount(file($file_path)) //another_column contains an integer value, this is checked against the number of files in the file system folder at file_path
+	another_column: positiveInteger fileCount(file($file_path)) //another_column contains an integer value, this is checked against the number of files in the file system folder at file_path
 							</pre>
 						</section>
 					</section>
