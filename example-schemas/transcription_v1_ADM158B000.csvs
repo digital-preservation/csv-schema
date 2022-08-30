@@ -1,5 +1,5 @@
 version 1.0
-@columns 27
+@totalColumns 27
 /*Cataloguing fields*/
 sub_item: range(1,40)
 division: is("Chatham") or is("Plymouth") or is("Portsmouth") or is("Woolwich") @optional
