@@ -1964,12 +1964,12 @@ simon,57,male
 						<pre class="example" data-lt="If Expression Syntax">
 	a_column: any("true","false","unknown")
 	another_column: if($a_column\is("true"),is("some string"),if($a_column\is("false"),is("some other string"),is("some third string")))
-	/*here we look to the value of a_column, if it is "true", another_column must be "some string" otherwise, check if a another_column is "false), 
+	/*here we look to the value of a_column, if it is "true", another_column must be "some string" otherwise, check if a_column is "false), 
 	if so another_column must be "some other string", otherwise another_column is "some third string".  Nesting if statments like this can quickly get 
 	very difficult to read, so instead we can use the switch statement*/
 	third_column: switch(($a_column\is("true"),is("some string")),($a_column\is("false"),is("some other string")),is("some third string"))
 	//this switch statement for third_column is functionally identical to the nested if statement demonstrated on another_column, and is much easier to extend
-	//is there were additional options available for a_column, each bracketed pair such of test and column validation expression, 
+	//if there were additional options available for a_column, each bracketed pair such of test and column validation expression, 
 	//such as ($a_column\is("true"),is("some string")), is called a Switch Case Expression, as many as required are then followed by a final column validation expression,
 	//used if none of the Switch Case Expressions evaluate to true.
 						</pre>
